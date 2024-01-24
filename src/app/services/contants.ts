@@ -1,0 +1,65 @@
+import * as CryptoJS from 'crypto-js';
+
+export const API_ENDPOINT = 'http://wz.local/api/';
+//export const API_ENDPOINT = 'https://wzs.warzone237.com/public/api/';
+export const ONE_SIGNAL_CONF = {
+  "sender_id": '472124460397',
+  "app_id": 'c8aba0f5-7ef5-40f1-9047-ef15f7ab4b1b'
+};
+
+export const MOIS = [
+  'Janv','Fév','Mars','Avr','Mai','Juin','Juil','Août','Sept','Oct','Nov','Dec'
+];
+
+export const FEES = 0.2;
+export const GOOGLE_MAP_KEY='AIzaSyBsiLEwZt1uieze0F-Dmk6MGp_0lOgX0MY';
+export const DEVISE = "FCFA";
+export const COOL_PAY_KEY = "4c704d4e-e2e2-4242-8a0c-68bb703122e4";
+
+// a configurer en fonction du pays
+export const NUMBER_RANGE={
+  min:650000000,
+  max:699999999
+};
+
+export const COMMISSION = 20;
+
+export const TOMBOLA_RANGE={
+  min:1,
+  max:25
+};
+
+export const TOMBOLA_FEES=0.1;
+
+export const KEY:string = "zt!(sVEm&P:UnAJq8rc~k]3z9[IL[s32";
+export const IV:string = "d3HP)1{bw$d}|,3";
+
+export const CryptoJSAesJson = {
+  stringify: function (cipherParams) {
+    const vbJsonString = {
+      ct: cipherParams.ciphertext.toString(CryptoJS.enc.Base64)
+    };
+    if (cipherParams.iv) {
+      vbJsonString['iv'] = cipherParams.iv.toString()
+    };
+    if (cipherParams.salt) {
+      vbJsonString['s'] = cipherParams.salt.toString()
+    };
+    return JSON.stringify(vbJsonString);
+  },
+  parse: function (jsonStr) {
+    const vbJsonParse = JSON.parse(jsonStr);
+    const cipherParams = CryptoJS.lib.CipherParams.create({
+      ciphertext: CryptoJS.enc.Base64.parse(vbJsonParse.ct)
+    });
+    if (vbJsonParse.iv) {
+      cipherParams['iv'] = CryptoJS.enc.Hex.parse(vbJsonParse.iv)
+    }
+    if (vbJsonParse['s']) {
+      cipherParams.salt = CryptoJS.enc.Hex.parse(vbJsonParse.s)
+    }
+    return cipherParams;
+  }
+};
+
+export const WHATSAPP_NUMBER = 673996540;

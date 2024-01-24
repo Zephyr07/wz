@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'faq'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="{{'pull_down'|translate}}"
+      refreshingSpinner="circles"
+      refreshingText="{{'loading'|translate}}...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div>
+
+
+    <ion-searchbar animated="true" *ngIf="!is_loading" placeholder="{{'search'|translate}}" [(ngModel)]="search" type="text" (ionInput)="getItems($event)"></ion-searchbar>
+
+    <ion-grid>
+      <ion-skeleton-text *ngIf="is_loading" animated style="width: 90%;height: 50px; margin: 10px 5%"></ion-skeleton-text>
+      <ion-skeleton-text *ngIf="is_loading" animated style="width: 90%;height: 50px; margin: 10px 5%"></ion-skeleton-text>
+    </ion-grid>
+
+    <ion-accordion-group *ngIf="!is_loading" expand="inset">
+      <ion-accordion *ngFor="let q of questions" value="{{q.id}}" (click)="showAnswer(q)">
+        <ion-item slot="header" color="light">
+          <ion-label style="white-space: normal">{{q.title}}</ion-label>
+        </ion-item>
+        <div slot="content" *ngFor="let a of q.answers">
+          <ion-item>
+            <ion-avatar slot="end">
+              <img src="{{a.user.person.image}}" />
+            </ion-avatar>
+            <ion-label>
+              <p style="white-space: normal" [innerHTML]="a.content">.</p>
+              <small style="font-weight: lighter;font-size: 10px">{{'the'|translate}} {{a.created_at|dateFormat:true}}</small>
+            </ion-label>
+          </ion-item>
+        </div>
+
+        <div slot="content">
+          <ion-row *ngIf="is_loading_answer">
+            <ion-col>
+              <div class="ion-text-center">
+                <ion-spinner name="dots" color="primary"></ion-spinner>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="user.phone==696870700">
+            <ion-col class="custom" style="margin-top: 5px;margin-bottom:5px">
+              <ion-input type="text" (keyup.enter)="addAnswer(q)" [(ngModel)]="answer" placeholder="{{'add_answer'|translate}}"></ion-input>
+            </ion-col>
+          </ion-row>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary" (click)="newQuestion()">
+      <ion-icon name="help"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

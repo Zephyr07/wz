@@ -1,0 +1,105 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>{{'choose_subscription'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-segment [(ngModel)]="duration" value="default">
+          <ion-segment-button value="1">
+            <ion-label>{{'monthly'|translate}}</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="12">
+            <ion-label>{{'annual'|translate}} (-10%)</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-col>
+    </ion-row>
+
+    <ion-card class="shadow radius" [ngClass]="{'ion-color ion-color-warning':choice=='essentiel'}" (click)="setPack('essentiel')">
+      <ion-card-header>
+        <ion-card-title color="primary">ESSENTIEL</ion-card-title>
+        <ion-card-subtitle color="danger" *ngIf="duration<6">100 XAF / mois</ion-card-subtitle>
+        <ion-card-subtitle color="danger" *ngIf="duration==12">90 XAF / mois</ion-card-subtitle>
+      </ion-card-header>
+      <div class="divider"></div>
+      <ion-card-content>
+        {{'subscription_asset'|translate}}
+        <br>
+        <ion-icon name="checkmark-done-outline"></ion-icon> {{'product'|translate}}s
+        <br>
+        <ion-icon name="checkmark-done-outline"></ion-icon> {{'stockist'|translate}}s
+        <br>
+        <ion-icon name="checkmark-done-outline"></ion-icon> {{'seminar'|translate}}s
+        <br>
+        <ion-icon name="checkmark-done-outline"></ion-icon> {{'promotion'|translate}}s
+        <br>
+        <ion-icon name="checkmark-done-outline"></ion-icon> {{'simulator'|translate}}
+        <br>
+        <ion-icon name="checkmark-done-outline"></ion-icon> {{'faq'|translate}}
+        <br>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="divider"></div>
+
+    <ion-card class="shadow radius" [ngClass]="{'ion-color ion-color-warning':choice=='vip'}" (click)="setPack('vip')">
+      <ion-card-header>
+        <ion-card-title color="primary">VIP</ion-card-title>
+        <ion-card-subtitle color="danger" *ngIf="duration<6">500 XAF / mois</ion-card-subtitle>
+        <ion-card-subtitle color="danger" *ngIf="duration==12">450 XAF / mois</ion-card-subtitle>
+      </ion-card-header>
+      <div class="divider"></div>
+      <ion-card-content>
+        {{'subscription_asset'|translate}}
+        <br>
+        <ion-icon name="checkmark-done-outline"></ion-icon> {{'product'|translate}}s
+        <br>
+        <ion-icon name="checkmark-done-outline"></ion-icon> {{'stockist'|translate}}s
+        <br>
+        <ion-icon name="checkmark-done-outline"></ion-icon> {{'seminar'|translate}}s
+        <br>
+        <ion-icon name="checkmark-done-outline"></ion-icon> {{'promotion'|translate}}s
+        <br>
+        <ion-icon name="checkmark-done-outline"></ion-icon> {{'simulator'|translate}}
+        <br>
+        <ion-icon name="checkmark-done-outline"></ion-icon> {{'training'|translate}}s
+        <br>
+        <ion-icon name="checkmark-done-outline"></ion-icon> {{'faq'|translate}}
+        <br>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="custom ion-text-center" style="margin-top: 15px">
+      <small>{{'payment_phone'|translate}}</small>
+      <ion-input
+        [(ngModel)]="phone"
+        type="number"
+        (ionChange)="checkNumber()"
+        min="{{MIN}}"
+        max="{{MAX}}"
+        placeholder="{{'phone_number'|translate}}"></ion-input>
+      <small *ngIf="!is_phone">{{'phone_range_alert'|translate}} <span class="danger">{{MIN|priceFormat}}</span> {{'and'|translate}} <span class="danger">{{MAX|priceFormat}}</span></small>
+    </div>
+    <div class="ion-text-center">
+      <ion-button [disabled]="!is_phone || choice==''" (click)="goBuyPack()">
+        <ion-icon name="chevron-forward-outline"></ion-icon> &nbsp; {{'buy'|translate}} &nbsp;<ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="ion-text-center">
+      <a (click)="support()">
+        <small>{{'contact_support'|translate}}</small>
+      </a>
+    </div>
+  </ion-grid>
+
+
+</ion-content>

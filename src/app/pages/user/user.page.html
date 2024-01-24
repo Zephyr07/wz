@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>{{'my_account'|translate}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="contactUs()">
+        <ion-icon slot="icon-only" name="chatbubbles-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="{{'pull_to_refresh'|translate}}"
+      refreshingSpinner="circles"
+      refreshingText="{{'loading'|translate}}...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div class="video" style="height: 200px">
+    <img class="blur" src="{{user.person.image}}">
+    <div class="info">
+      <ion-item class="infos shadow" color="primary" lines="none">
+        <ion-avatar slot="start">
+          <img src="{{user.person.image}}">
+        </ion-avatar>
+        <ion-label>
+          <h3 class="bold ion-text-capitalize">{{user.person.full_name}}</h3>
+          <p *ngIf="subscription_status.is_actived==true">
+            <span *ngIf="subscription_status.is_subscription &&  settings.android.subscription=='enable'">{{user.subscription.pack.name}}</span></p>
+        </ion-label>
+        <ion-icon (click)="editUser()" name="pencil" slot="end"></ion-icon>
+      </ion-item>
+    </div>
+  </div>
+
+  <div class="menu" style="margin-top:50px">
+
+    <ion-item lines="none" button (click)="goToMyTournament()">
+      <ion-icon name="trophy-outline" slot="start"></ion-icon>
+      <ion-label>
+        {{'Mes tournois'|translate}}
+      </ion-label>
+    </ion-item>
+
+    <ion-item lines="none" button (click)="askLanguage()">
+      <ion-icon name="flag-outline" slot="start"></ion-icon>
+      <ion-label>
+        {{'set_language'|translate}}
+      </ion-label>
+    </ion-item>
+
+    <ion-item lines="none" button (click)="presentAlert()">
+      <ion-icon name="key-outline" slot="start"></ion-icon>
+      <ion-label>
+        {{'change_password'|translate}}
+      </ion-label>
+    </ion-item>
+
+    <ion-item lines="none" button color="dark" (click)="deleteUser()">
+      <ion-icon name="trash" slot="start"></ion-icon>
+      <ion-label>
+        {{'delete_account'|translate}}
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" button color="danger" (click)="logout()">
+      <ion-icon name="log-out" slot="start"></ion-icon>
+      <ion-label>
+        {{'logout'|translate}}
+      </ion-label>
+    </ion-item>
+  </div>
+  <a id="contact" style="display: none" href="mailto:thewarzone237@gmail.com"></a>
+
+</ion-content>

@@ -1,0 +1,60 @@
+<ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="{{'pull_down'|translate}}"
+      refreshingSpinner="circles"
+      refreshingText="{{'loading'|translate}}...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div class="ion-text-center">
+    <img src="../../../assets/img/wz/logo.png" style="width: 40%" alt="">
+  </div>
+
+  <ion-grid class="card-background-page" style="padding-top: 0">
+    <ion-row>
+      <ion-col>
+        <swiper-container [speed]="1000" [autoplay]="{enable:true,delay:7000}" #swiperComponent>
+          <swiper-slide>
+            <img src="../../../assets/img/wz/tournoi.png" alt="">
+          </swiper-slide>
+        </swiper-container>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-card class="small" color="primary" (click)="goTo('tournament')">
+          <div class="card-title" style="color:white">{{'Participer au tournoi'|translate}}</div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col *ngIf="settings.faq" size="6">
+        <ion-card class="small" (click)="goTo('faq')">
+          <div class="card-title">FAQ</div>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card class="small" (click)="goTo('user')">
+          <div class="card-title">{{'my_account'|translate}}</div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="small" (click)="goTo('contact')">
+          <div class="card-title">Nous contacter</div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+</ion-content>
+<a id="contact" style="display: none" href="tel:673996540"></a>
+

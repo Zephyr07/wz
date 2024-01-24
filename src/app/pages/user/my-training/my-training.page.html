@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'my_training'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="{{'pull_down'|translate}}"
+      refreshingSpinner="circles"
+      refreshingText="{{'loading'|translate}}...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-grid>
+
+    <ion-searchbar animated="true" placeholder="{{'search'|translate}}" [(ngModel)]="search" type="text" (ionInput)="getItems($event)"></ion-searchbar>
+
+    <ion-list>
+      <ion-item *ngFor="let m of training_users" (click)="goToTraining(m.training)">
+        <ion-label>{{m.training.title}}</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-grid>
+</ion-content>

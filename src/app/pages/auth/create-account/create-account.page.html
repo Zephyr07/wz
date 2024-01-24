@@ -1,0 +1,118 @@
+<ion-content scroll-y="false">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="{{'pull_to_refresh'|translate}}"
+      refreshingSpinner="circles"
+      refreshingText="{{'loading'|translate}}...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-buttons slot="start" style="display: none;">
+    <ion-back-button defaultHref="/" id="backButton"></ion-back-button>
+  </ion-buttons>
+
+  <ion-fab *ngIf="step==0" vertical="top" horizontal="start" style="margin-top:25px" slot="fixed">
+    <ion-fab-button color="primary" size="small" (click)="backToPreviousPage()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab vertical="top" horizontal="start" style="margin-top:25px" slot="fixed" *ngIf="step>0">
+    <ion-fab-button color="danger" size="small" (click)="previous()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <div class="custom ion-text-center" *ngIf="step==4" style="height: calc(100% - 150px);margin-top:25px">
+    <div>
+      <h2 style="margin-top:10px">Recapitulatif</h2>
+      <p>
+        Bonjour <strong>{{full_name}} </strong>, vous repondez au <strong>{{phone|priceFormat}}</strong> et votre adresse email est <strong>{{email}}</strong>.
+        <br>
+        <span *ngIf="referral!=null && referral!=''"> Vous avez découvert l'application grace à <strong>{{this.referral}}</strong></span>
+        .
+        <br>
+        Ci-dessous la plus belle photo de vous.
+      </p>
+      <img src="{{image}}" />
+    </div>
+  </div>
+
+  <div *ngIf="step!=4" class="custom" style="height: calc(100% - 150px)">
+
+    <div *ngIf="step!=4" style="text-align: center">
+      <img src="../../../../assets/img/wz/logo_bl.svg" alt="Logo WarZone" style="width: 20vh; margin-top: 100px">
+      <h2>{{'welcome'|translate}}</h2>
+      <p>{{'create_paragraph'|translate}}
+        <br>
+        <a style="text-decoration: underline" (click)="goToLogin()">
+          <span class="primary">{{'login'|translate}}</span>
+        </a>
+      </p>
+
+
+      <ion-row>
+        <ion-col *ngIf="image && step==3">
+          <img src="{{image}}" style="width: 100% !important; max-height: 300px !important;" alt="">
+        </ion-col>
+      </ion-row>
+
+    </div>
+
+  </div>
+  <ion-row class="custom ion-hide">
+
+    <ion-col>
+
+      <ion-label *ngIf="step==0">{{'phone'|translate}}</ion-label>
+      <ion-input *ngIf="step==0" (keyup.enter)="next()" type="number" min="{{MIN}}" max="{{MAX}}" [(ngModel)]="phone" [ngModelOptions]="{standalone: true}" placeholder="{{'phone'|translate}}"></ion-input>
+
+      <ion-label *ngIf="step==1">{{'full_name'|translate}}</ion-label>
+      <ion-input *ngIf="step==1" (keyup.enter)="next()" [(ngModel)]="full_name" [ngModelOptions]="{standalone: true}" placeholder="{{'full_name'|translate}}"></ion-input>
+
+      <ion-label *ngIf="step==2">{{'email'|translate}}</ion-label>
+      <ion-input *ngIf="step==2" (keyup.enter)="next()" type="email" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" placeholder="{{'email'|translate}}"></ion-input>
+
+      <ion-label *ngIf="step==3">{{'image'|translate}}</ion-label>
+      <ion-button style="margin-bottom: 10px" *ngIf="step==3" expand="block" color="primary" fill="outline" (click)="addImage()">{{'select_image'|translate}}</ion-button>
+
+      <ion-label *ngIf="step==4">{{'referral_optional'|translate}}</ion-label>
+      <ion-input *ngIf="step==4" (keyup.enter)="next()" type="text" [(ngModel)]="referral" [ngModelOptions]="{standalone: true}" placeholder="{{'referral'|translate}}"></ion-input>
+
+      <ion-label *ngIf="step==5">{{'password'|translate}} ({{'8_caracter'|translate}})</ion-label>
+      <ion-input *ngIf="step==5" (keyup.enter)="next()" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" type="password" placeholder="{{'password'|translate}}"></ion-input>
+      <ion-button shape="round" expand="block" color="primary" [disabled]="step==6 && password==null" (click)="next()">{{texte|translate}}</ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-item style="display: none">
+    <input style="opacity:0" id="file-inputs" (change)="onSelectFile($event)" accept="image/*" type="file"/>
+  </ion-item>
+
+
+</ion-content>
+<ion-footer>
+    <ion-row class="custom">
+      <ion-col>
+        <ion-label *ngIf="step==0">{{'phone'|translate}}</ion-label>
+        <ion-input *ngIf="step==0" (keyup.enter)="next()" type="number" min="{{MIN}}" max="{{MAX}}" [(ngModel)]="phone" [ngModelOptions]="{standalone: true}" placeholder="{{'phone'|translate}}"></ion-input>
+
+        <ion-label *ngIf="step==1">{{'full_name'|translate}}</ion-label>
+        <ion-input *ngIf="step==1" (keyup.enter)="next()" [(ngModel)]="full_name" [ngModelOptions]="{standalone: true}" placeholder="{{'full_name'|translate}}"></ion-input>
+
+        <ion-label *ngIf="step==2">{{'email'|translate}}</ion-label>
+        <ion-input *ngIf="step==2" (keyup.enter)="next()" type="email" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" placeholder="{{'email'|translate}}"></ion-input>
+
+        <ion-label *ngIf="step==3">{{'image'|translate}}</ion-label>
+        <ion-button style="margin-bottom: 10px" *ngIf="step==3" expand="block" color="primary" fill="outline" (click)="addImage()">{{'select_image'|translate}}</ion-button>
+
+        <ion-label *ngIf="step==9">{{'Entrez le code de la personne qui vous a parlez'|translate}}</ion-label>
+        <ion-input *ngIf="step==9" (keyup.enter)="next()" type="text" [(ngModel)]="referral" [ngModelOptions]="{standalone: true}" placeholder="{{'referral'|translate}}"></ion-input>
+
+        <ion-label *ngIf="step==4">{{'password'|translate}} ({{'8_caracter'|translate}})</ion-label>
+        <ion-input *ngIf="step==4" (keyup.enter)="next()" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" type="password" placeholder="{{'password'|translate}}"></ion-input>
+        <ion-button shape="round" expand="block" color="primary" [disabled]="step==4 && password==null" (click)="next()">{{texte|translate}}</ion-button>
+      </ion-col>
+    </ion-row>
+</ion-footer>

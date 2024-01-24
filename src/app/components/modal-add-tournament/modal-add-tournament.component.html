@@ -1,0 +1,105 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{titre|translate}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss('close-modal')">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="custom">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Tirer vers le bas pour actualiser"
+      refreshingSpinner="circles"
+      refreshingText="{{'loading'|translate}}...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-grid>
+
+
+    <ion-row>
+      <ion-col>
+        <ion-input [(ngModel)]="name" autocapitalize="sentence" [ngModelOptions]="{standalone: true}" placeholder="{{'name'|translate}}"></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-textarea [(ngModel)]="description" autocapitalize="sentence" [ngModelOptions]="{standalone: true}" placeholder="{{'description'|translate}}"></ion-textarea>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-input [(ngModel)]="fees" type="number" [ngModelOptions]="{standalone: true}" placeholder="{{'fees'|translate}}"></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-input [(ngModel)]="winner_price" type="number" [ngModelOptions]="{standalone: true}" placeholder="{{'winner_price'|translate}}"></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="6">
+        <ion-input [(ngModel)]="min_participant" type="number" [ngModelOptions]="{standalone: true}" placeholder="{{'min_participant'|translate}}"></ion-input>
+      </ion-col>
+      <ion-col size="6">
+        <ion-input [(ngModel)]="max_participant" type="number" [ngModelOptions]="{standalone: true}" placeholder="{{'max_participant'|translate}}"></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="6">
+        <ion-row>
+          <ion-col size="12" class="ion-text-center">
+            {{'start_at'|translate}}
+          </ion-col>
+          <ion-col size="12">
+            <ion-datetime-button datetime="datestart"></ion-datetime-button>
+            <ion-modal [keepContentsMounted]="true">
+              <ng-template>
+                <ion-datetime
+                  [showDefaultTitle]="true"
+                  presentation="date"
+                  format="YYYY-MM-DD"
+                  locale="fr-FR" [(ngModel)]="start_at" id="datestart">
+
+                  <span slot="title">{{'start_at'|translate}}</span>
+                </ion-datetime>
+              </ng-template>
+            </ion-modal>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col size="6">
+        <ion-button expand="block" fill="outline" (click)="selectImage('choose')">
+          <ion-icon name="image-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+
+    </ion-row>
+
+
+
+    <ion-row>
+      <ion-col size="12" *ngIf="image!='' && image_selected">
+        <ion-img [src]="image.url" style="width: 100%" alt=""></ion-img>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+
+</ion-content>
+<ion-footer class="ion-text-center" >
+  <ion-button (click)="save()" color="primary">
+    <ion-icon name="chevron-forward-outline"></ion-icon> &nbsp; {{'save'|translate}} &nbsp;<ion-icon name="chevron-back-outline"></ion-icon>
+  </ion-button>
+</ion-footer>

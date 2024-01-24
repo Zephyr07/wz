@@ -1,0 +1,7 @@
+{
+  "name": "WarZone",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,100 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>{{'my_subscription'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="{{'pull_to_refresh'|translate}}"
+      refreshingSpinner="circles"
+      refreshingText="{{'loading'|translate}}...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-progress-bar *ngIf="is_loading" type="indeterminate"></ion-progress-bar>
+
+  <ion-grid class="grid" *ngIf="!is_loading && subscription_status.is_subscription" >
+    <ion-row class="ticket-row shadow">
+      <ion-col>
+        <div class="ion-text-center" style="font-size: 20px">
+          {{subscription.pack.name}} -
+          <span *ngIf="!(subscription_status.is_subscription && subscription_status.is_paid && !subscription_status.is_actived)" class="primary">{{subscription.state|status}}</span>
+          <span class="danger" *ngIf="subscription_status.is_subscription && subscription_status.is_paid && !subscription_status.is_actived">{{'expired'|translate}}</span>
+        </div>
+        <div class="subtexts" style="margin-top: 10px;">
+          <ion-row>
+            <ion-col size="9" class="bold">{{'product'|translate}} :</ion-col>
+            <ion-col class="ion-text-right primary">{{"yes"|translate}}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="9" class="bold">{{'stockist'|translate}} :</ion-col>
+            <ion-col class="ion-text-right primary">{{"yes"|translate}}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="9" class="bold">{{'promotion'|translate}} :</ion-col>
+            <ion-col class="ion-text-right primary">{{"yes"|translate}}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="9" class="bold">{{'seminar'|translate}} :</ion-col>
+            <ion-col class="ion-text-right primary">{{"yes"|translate}}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="9" class="bold">{{'simulator'|translate}} :</ion-col>
+            <ion-col class="ion-text-right primary" *ngIf="subscription.pack.code=='free'">{{"no"|translate}}</ion-col>
+            <ion-col class="ion-text-right primary" *ngIf="subscription.pack.code!='free'">{{"yes"|translate}}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="9" class="bold">{{'training'|translate}} :</ion-col>
+            <ion-col class="ion-text-right primary" *ngIf="subscription.pack.code!='vip'">{{"no"|translate}}</ion-col>
+            <ion-col class="ion-text-right primary" *ngIf="subscription.pack.code=='vip'">{{"yes"|translate}}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="9" class="bold">{{'FAQ'|translate}} :</ion-col>
+            <ion-col class="ion-text-right primary">{{"yes"|translate}}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="4" class="bold">{{'expire_at'|translate}} :</ion-col>
+            <ion-col class="ion-text-right primary" *ngIf="!(subscription_status.is_subscription && subscription_status.is_paid && !subscription_status.is_actived)">{{subscription.expiration_date}}</ion-col>
+            <ion-col class="ion-text-right danger" *ngIf="subscription_status.is_subscription && subscription_status.is_paid && !subscription_status.is_actived">{{subscription.expiration_date}}</ion-col>
+          </ion-row>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-card class="radius shadow" *ngIf="!is_loading && !subscription_status.is_subscription">
+    <ion-card-header>
+      <span class="title" style="color:var(--ion-color-danger)">{{'sorry'|translate}}</span>
+    </ion-card-header>
+    <ion-card-content>
+      <span class="value primary">{{'no_subscription'|translate}}</span>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
+<ion-footer *ngIf="!is_loading" class="ion-no-border ion-text-center">
+  <ion-button *ngIf="subscription_status.is_subscription && subscription_status.is_paid" (click)="goToSubscription()">
+    <ion-icon name="chevron-forward-outline"></ion-icon>
+    <span *ngIf="subscription_status.is_actived">{{'edit_subscription'|translate}}</span>
+    <span *ngIf="!subscription_status.is_actived">{{'active_subscription'|translate}}</span>
+    <ion-icon name="chevron-back-outline"></ion-icon>
+  </ion-button>
+
+  <ion-button *ngIf="!subscription_status.is_subscription" (click)="goToSubscription()">
+    <ion-icon name="chevron-forward-outline"></ion-icon>
+    <span>{{'subscribe_subscription'|translate}}</span>
+    <ion-icon name="chevron-back-outline"></ion-icon>
+  </ion-button>
+
+  <ion-button color="secondary" *ngIf="subscription_status.is_subscription && !subscription_status.is_paid">
+    <ion-icon name="chevron-forward-outline"></ion-icon>
+    <span>{{'contact_support'|translate}}</span>
+    <ion-icon name="chevron-back-outline"></ion-icon>
+  </ion-button>
+</ion-footer>

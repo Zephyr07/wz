@@ -1,0 +1,130 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'promotion'|translate}}s</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="newPromotion()">
+        <ion-icon name="add" size="large"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="{{'pull_down'|translate}}"
+      refreshingSpinner="circles"
+      refreshingText="{{'loading'|translate}}...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid *ngIf="is_loading">
+    <ion-item>
+
+      <ion-skeleton-text slot="start" *ngIf="is_loading" animated style="width: 10%; height: 30px; margin-top:0"></ion-skeleton-text>
+
+      <ion-label>
+        <p class="bold primary" style="font-size: 18px">
+          <ion-skeleton-text *ngIf="is_loading" animated style="width: 100%;"></ion-skeleton-text>
+        </p>
+        <p class="bold black"><ion-skeleton-text *ngIf="is_loading" animated style="width: 60%;"></ion-skeleton-text></p>
+        <p>
+          <ion-skeleton-text *ngIf="is_loading" animated style="width: 100%;"></ion-skeleton-text>
+          <ion-skeleton-text *ngIf="is_loading" animated style="width: 70%;"></ion-skeleton-text>
+        </p>
+
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none">
+
+      <ion-skeleton-text slot="start" *ngIf="is_loading" animated style="width: 10%; height: 30px; margin-top:0"></ion-skeleton-text>
+
+      <ion-label>
+        <p class="bold primary" style="font-size: 18px">
+          <ion-skeleton-text *ngIf="is_loading" animated style="width: 100%;"></ion-skeleton-text>
+        </p>
+        <p class="bold black"><ion-skeleton-text *ngIf="is_loading" animated style="width: 60%;"></ion-skeleton-text></p>
+        <p>
+          <ion-skeleton-text *ngIf="is_loading" animated style="width: 100%;"></ion-skeleton-text>
+          <ion-skeleton-text *ngIf="is_loading" animated style="width: 70%;"></ion-skeleton-text>
+        </p>
+
+      </ion-label>
+    </ion-item>
+  </ion-grid>
+
+  <ion-grid class="card-background-page" *ngIf="!is_loading">
+
+    <ion-searchbar animated="true" placeholder="{{'search'|translate}}" [(ngModel)]="search" type="text" (ionInput)="getItems($event)"></ion-searchbar>
+
+    <ion-item *ngFor="let i of promotions" (click)="goTo(i)">
+
+      <ion-icon *ngIf="i.image!=null" name="image" color="primary" slot="start"></ion-icon>
+      <ion-icon *ngIf="i.file!=null" name="document" color="primary" slot="start"></ion-icon>
+
+      <ion-label>
+        <p class="bold primary" style="font-size: 18px">
+          {{i.title}}
+        </p>
+        <p class="bold black">{{i.country.name}}</p>
+        <p [innerHTML]="i.description|limitTo:100"></p>
+
+      </ion-label>
+    </ion-item>
+    <app-oups-info [text]="'no_promotion'" *ngIf="!is_loading && promotions.length<1"></app-oups-info>
+
+  </ion-grid>
+
+
+
+  <ion-button style="display: none" id="open-modal" expand="block">Open Sheet Modal</ion-button>
+
+  <ion-modal #modalDetail trigger="open-modal" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.5, 0.75, 1]">
+    <ng-template>
+      <ion-content>
+        <ion-fab vertical="top" horizontal="end" slot="fixed">
+          <ion-fab-button color="light" size="small" (click)="closeModal()">
+            <ion-icon name="close"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+        <ion-grid>
+          <img *ngIf="promotion.image!=null" src="{{promotion.image}}" alt="" style="width:100%; height: 50vh; border-radius: 10px">
+
+          <ion-item lines="none">
+            <ion-label>
+              <p class="bold primary" style="font-size: 18px; white-space: normal">
+                {{promotion.title}}
+              </p>
+              <h3 class="bold black">{{promotion.country.name}}</h3>
+              <p>
+                {{'from'|translate}} <span class="danger bold">{{promotion.start_at|dateFormat}}</span> {{'to'|translate}} <span class="danger bold">{{promotion.end_at|dateFormat}}</span>
+              </p>
+              <p [innerHTML]="promotion.description" style="white-space: normal">
+
+              </p>
+              <div class="divider"></div>
+              <a *ngIf="promotion.file!=null" href="{{promotion.file}}">
+                <small>{{'download'|translate}}</small>
+              </a>
+            </ion-label>
+          </ion-item>
+
+        </ion-grid>
+
+
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>
+
+<ion-footer class="ion-text-center" >
+  <ion-button (click)="newPromotion()" shape="round" size="small" fill="outline" color="primary">
+    {{'add_promotion'|translate}}
+  </ion-button>
+</ion-footer>

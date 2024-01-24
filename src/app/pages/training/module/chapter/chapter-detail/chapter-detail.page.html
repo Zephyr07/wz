@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{chapter.title}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+  <div class="white-black">
+    <ion-skeleton-text *ngIf="is_loading" animated style="height: 350px"></ion-skeleton-text>
+
+    <div *ngIf="!is_loading" >
+      <iframe *ngIf="chapter.type=='youtube'" style="width: 100%" height="315" [src]="chapter.link" title="YouTube video player" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+      <iframe *ngIf="chapter.type=='vimeo'" style="width: 100%" height="315" [src]="chapter.link"  frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+
+      <img *ngIf="chapter.type=='text' && chapter.image!=null"  src="{{chapter.image}}" style="width: 100%" height="315" alt="">
+
+      <video *ngIf="chapter.type=='video'" controls style="width: 100%" height="315">
+        <source [src]="chapter.link" type="video/webm" />
+        <source [src]="chapter.link" type="video/mp4" />
+      </video>
+    </div>
+
+    <div class="presentation">
+      <ion-card-header>
+        <ion-skeleton-text *ngIf="is_loading" animated ></ion-skeleton-text>
+
+        <ion-card-title *ngIf="!is_loading" style="font-size: 30px; color:var(--ion-color-danger);font-weight: bold">{{chapter.title}} </ion-card-title>
+        <ion-card-subtitle  style="color: var(--ion-color-dark)">
+          <span class="primary bold">{{chapter.module.title}}</span>
+        </ion-card-subtitle>
+
+        <ion-skeleton-text *ngIf="is_loading" animated style="width: 20%"></ion-skeleton-text>
+        <ion-skeleton-text *ngIf="is_loading" animated style="width: 10%"></ion-skeleton-text>
+      </ion-card-header>
+
+      <ion-card-content *ngIf="!is_loading"  style="padding-top:10px; font-weight: bold">
+        <span style="font-size: 16px" [innerHTML]="chapter.description"></span>
+
+        <ion-row>
+          <ion-col size="2" class="ion-text-left" *ngIf="is_previous">
+            <ion-fab-button color="light" size="small" (click)="previousChapter()">
+              <ion-icon name="arrow-back-outline"></ion-icon>
+            </ion-fab-button>
+          </ion-col>
+          <ion-col></ion-col>
+          <ion-col size="2" class="ion-text-right" *ngIf="is_next">
+            <ion-fab-button color="light" size="small" (click)="nextChapter()">
+              <ion-icon name="arrow-forward-outline"></ion-icon>
+            </ion-fab-button>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+
+      <div class="divider"></div>
+      <ion-card-content>
+        <span class="title">{{chapter.module.training.title}}</span>
+        <br>
+        {{'trainer'|translate}} : <span class="primary">{{chapter.module.training.trainer}}</span>
+      </ion-card-content>
+    </div>
+
+
+  </div>
+
+</ion-content>

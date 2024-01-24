@@ -1,0 +1,229 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'travel_promo'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="custom">
+    <ion-row>
+      <ion-col size="12">
+        <ion-label class="bold danger">{{'disclaimer'|translate}}!!</ion-label>
+        <br>
+        {{'disclaimer_text'|translate}}
+      </ion-col>
+    </ion-row>
+    <div class="divider"></div>
+    <ion-row>
+      <ion-col>
+        <ion-select [(ngModel)]="rank" [ngModelOptions]="{standalone: true}" (ionChange)="incentive()"
+                    [interfaceOptions]="{header:'rank'|translate,subheader:'choose_rank'|translate}" interface="action-sheet"
+                    okText="{{'ok'|translate}}" cancelText="{{'cancel'|translate}}" placeholder="{{'rank'|translate}}">
+          <ion-select-option value="D0">{{'rank1'|translate}}</ion-select-option>
+          <ion-select-option value="D1">{{'rank2'|translate}}</ion-select-option>
+        </ion-select>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="rank!=''">
+      <ion-col size="12">
+        <ion-label class="primary bold">{{'condition_promo'|translate}}</ion-label>
+      </ion-col>
+      <ion-col size="8">
+        <ion-chip [outline]="true">{{'pv_to_do'|translate}}</ion-chip>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-input [(ngModel)]="sum_pv" min="0" type="number" (ionChange)="incentive()" [ngModelOptions]="{standalone: true}" placeholder="{{'sum_pv'|translate}}"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="rank=='D0'">
+      <ion-col size="8">
+        <ion-chip [outline]="true">{{'sum_2_leg'|translate}}</ion-chip>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-input [(ngModel)]="sum_2_leg" min="0" type="number" (ionChange)="incentive()" [ngModelOptions]="{standalone: true}" placeholder="{{'sum_2_leg'|translate}}"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="rank=='D0'">
+      <ion-col size="8">
+        <ion-chip [outline]="true">{{'bonus_leg'|translate}}</ion-chip>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-input [(ngModel)]="bonus_leg" min="0" type="number" (ionChange)="incentive()" [ngModelOptions]="{standalone: true}" placeholder="{{'bonus_leg'|translate}}"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="rank=='D1'">
+      <ion-col size="8">
+        <ion-chip [outline]="true">{{'pv_leg'|translate}}</ion-chip>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-input [(ngModel)]="pv_leg" min="0" type="number" (ionChange)="incentive()" [ngModelOptions]="{standalone: true}" placeholder="{{'pv_leg'|translate}}"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="rank=='D0'">
+      <ion-col size="8">
+        <ion-chip [outline]="true">{{'sum_strong_leg'|translate}}</ion-chip>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-input [(ngModel)]="sum_strong_leg" min="0" type="number" (ionChange)="incentive()" [ngModelOptions]="{standalone: true}" placeholder="{{'sum_strong_leg'|translate}}"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="rank!=''">
+      <ion-col size="8">
+        <ion-chip [outline]="true">{{'sponsor'|translate}}</ion-chip>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-input [(ngModel)]="sponsor" min="0" type="number" (ionChange)="incentive()" [ngModelOptions]="{standalone: true}" placeholder="{{'sponsor'|translate}}"></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <div  *ngIf="rank!=''"class="divider"></div>
+
+    <ion-row *ngIf="rank!=''">
+      <ion-col size="12">
+        <ion-label class="primary bold">{{'your_performance'|translate}}</ion-label>
+      </ion-col>
+      <ion-col size="5">
+
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <small>{{'beginning'|translate}}</small>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <small>{{'to_date'|translate}}</small>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="rank!=''">
+      <ion-col size="5">
+        <ion-chip [outline]="true" color="success" *ngIf="(end_pv!=0 && start_pv!=0 && sum_pv!=0) && (end_pv-start_pv)>=sum_pv">{{'your_pv'|translate}}</ion-chip>
+        <ion-chip [outline]="true" *ngIf="(end_pv==0 || start_pv==0 || sum_pv==0)">{{'your_pv'|translate}}</ion-chip>
+        <ion-chip [outline]="true" color="danger" *ngIf="(end_pv!=0 && start_pv!=0 && sum_pv!=0) && (end_pv-start_pv)<sum_pv">{{'your_pv'|translate}}</ion-chip>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-input [(ngModel)]="start_pv" min="0" type="number" (ionChange)="incentive()" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-input [(ngModel)]="end_pv" min="0" type="number" (ionChange)="incentive()" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="rank!=''">
+      <ion-col size="5">
+        <ion-chip [outline]="true" color="success" *ngIf="(end_sponsor_pv!=0 && start_sponsor_pv!=0 && sponsor!=0) && (end_sponsor_pv-start_sponsor_pv)>=sponsor">{{'sponsor'|translate}}</ion-chip>
+        <ion-chip [outline]="true" *ngIf="(end_sponsor_pv==0 || start_sponsor_pv==0 || sponsor==0)">{{'sponsor'|translate}}</ion-chip>
+        <ion-chip [outline]="true" color="danger" *ngIf="(end_sponsor_pv!=0 && start_sponsor_pv!=0 && sponsor!=0) && (end_sponsor_pv-start_sponsor_pv)<sponsor">{{'sponsor'|translate}}</ion-chip>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-input [(ngModel)]="start_sponsor_pv" min="0" type="number" (ionChange)="incentive()" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-input [(ngModel)]="end_sponsor_pv" min="0" type="number" (ionChange)="incentive()" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-col>
+    </ion-row>
+
+
+    <ion-row *ngIf="rank!=''">
+      <ion-col size="5" *ngIf="rank=='D0'">
+        <ion-chip [outline]="true" color="success" *ngIf="(end_pvA!=0 && start_pvA!=0 && bonus_leg!=0) && (end_pvA-start_pvA)>=bonus_leg">{{'strong_leg'|translate}}</ion-chip>
+        <ion-chip [outline]="true" *ngIf="(end_pvA==0 || start_pvA==0 || bonus_leg==0)">{{'strong_leg'|translate}}</ion-chip>
+        <ion-chip [outline]="true" color="danger" *ngIf="(end_pvA!=0 && start_pvA!=0 && bonus_leg!=0) && (end_pvA-start_pvA)<bonus_leg">{{'strong_leg'|translate}}</ion-chip>
+      </ion-col>
+      <ion-col size="5" *ngIf="rank=='D1'">
+        <ion-chip [outline]="true" color="success" *ngIf="(end_pvA!=0 && start_pvA!=0 && bonus_leg!=0) && (end_pvA-start_pvA)>=bonus_leg">{{'leg'|translate}} 1</ion-chip>
+        <ion-chip [outline]="true" *ngIf="(end_pvA==0 || start_pvA==0 || bonus_leg==0)">{{'leg'|translate}} 1</ion-chip>
+        <ion-chip [outline]="true" color="danger" *ngIf="(end_pvA!=0 && start_pvA!=0 && bonus_leg!=0) && (end_pvA-start_pvA)<bonus_leg">{{'leg'|translate}} 1</ion-chip>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-input [(ngModel)]="start_pvA" min="0" type="number" (ionChange)="incentive()" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-input [(ngModel)]="end_pvA" min="0" type="number" (ionChange)="incentive()" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="rank!=''">
+      <ion-col size="5" *ngIf="rank=='D0'">
+        <ion-chip [outline]="true" color="success" *ngIf="(end_pvB!=0 && start_pvB!=0 && bonus_leg!=0) && (end_pvB-start_pvB)>=bonus_leg">{{'weak_leg'|translate}} 1</ion-chip>
+        <ion-chip [outline]="true" *ngIf="(end_pvB==0 || start_pvB==0 || bonus_leg==0)">{{'weak_leg'|translate}} 1</ion-chip>
+        <ion-chip [outline]="true" color="danger" *ngIf="(end_pvB!=0 && start_pvB!=0 && bonus_leg!=0) && (end_pvB-start_pvB)<bonus_leg">{{'weak_leg'|translate}} 1</ion-chip>
+      </ion-col>
+      <ion-col size="5" *ngIf="rank=='D1'">
+        <ion-chip [outline]="true" color="success" *ngIf="(end_pvB!=0 && start_pvB!=0 && bonus_leg!=0) && (end_pvB-start_pvB)>=bonus_leg">{{'leg'|translate}} 2</ion-chip>
+        <ion-chip [outline]="true" *ngIf="(end_pvB==0 || start_pvB==0 || bonus_leg==0)">{{'leg'|translate}} 2</ion-chip>
+        <ion-chip [outline]="true" color="danger" *ngIf="(end_pvB!=0 && start_pvB!=0 && bonus_leg!=0) && (end_pvB-start_pvB)<bonus_leg">{{'leg'|translate}} 2</ion-chip>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-input [(ngModel)]="start_pvB" min="0" type="number" (ionChange)="incentive()" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-input [(ngModel)]="end_pvB" min="0" type="number" (ionChange)="incentive()" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="rank!=''">
+      <ion-col size="5" *ngIf="rank=='D0'">
+        <ion-chip [outline]="true" color="success" *ngIf="(end_pvC!=0 && start_pvC!=0 && bonus_leg!=0) && (end_pvC-start_pvC)>=bonus_leg">{{'weak_leg'|translate}} 2</ion-chip>
+        <ion-chip [outline]="true" *ngIf="(end_pvC==0 || start_pvC==0 || bonus_leg==0)">{{'weak_leg'|translate}} 2</ion-chip>
+        <ion-chip [outline]="true" color="danger" *ngIf="(end_pvC!=0 && start_pvC!=0 && bonus_leg!=0) && (end_pvC-start_pvC)<bonus_leg">{{'weak_leg'|translate}} 2</ion-chip>
+      </ion-col>
+      <ion-col size="5" *ngIf="rank=='D1'">
+        <ion-chip [outline]="true" color="success" *ngIf="(end_pvC!=0 && start_pvC!=0 && bonus_leg!=0) && (end_pvC-start_pvC)>=bonus_leg">{{'leg'|translate}} 3</ion-chip>
+        <ion-chip [outline]="true" *ngIf="(end_pvC==0 || start_pvC==0 || bonus_leg==0)">{{'leg'|translate}} 3</ion-chip>
+        <ion-chip [outline]="true" color="danger" *ngIf="(end_pvC!=0 && start_pvC!=0 && bonus_leg!=0) && (end_pvC-start_pvC)<bonus_leg">{{'leg'|translate}} 3</ion-chip>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-input [(ngModel)]="start_pvC" min="0" type="number" (ionChange)="incentive()" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-input [(ngModel)]="end_pvC" min="0" type="number" (ionChange)="incentive()" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <div *ngIf="rank!=''" class="divider"></div>
+
+    <ion-label *ngIf="rank!=''" class="primary bold">{{'result'|translate}}</ion-label>
+    <div class="tableau" *ngIf="rank!=''">
+      <ion-row>
+        <ion-col>{{'pv_to_do'|translate}}</ion-col>
+        <ion-col class="primary ion-text-right">{{pv_total|priceFormat}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>{{'pv_to_sponsor'|translate}}</ion-col>
+        <ion-col class="primary ion-text-right">{{sponsor_total|priceFormat}}</ion-col>
+      </ion-row>
+      <ion-row *ngIf="rank=='D0'">
+        <ion-col>{{'strong_leg_pv_to_do'|translate}}</ion-col>
+        <ion-col class="primary ion-text-right">{{strong_leg_total|priceFormat}}</ion-col>
+      </ion-row>
+      <ion-row *ngIf="rank=='D1'">
+        <ion-col>{{'pv_to_do_leg'|translate}} 1</ion-col>
+        <ion-col class="primary ion-text-right">{{pvA_total|priceFormat}}</ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col *ngIf="rank=='D0'">{{'pv_to_do_weak_leg'|translate}} 1</ion-col>
+        <ion-col *ngIf="rank=='D1'">{{'pv_to_do_leg'|translate}} 2</ion-col>
+        <ion-col class="primary ion-text-right">{{pvB_total|priceFormat}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col *ngIf="rank=='D0'">{{'pv_to_do_weak_leg'|translate}} 2</ion-col>
+        <ion-col *ngIf="rank=='D1'">{{'pv_to_do_leg'|translate}} 3</ion-col>
+        <ion-col class="primary ion-text-right">{{pvC_total|priceFormat}}</ion-col>
+      </ion-row>
+      <ion-row *ngIf="rank=='D0'">
+        <ion-col>{{'bonus_leg_total'|translate}}</ion-col>
+        <ion-col class="primary ion-text-right">{{bonus_leg_total|priceFormat}}</ion-col>
+      </ion-row>
+      <ion-row style="background: var(--ion-color-primary)" *ngIf="is_qualified">
+        <ion-col style="font-weight: bold">{{'status'|translate}}</ion-col>
+        <ion-col class="ion-text-right">{{'qualified'|translate}}</ion-col>
+      </ion-row>
+      <ion-row style="background: var(--ion-color-danger)" *ngIf="!is_qualified">
+        <ion-col style="font-weight: bold">{{'status'|translate}}</ion-col>
+        <ion-col class="ion-text-right">{{'not_qualified'|translate}}</ion-col>
+      </ion-row>
+    </div>
+    <div *ngIf="rank=='D1'" [innerHTML]="'car_travel_p'|translate">
+    </div>
+  </ion-grid>
+</ion-content>

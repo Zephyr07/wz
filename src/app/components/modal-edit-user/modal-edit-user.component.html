@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{'edit_my_info'|translate}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="custom">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        {{'email'|translate}} : {{user.email|limitTo:8}}****
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        {{'phone'|translate}} : {{user.phone|limitTo:5}}****
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-input [(ngModel)]="full_name" [ngModelOptions]="{standalone: true}" placeholder="{{'full_name'|translate}}"></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="6">
+        <ion-button expand="block" fill="outline" (click)="selectImage('take')">{{'take_image'|translate}}</ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button expand="block" fill="outline" (click)="selectImage('choose')">{{'choose_image'|translate}}</ion-button>
+      </ion-col>
+      <ion-col size="12" *ngIf="image!=''">
+        <ion-img [src]="image" style="width: 100%" alt=""></ion-img>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+</ion-content>
+<ion-footer class="ion-text-center" >
+  <ion-button (click)="save()" color="primary">
+    <ion-icon name="chevron-forward-outline"></ion-icon> &nbsp; {{'save'|translate}} &nbsp;<ion-icon name="chevron-back-outline"></ion-icon>
+  </ion-button>
+</ion-footer>

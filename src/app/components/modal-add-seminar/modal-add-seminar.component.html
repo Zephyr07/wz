@@ -1,0 +1,119 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{titre|translate}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss('close-modal')">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="custom">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Tirer vers le bas pour actualiser"
+      refreshingSpinner="circles"
+      refreshingText="{{'loading'|translate}}...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-grid>
+
+
+    <ion-row>
+      <ion-col>
+        <ion-input [(ngModel)]="title" autocapitalize="sentence" [ngModelOptions]="{standalone: true}" placeholder="{{'title'|translate}}"></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="6">
+        <ion-input [(ngModel)]="phone" min={{MIN}} max="{{MAX}}" type="number" [ngModelOptions]="{standalone: true}" placeholder="{{'phone'|translate}}"></ion-input>
+      </ion-col>
+      <ion-col size="6">
+        <ion-input [(ngModel)]="price" min="0" type="number" [ngModelOptions]="{standalone: true}" placeholder="{{'price'|translate}}"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-textarea [(ngModel)]="description" autocapitalize="sentence" [ngModelOptions]="{standalone: true}" placeholder="{{'description'|translate}}"></ion-textarea>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="4" class="ion-text-right">
+        <ion-label>Date et heure de début</ion-label>
+      </ion-col>
+      <ion-col size="8">
+        <ion-datetime-button datetime="datetime"></ion-datetime-button>
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime
+              [showDefaultTitle]="true"
+              format="YYYY-MM-DD hh:mm:ss"
+              locale="fr-FR" [(ngModel)]="start_at" id="datetime">
+
+              <span slot="title">Date et heure de début</span>
+            </ion-datetime>
+          </ng-template>
+        </ion-modal>
+      </ion-col>
+
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" shape="round" *ngIf="where!='physic'" (click)="where='physic'" color="dark">En salle</ion-button>
+        <ion-button expand="block" shape="round" *ngIf="where=='physic'" (click)="where='physic'" color="light">En salle</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" shape="round" *ngIf="where!='online'" (click)="where='online'" color="dark">En ligne</ion-button>
+        <ion-button expand="block" shape="round" *ngIf="where=='online'" (click)="where='online'" color="light">En ligne</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="where=='physic'">
+      <ion-col>
+        <ion-textarea [(ngModel)]="locality" autocapitalize="sentence" [ngModelOptions]="{standalone: true}" placeholder="{{'locality_placeholder'|translate}}"></ion-textarea>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="where=='physic'">
+      <ion-col>
+        <ion-select [(ngModel)]="town_id" [ngModelOptions]="{standalone: true}"
+                    [interfaceOptions]="{header:'town'|translate,subheader:'choose_town'|translate}" interface="action-sheet"
+                    okText="{{'ok'|translate}}" cancelText="{{'cancel'|translate}}" placeholder="{{'town'|translate}}">
+          <ion-select-option *ngFor="let c of towns" value="{{c.id}}">{{c.name}}</ion-select-option>
+        </ion-select>
+      </ion-col>
+
+    </ion-row>
+    <ion-row *ngIf="where=='online'">
+      <ion-col>
+        <ion-input type="url" [(ngModel)]="link" autocapitalize="sentence" [ngModelOptions]="{standalone: true}" placeholder="{{'link'|translate}}"></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="6">
+        <ion-button expand="block" fill="outline" (click)="selectImage('take')">
+          <ion-icon name="camera-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button expand="block" fill="outline" (click)="selectImage('choose')">
+          <ion-icon name="image-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col size="12" *ngIf="image!=''">
+        <ion-img [src]="image.url" style="width: 100%" alt=""></ion-img>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+
+</ion-content>
+<ion-footer class="ion-text-center" >
+  <ion-button (click)="save()" color="primary">
+    <ion-icon name="chevron-forward-outline"></ion-icon> &nbsp; {{'save'|translate}} &nbsp;<ion-icon name="chevron-back-outline"></ion-icon>
+  </ion-button>
+</ion-footer>

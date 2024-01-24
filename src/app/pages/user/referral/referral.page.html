@@ -1,0 +1,92 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>{{'my_referrals'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content
+        pullingIcon="chevron-down-circle-outline"
+        pullingText="{{'pull_to_refresh'|translate}}"
+        refreshingSpinner="circles"
+        refreshingText="{{'loading'|translate}}...">
+      </ion-refresher-content>
+    </ion-refresher>
+
+    <ion-progress-bar style="margin-bottom: 5px;" *ngIf="is_loading" type="indeterminate"></ion-progress-bar>
+
+
+    <ion-row style="margin-top:30px; margin-bottom:30px">
+      <ion-col size="{{col1}}">
+        <div class="ion-text-center spec" style="font-size: 30px">
+          <strong class="primary">{{user.sponsor_code}}</strong>
+        </div>
+        <div class="ion-text-center subtext">
+          {{'my_sponsor_code'|translate}}
+        </div>
+      </ion-col>
+
+      <ion-col size="{{col2}}">
+        <div class="ion-text-center spec" style="font-size: 30px">
+          <strong class="primary">{{users.length|priceFormat}}</strong>
+        </div>
+        <div class="ion-text-center subtext">
+          {{'sponsored'|translate}}<span *ngIf="users.length>1">s</span>
+        </div>
+      </ion-col>
+
+      <ion-col size="{{col3}}" *ngIf="unpaid_commissions.length>0" (click)="showCommission()">
+        <div class="ion-text-center spec" style="font-size: 30px">
+          <strong class="primary">{{amount|priceFormat}}</strong>
+        </div>
+        <div class="ion-text-center subtext">
+          {{'commission_to_paid'|translate}}
+        </div>
+      </ion-col>
+
+      <ion-col size="12" class="subtext ion-text-center">
+        <i>{{'commission_1'|translate}} {{COMMISSION}}% {{'commission_2'|translate}}</i>
+      </ion-col>
+
+    </ion-row>
+
+    <ion-item *ngFor="let u of users">
+      <ion-label style="white-space: normal">
+        <h3>{{u.partner.full_name}} - {{u.sponsor_code}} - {{u.country.name}}</h3>
+      </ion-label>
+    </ion-item>
+
+  </ion-grid>
+
+
+  <ion-button style="display: none" id="open-modal" expand="block">Open Sheet Modal</ion-button>
+
+  <ion-modal #modalDetail trigger="open-modal" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.5, 0.75, 1]">
+    <ng-template>
+      <ion-content>
+        <ion-list>
+          <ion-list-header>
+            <ion-label>Commissions</ion-label>
+          </ion-list-header>
+          <ion-item *ngFor="let c of commissions">
+            <ion-label>
+              <h3></h3>
+              <h3 *ngIf="c.status=='paid'" class="primary bold">{{c.price}} XAF - {{c.status|status}}</h3>
+              <h3 *ngIf="c.status=='unpaid'" class="danger bold">{{c.price}} XAF - {{c.status|status}}</h3>
+              <p>Achat du pack {{c.payment.subscription.pack.name}} par {{c.payment.subscription.user.sponsor_code}}</p>
+              <p *ngIf="c.status=='paid'">Réf.: <span class="bold black">{{c.ref}}</span>, le <span class="black bold">{{c.paid_at|dateFormat:false}}</span></p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

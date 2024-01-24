@@ -1,0 +1,24 @@
+<ion-content fullscreen class="ion-padding" scroll-y="false">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh()">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Tirer vers le bas pour actualiser"
+      refreshingSpinner="circles"
+      refreshingText="{{'loading'|translate}}...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div>
+    <div>
+      <div class="slide">
+        <img src="../../../../assets/icon/logo_playce.svg" style="height: 200px; margin-top: 30%"/>
+        <h2 class="danger">Maintenance</h2>
+        <p>
+          {{'maintenance_text'|translate}}
+        </p>
+
+        <div class="divider"></div>
+        <p><span class="danger bold">0{{minute}}</span>m <span class="danger bold"><span *ngIf="seconde<10">0</span>{{seconde}}</span>s avant la prochaine verification de la fin des travaux</p>
+      </div>
+    </div>
+  </div>
+</ion-content>

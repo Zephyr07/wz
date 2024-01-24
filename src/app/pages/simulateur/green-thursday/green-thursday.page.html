@@ -1,0 +1,124 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'green_thursday'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid class="custom">
+    <ion-row>
+      <ion-col size="12">
+        <ion-label class="bold danger">{{'disclaimer'|translate}}!!</ion-label>
+        <br>
+        {{'disclaimer_text'|translate}}
+      </ion-col>
+    </ion-row>
+    <div class="divider"></div>
+    <ion-row>
+      <ion-col>
+        <ion-select [(ngModel)]="grade" [ngModelOptions]="{standalone: true}" (ionChange)="greenThursday()"
+                    [interfaceOptions]="{header:'grade'|translate,subheader:'choose_grade'|translate}" interface="action-sheet"
+                    okText="{{'ok'|translate}}" cancelText="{{'cancel'|translate}}" placeholder="{{'grade'|translate}}">
+          <ion-select-option value="qsilver">Q Silver</ion-select-option>
+          <ion-select-option value="silver">Silver</ion-select-option>
+          <ion-select-option value="gold">Gold</ion-select-option>
+          <ion-select-option value="platine">Platine</ion-select-option>
+          <ion-select-option value="vip">VIP Platine</ion-select-option>
+        </ion-select>
+      </ion-col>
+      <ion-col>
+        <ion-select [(ngModel)]="rank" [ngModelOptions]="{standalone: true}" (ionChange)="greenThursday()"
+                    [interfaceOptions]="{header:'rank'|translate,subheader:'choose_rank'|translate}" interface="action-sheet"
+                    okText="{{'ok'|translate}}" cancelText="{{'cancel'|translate}}" placeholder="{{'rank'|translate}}">
+          <ion-select-option value="D0">{{'pre_diamond'|translate}}</ion-select-option>
+          <ion-select-option value="D1">{{'diamond'|translate}} 1</ion-select-option>
+          <ion-select-option value="D2">{{'diamond'|translate}} 2</ion-select-option>
+          <ion-select-option value="D3">{{'diamond'|translate}} 3</ion-select-option>
+          <ion-select-option value="D4">{{'diamond'|translate}} 4</ion-select-option>
+          <ion-select-option value="D5">{{'diamond'|translate}} 5</ion-select-option>
+          <ion-select-option value="D6">{{'diamond'|translate}} 6</ion-select-option>
+          <ion-select-option value="D7">{{'diamond'|translate}} 7</ion-select-option>
+          <ion-select-option value="SD1">Star {{'director'|translate}} 1</ion-select-option>
+          <ion-select-option value="SD2">Star {{'director'|translate}} 2</ion-select-option>
+          <ion-select-option value="SD3">Star {{'director'|translate}} 3</ion-select-option>
+          <ion-select-option value="SD4">Star {{'director'|translate}} 4</ion-select-option>
+          <ion-select-option value="SD5">Star {{'director'|translate}} 5</ion-select-option>
+        </ion-select>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="7">
+
+        {{'did_sponsor'|translate}}
+      </ion-col>
+      <ion-col size="2">
+        <ion-toggle [(ngModel)]="parrain"></ion-toggle>
+      </ion-col>
+      <ion-col size="3" *ngIf="parrain" class="ion-text-center">
+        <ion-input [(ngModel)]="child_count" min="0" (ionChange)="greenThursday()" type="number" [ngModelOptions]="{standalone: true}" placeholder="{{'child_count'|translate}}"></ion-input>
+        <small>{{'sponsored_number'|translate}}</small>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-select [(ngModel)]="strong_leg" [ngModelOptions]="{standalone: true}" (ionChange)="greenThursday()"
+                    [interfaceOptions]="{header:'strong_leg'|translate,subheader:'choose_strong_leg'|translate}" interface="action-sheet"
+                    okText="{{'ok'|translate}}" cancelText="{{'cancel'|translate}}" placeholder="{{'strong_leg'|translate}}">
+          <ion-select-option value="a">{{'leg'|translate}} A</ion-select-option>
+          <ion-select-option value="b">{{'leg'|translate}} B</ion-select-option>
+          <ion-select-option value="c">{{'leg'|translate}} C</ion-select-option>
+        </ion-select>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12" class="ion-text-center">
+        {{'pv_did'|translate}}
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-input [(ngModel)]="pvA" min="0" type="number" (ionChange)="greenThursday()" [ngModelOptions]="{standalone: true}" placeholder="{{'pvA'|translate}}"></ion-input>
+        <small>Pv {{'leg'|translate}} A</small>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-input [(ngModel)]="pvB" min="0" type="number" (ionChange)="greenThursday()" [ngModelOptions]="{standalone: true}" placeholder="{{'pvB'|translate}}"></ion-input>
+        <small>Pv {{'leg'|translate}} B</small>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-input [(ngModel)]="pvC" min="0" type="number" (ionChange)="greenThursday()" [ngModelOptions]="{standalone: true}" placeholder="{{'pvC'|translate}}"></ion-input>
+        <small>Pv {{'leg'|translate}} C</small>
+      </ion-col>
+    </ion-row>
+
+    <div class="divider"></div>
+
+    <ion-label class="primary bold">{{'result'|translate}}</ion-label>
+    <div class="tableau">
+      <ion-row>
+        <ion-col>{{'sponsor_bonus'|translate}}</ion-col>
+        <ion-col class="primary ion-text-right">{{parrainage|priceFormat}} XAF</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>{{'performance_bonus'|translate}}</ion-col>
+        <ion-col class="primary ion-text-right">{{performance|priceFormat}} XAF</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>{{'development_bonus'|translate}}</ion-col>
+        <ion-col class="primary ion-text-right">{{developpement|priceFormat}} XAF</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>{{'epargne'|translate}} (-5%)</ion-col>
+        <ion-col class="primary ion-text-right">-{{epargne|priceFormat}} XAF</ion-col>
+      </ion-row>
+      <ion-row style="background: var(--ion-color-primary)">
+        <ion-col style="font-weight: bold">Total</ion-col>
+        <ion-col class="ion-text-right">{{parrainage+performance+developpement-epargne|priceFormat}} XAF</ion-col>
+      </ion-row>
+    </div>
+    <small>{{'green_thursday_p'|translate}}</small>
+  </ion-grid>
+</ion-content>
