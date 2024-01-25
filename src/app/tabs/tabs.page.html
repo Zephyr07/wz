@@ -1,0 +1,31 @@
+<ion-tabs>
+
+  <ion-fab vertical="bottom" horizontal="center" translucent="true">
+    <ion-fab-button>
+      <ion-icon class="custom-wz"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-tab-bar slot="bottom" class="ion-no-border">
+    <ion-tab-button tab="home" class="home">
+      <ion-icon name="home"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="game" class="game">
+      <ion-icon name="game-controller"></ion-icon>
+    </ion-tab-button>
+
+    <svg height="50" viewBox="0 0 100 50" width="100" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 0v50H0V0c.543 27.153 22.72 49 50 49S99.457 27.153 99.99 0h.01z" fill="pink" fill-rule="evenodd">
+              </path></svg>
+
+    <ion-tab-button tab="tournament" class="event">
+      <ion-icon name="calendar"></ion-icon>
+      <ion-badge *ngIf="tournament>0">{{tournament}}</ion-badge>
+    </ion-tab-button>
+
+    <ion-tab-button tab="user" class="user">
+      <ion-icon name="person"></ion-icon>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

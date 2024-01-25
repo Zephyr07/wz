@@ -177,7 +177,7 @@ ion-modal{
 
 
 ion-thumbnail{
-  border-radius: 15px;
+  border-radius: 50%;
   border: 2px solid var(--ion-color-primary);
   text-align: center;
   font-weight: bold;
@@ -185,6 +185,7 @@ ion-thumbnail{
   display : flex;
   align-items : center;
   justify-content : center;
+  overflow: hidden;
 }
 
 .middle{

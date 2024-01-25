@@ -12,13 +12,13 @@
     <ion-back-button defaultHref="/" id="backButton"></ion-back-button>
   </ion-buttons>
 
-  <ion-fab *ngIf="step==0" vertical="top" horizontal="start" style="margin-top:25px" slot="fixed">
+  <ion-fab hidden *ngIf="step==0" vertical="top" horizontal="start" style="margin-top:25px" slot="fixed">
     <ion-fab-button color="primary" size="small" (click)="backToPreviousPage()">
       <ion-icon name="chevron-back-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <ion-fab vertical="top" horizontal="start" style="margin-top:25px" slot="fixed" *ngIf="step>0">
+  <ion-fab  vertical="top" horizontal="start" style="margin-top:25px" slot="fixed" *ngIf="step>0">
     <ion-fab-button color="danger" size="small" (click)="previous()">
       <ion-icon name="arrow-back-outline"></ion-icon>
     </ion-fab-button>

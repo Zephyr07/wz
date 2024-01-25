@@ -42,8 +42,8 @@ export class LoginPage implements OnInit {
         this.is_loading = true;
         this.util.hideLoading();
 
-        this.navCtrl.navigateRoot(['/home']);
-        //this.navCtrl.navigateRoot(['/tabs']);
+        //this.navCtrl.navigateRoot(['/home']);
+        this.navCtrl.navigateRoot(['/tabs']);
       }, q=>{
         alert(JSON.stringify(q));
         this.util.hideLoading();

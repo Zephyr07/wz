@@ -12,7 +12,6 @@ export const MOIS = [
 ];
 
 export const FEES = 0.2;
-export const GOOGLE_MAP_KEY='AIzaSyBsiLEwZt1uieze0F-Dmk6MGp_0lOgX0MY';
 export const DEVISE = "FCFA";
 export const COOL_PAY_KEY = "4c704d4e-e2e2-4242-8a0c-68bb703122e4";
 

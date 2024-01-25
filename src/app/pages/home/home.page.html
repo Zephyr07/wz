@@ -1,3 +1,19 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-item lines="none"  slot="start">
+      <ion-thumbnail>
+        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+      </ion-thumbnail>
+      <ion-label class="label">Item Thumbnail</ion-label>
+    </ion-item>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="chatbubbles-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 <ion-content>
 
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
@@ -9,51 +25,92 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <div class="ion-text-center">
-    <img src="../../../assets/img/wz/logo.png" style="width: 40%" alt="">
-  </div>
 
-  <ion-grid class="card-background-page" style="padding-top: 0">
+  <ion-grid>
+
+    <ion-toolbar class="ion-no-border">
+      <ion-title slot="start">Evènements</ion-title>
+
+      <ion-buttons slot="end">
+        <ion-button (click)="goTo('tournament')"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+
     <ion-row>
       <ion-col>
-        <swiper-container [speed]="1000" [autoplay]="{enable:true,delay:7000}" #swiperComponent>
-          <swiper-slide>
-            <img src="../../../assets/img/wz/tournoi.png" alt="">
+        <swiper-container
+          [spaceBetween]="10"
+          [slidesPerView]="2.3"
+          [speed]="1000"
+          [autoplay]="{enable:true,delay:7000}" #swiperComponent>
+          <swiper-slide *ngFor="let t of tournaments">
+            <img src="{{t.image}}" alt="{{t.name}}">
           </swiper-slide>
+
         </swiper-container>
       </ion-col>
     </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-toolbar class="ion-no-border">
+      <ion-title slot="start">Nos Jeux</ion-title>
+
+      <ion-buttons slot="end">
+        <ion-button (click)="goTo('game')"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
+      </ion-buttons>
+    </ion-toolbar>
 
     <ion-row>
-      <ion-col>
-        <ion-card class="small" color="primary" (click)="goTo('tournament')">
-          <div class="card-title" style="color:white">{{'Participer au tournoi'|translate}}</div>
-        </ion-card>
+      <ion-col size="4">
+        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+      </ion-col>
+      <ion-col size="4">
+        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+      </ion-col>
+      <ion-col size="4">
+        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+      </ion-col>
+      <ion-col size="4">
+        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+      </ion-col>
+      <ion-col size="4">
+        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+      </ion-col>
+      <ion-col size="4">
+        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
       </ion-col>
     </ion-row>
+  </ion-grid>
 
-    <ion-row>
-      <ion-col *ngIf="settings.faq" size="6">
-        <ion-card class="small" (click)="goTo('faq')">
-          <div class="card-title">FAQ</div>
-        </ion-card>
-      </ion-col>
-      <ion-col size="6">
-        <ion-card class="small" (click)="goTo('user')">
-          <div class="card-title">{{'my_account'|translate}}</div>
-        </ion-card>
-      </ion-col>
-    </ion-row>
 
+  <ion-grid>
+    <ion-toolbar class="ion-no-border">
+      <ion-title slot="start">Contact</ion-title>
+    </ion-toolbar>
     <ion-row>
       <ion-col size="12">
-        <ion-card class="small" (click)="goTo('contact')">
-          <div class="card-title">Nous contacter</div>
-        </ion-card>
+        <ion-icon color="primary" name="call"></ion-icon> 673 996 540 <br>
+        <ion-icon color="primary" name="map"></ion-icon> Akwa nord en face de la pharmacie de l'Harmonie
+      </ion-col>
+      <ion-col size="12">
+        <img src="" alt="">
       </ion-col>
     </ion-row>
-
   </ion-grid>
+
+  <ion-grid>
+    <ion-toolbar class="ion-no-border">
+      <ion-title slot="start">Horaires</ion-title>
+    </ion-toolbar>
+    <ion-row>
+      <ion-col size="12" style="margin-bottom: 20px">
+        Mardi à Dimanche de 10h à 21h
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
 
 </ion-content>
 <a id="contact" style="display: none" href="tel:673996540"></a>

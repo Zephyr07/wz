@@ -125,17 +125,17 @@ export class AppComponent {
               //OneSignal.sendTags({'country_id':e.user.country_id});
             }
             // chargement des données
-            //this.navCtrl.navigateRoot(['/home']);
+            this.navCtrl.navigateRoot(['/tabs']);
           },q=>{
             this.auth.logout();
             this.is_loading=false;
-            //this.navCtrl.navigateRoot(['/home']);
+            this.navCtrl.navigateRoot(['/login']);
           })
 
         } else {
           // l'utilisateur n'existe pas
           this.is_loading=false;
-          this.navCtrl.navigateRoot(['/home']);
+          this.navCtrl.navigateRoot(['/create-account']);
         }
       }
     });

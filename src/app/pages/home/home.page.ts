@@ -6,6 +6,7 @@ import {IonModal} from "@ionic/angular";
 import {environment} from "../../../environments/environment";
 import {Swiper} from "swiper";
 import {TranslateService} from "@ngx-translate/core";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-home',
@@ -19,7 +20,9 @@ export class HomePage implements OnInit {
   search:any="";
   is_loading = true;
   last_places:any=[];
-  annonces:any=[];
+  tournaments:any=[];
+  games:any=[];
+
   places:any=[];
   old_places:any=[];
   isLoadingPlace=false;
@@ -80,6 +83,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.settings=JSON.parse(localStorage.getItem("wz_settings"))[0];
+    this.getTournaments();
   }
 
 
@@ -89,7 +93,7 @@ export class HomePage implements OnInit {
 
       this.getUser();
     }
-    //this.getAnnouncements();
+    //this.getTournaments();
     this.settings=JSON.parse(localStorage.getItem("wz_settings"))[0];
   }
 
@@ -147,18 +151,16 @@ export class HomePage implements OnInit {
     }
   }
 
-  getAnnouncements(){
+  getTournaments(){
     //this.util.showLoading("loading");
     const opt = {
-      should_paginate:true,
-      _sort:'created_at',
-      _sortDir:'desc',
-      per_page:7
+      should_paginate:false,
+      'start_at-get':moment().format("YYYY-MM-DD hh:mm:ss")
 
     };
 
-    this.api.getList('announcements',opt).then(d=>{
-      this.annonces=d;
+    this.api.getList('tournaments',opt).then(d=>{
+      this.tournaments =d;
       //this.util.hideLoading();
     },q=>{
       //this.util.hideLoading();
@@ -166,7 +168,24 @@ export class HomePage implements OnInit {
     })
   }
 
-  goToAnnouncement(a){
+  getGames(){
+    //this.util.showLoading("loading");
+    const opt = {
+      should_paginate:false,
+      _sort:'created_at',
+      _sortDir:'desc'
+    };
+
+    this.api.getList('games',opt).then(d=>{
+      this.games =d;
+      //this.util.hideLoading();
+    },q=>{
+      //this.util.hideLoading();
+      this.util.handleError(q);
+    })
+  }
+
+  goToTournament(a){
     if(a.target_name == 'seminar'){
       const navigationExtra : NavigationExtras = {state: {title:a.title, id:a.target_id}};
       this.router.navigateByUrl('seminar',navigationExtra);
@@ -191,7 +210,7 @@ export class HomePage implements OnInit {
 
 
   doRefresh(event) {
-    this.getAnnouncements();
+    this.getTournaments();
     if(this.api.checkUser()){
       this.getUser();
     } else {

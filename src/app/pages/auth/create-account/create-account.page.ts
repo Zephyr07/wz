@@ -234,7 +234,7 @@ export class CreateAccountPage implements OnInit {
                 //OneSignal.sendTags({'country_id':d.user.country_id});
               }
               this.util.hideLoading();
-              this.navCtrl.navigateRoot(['/home'])
+              this.navCtrl.navigateRoot(['/tabs'])
             }, q=>{
               this.util.hideLoading();
               this.util.doToast("Mot de passe incorrect",3000,'warning');
@@ -294,7 +294,7 @@ export class CreateAccountPage implements OnInit {
         }
         this.api.updateImage(this.imagesContainer,'people',r.user.person,'account_created');
         //this.navCtrl.navigateRoot(['/user']);
-        this.navCtrl.navigateRoot(['/home']);
+        this.navCtrl.navigateRoot(['/tabs']);
         this.util.hideLoading();
       },q=>{
         this.util.hideLoading();

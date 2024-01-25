@@ -1,0 +1,71 @@
+
+.custom-wz{
+  content: url('../../assets/img/wz/wz_blanc.svg') !important;
+  font-size: 60px;
+  background: transparent !important;
+}
+
+ion-fab-button{
+  width: 70px;
+  height: 70px;
+  margin-left:-6px;
+  --background: #fff;
+  --background-activated: #fff;
+  --background-hover: #fff;
+  --border-radius: 30px;
+  //--box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+  --color: black;
+}
+
+ion-tabs{
+  ion-fab {
+    margin-bottom: env(safe-area-inset-bottom); /* fix notch ios*/
+    ion-fab-button {
+      --box-shadow: none;
+    }
+  }
+  ion-tab-bar {
+    --border: 0;
+    --background: transparent;
+    position: relative;
+    bottom: 0;
+    left:0; right: 0;
+    width: 100%;
+    &:after{
+      content: " ";
+      width: 100%;
+      bottom: 0;
+      background: var(--ion-color-light);
+      height: env(safe-area-inset-bottom);
+      position: absolute;
+    }
+    ion-tab-button {
+      --background: var(--ion-color-light);
+    }
+    ion-tab-button.game {
+      margin-right: 0px;
+      border-top-right-radius: 18px;
+    }
+    ion-tab-button.event {
+      margin-left: 0px;
+      border-top-left-radius: 18px;
+    }
+
+    ion-tab-button.home {
+      margin-left: 0px;
+      border-top-left-radius: 18px;
+    }
+
+    ion-tab-button.user {
+      margin-right: 0px;
+      border-top-right-radius: 18px;
+    }
+    svg {
+      width: 92px;
+      margin-top: 19px;
+      path{
+        fill:  var(--ion-color-light);
+      }
+    }
+  }
+}
