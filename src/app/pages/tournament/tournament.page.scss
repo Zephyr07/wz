@@ -1,6 +1,6 @@
 .card-background-page {
 
-  ion-card {
+  ion-card, .card {
     position: relative;
     text-align: center;
     border-radius: 20px;
@@ -13,7 +13,7 @@
 
     img{
       width:100%;
-      height: 100%;
+      height: 150px;
     }
   }
 
@@ -38,4 +38,9 @@
     color: #fff;
   }
 
+}
+
+.item{
+  --background: #eee !important;
+  --border-radius: 0 0 20px 20px !important;
 }

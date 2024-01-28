@@ -108,7 +108,7 @@
         </div>
         <div class="ion-text-center">
           <ion-button [disabled]="!is_phone " (click)="goBuyPack()">
-            <ion-icon name="chevron-forward-outline"></ion-icon> &nbsp; {{'Réserver'|translate}} &nbsp;<ion-icon name="chevron-back-outline"></ion-icon>
+            <ion-icon name="chevron-forward-outline"></ion-icon> &nbsp; {{'Participer'|translate}} &nbsp;<ion-icon name="chevron-back-outline"></ion-icon>
           </ion-button>
         </div>
         <div class="ion-text-center">
@@ -124,5 +124,5 @@
 </ion-content>
 
 <ion-footer class="ion-text-center" *ngIf="settings.android.subscription=='enable'">
-  <ion-button shape="round" *ngIf="can_subscribe" (click)="showSchedule()">Réserver</ion-button>
+  <ion-button shape="round" *ngIf="can_subscribe" (click)="showSchedule()">Participer</ion-button>
 </ion-footer>

@@ -147,7 +147,7 @@ export class HomePage implements OnInit {
     } else if(url=='contact'){
       document.getElementById('contact').click();
     } else {
-      this.router.navigateByUrl(url);
+      this.router.navigateByUrl('tabs/'+url);
     }
   }
 

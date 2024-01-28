@@ -5,6 +5,7 @@ import {UtilProvider} from "../../providers/util/util";
 import {ModalAddPromotionComponent} from "../../components/modal-add-promotion/modal-add-promotion.component";
 import {ModalController} from "@ionic/angular";
 import {ModalAddTournamentComponent} from "../../components/modal-add-tournament/modal-add-tournament.component";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-tournament',
@@ -41,11 +42,18 @@ export class TournamentPage implements OnInit {
     this.is_loading=true;
     const opt = {
       should_paginate:false,
-      _sort:'name',
-      _sortDir:'asc',
+      _sort:'start_at',
+      _sortDir:'desc',
     };
 
-    this.api.getList('tournaments',opt).then(d=>{
+    this.api.getList('tournaments',opt).then((d:any)=>{
+      d.forEach(v=>{
+        v.search = v.name+" "+v.locality;
+        let d = moment(v.start_at).utc();
+        v.heure = d.format('H') + 'h' + d.format('mm');
+        v.jour = d.format('DD');
+        v.mois = d.format('MMM');
+      });
       this.old_tournaments = d;
       this.tournaments = d;
       this.is_loading=false;

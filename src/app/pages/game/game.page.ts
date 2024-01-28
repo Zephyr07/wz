@@ -57,7 +57,7 @@ export class GamePage implements OnInit {
 
   getGame(id){
     const opt = {
-      _includes:'participants',
+      _includes:'category',
     };
 
     this.api.get('games',id,opt).then((d:any)=>{
@@ -74,28 +74,26 @@ export class GamePage implements OnInit {
   getGames(){
     const opt = {
       should_paginate:false,
-      "start_at-get":moment().add(-1,'days').format('YYYY-MM-DD'),
-      _sort:'start_at',
-      _sortDir:'desc',
-      _includes:'participants,town.region.country',
-      status:"enable"
+      _sort:'name',
+      _sortDir:'asc',
+      _includes:'category'
     };
 
     this.api.getList('games',opt).then((d:any)=>{
       d.forEach(v=>{
-        v.search = v.title+" "+v.locality;
-        let d = moment(v.start_at).utc();
-        v.heure = d.format('H') + 'h' + d.format('mm');
-        v.jour = d.format('DD');
-        v.mois = d.format('MMM');
-        v.participant = v.participants.length;
+        v.search = v.name+" "+v.description;
+        v.video_url = v.video_url.replace('watch?v=','embed/');
       });
       this.old_games=d;
-      this.games=d;
+      this.games = _.filter(d,{category_id:2});
       this.is_loading=false;
     },q=>{
       this.util.handleError(q);
     })
+  }
+
+  filterGame(id){
+    this.games = _.filter(this.old_games,{category_id:id});
   }
 
   participer(id){
@@ -137,17 +135,15 @@ export class GamePage implements OnInit {
 
   goTo(s){
     document.getElementById('open-modal').click();
-    const x = _.filter(s.participants,{user_id:this.user.id, game_id:s.id});
-    this.is_participation = x.length > 0;
     this.game = s;
   }
 
   closeModal(){
     this.modal.setCurrentBreakpoint(0);
   }
-  call(){
-    console.log("tel:+"+this.game.town.region.country.area_code+""+this.game.phone);
-    window.open("tel:+"+this.game.town.region.country.area_code+""+this.game.phone);
+  schedule(){
+    // reserver une seance de jeu
+    this.closeModal();
   }
 
   link(){

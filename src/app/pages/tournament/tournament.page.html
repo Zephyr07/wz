@@ -1,18 +1,16 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
-    </ion-buttons>
-    <ion-title>{{'Tournoi'|translate}}s</ion-title>
-    <ion-buttons slot="end" *ngIf="can_add_tournament">
-      <ion-button (click)="newTournament()">
-        <ion-icon name="add" size="large"></ion-icon>
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>{{'tournament'|translate}}s</ion-title>
+    <ion-buttons slot="end">
+      <ion-button >
+        <ion-icon name="search" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content
       pullingIcon="chevron-down-circle-outline"
@@ -22,39 +20,53 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <ion-grid *ngIf="is_loading" class="card-background-page">
-    <ion-row>
-      <ion-col>
-        <ion-skeleton-text *ngIf="is_loading" animated style="width: 100%; height: 25px; margin-top:0"></ion-skeleton-text>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="6">
-        <ion-card class="small">
-          <ion-skeleton-text *ngIf="is_loading" animated style="width: 100%; height: 25vh; margin-top:0"></ion-skeleton-text>
-          <div class="card-title"><ion-skeleton-text *ngIf="is_loading" animated style="width: 70%; margin-left: 20px; margin-right: 20px"></ion-skeleton-text> </div>
-        </ion-card>
-      </ion-col>
-      <ion-col size="6">
-        <ion-card class="small">
-          <ion-skeleton-text *ngIf="is_loading" animated style="width: 100%; height: 25vh; margin-top:0"></ion-skeleton-text>
-          <div class="card-title"><ion-skeleton-text *ngIf="is_loading" animated style="width: 70%; margin-left: 20px; margin-right: 20px"></ion-skeleton-text> </div>
-        </ion-card>
-      </ion-col>
-    </ion-row>
+
+  <ion-grid *ngIf="is_loading">
+    <div>
+      <ion-skeleton-text animated style="width: 100%; height: 200px; margin:0;border-radius: 20px 20px 0 0"></ion-skeleton-text>
+      <div class="card-title">
+        <ion-item lines="none" class="item">
+          <ion-thumbnail slot="start" style="text-transform: capitalize; border-radius: 20px !important; color:black">
+            <ion-skeleton-text animated style="border-radius: 14px"></ion-skeleton-text>
+          </ion-thumbnail>
+          <ion-label>
+            <p class="bold primary" style="font-size: 18px">
+              <ion-skeleton-text animated style="width: 100%;"></ion-skeleton-text>
+            </p>
+            <h3 class="bold black"><ion-skeleton-text animated style="width: 70%;"></ion-skeleton-text></h3>
+            <p><ion-skeleton-text *ngIf="is_loading" animated style="width: 50%;"></ion-skeleton-text></p>
+
+          </ion-label>
+        </ion-item>
+      </div>
+    </div>
   </ion-grid>
 
-  <ion-grid *ngIf="!is_loading" class="card-background-page">
-    <ion-searchbar animated="true" placeholder="{{'search'|translate}}" [(ngModel)]="search" type="text" (ionInput)="getItems($event)"></ion-searchbar>
+  <ion-grid class="card-background-page" *ngIf="!is_loading">
 
-    <ion-row>
-      <ion-col size="6" *ngFor="let p of tournaments">
-        <ion-card class="small" (click)="goTo(p)">
-          <img src="{{p.image}}"/>
-          <div class="card-title">{{p.name}} </div>
-        </ion-card>
+    <ion-row *ngFor="let s of tournaments" style="margin-bottom: 15px" (click)="goTo(s)">
+      <ion-col size="12">
+        <img src="{{s.image}}" style="height: 170px; width: 100%; border-radius: 20px 20px 0 0; border-top:3px solid #eee"/>
+
+        <ion-item class="item" lines="none">
+          <ion-thumbnail slot="start" style="text-transform: capitalize; border-radius: 20px !important; color:black">
+            {{s.jour}} <br> {{s.mois}}
+          </ion-thumbnail>
+          <ion-label>
+            <p class="bold primary" style="font-size: 18px">
+              {{s.name}}
+            </p>
+            <p style="white-space: normal">{{s.description|limitTo:100}}<span *ngIf="s.description.length>100">...</span> </p>
+
+          </ion-label>
+        </ion-item>
       </ion-col>
     </ion-row>
+
+
+    <app-oups-info [text]="'no_tournament'" *ngIf="!is_loading && tournaments.length<1"></app-oups-info>
   </ion-grid>
+
 
 </ion-content>
+

@@ -89,7 +89,6 @@ export class TournamentDetailPage implements OnInit {
 
     this.api.get('tournaments',id,opt).then(d=>{
       this.tournament = d;
-      console.log(this.tournament);
       this.isLoading=false;
     },q=>{
       this.util.handleError(q);
@@ -156,9 +155,9 @@ export class TournamentDetailPage implements OnInit {
 
   support(){
     if(this.translate.getDefaultLang()=='fr'){
-      window.location.href="https://api.whatsapp.com/send?phone=237696870700&text=Bonjour+je+souhaite+réinitialiser+mon+mot+de+passe+svp.+Longrich";
+      window.location.href="https://api.whatsapp.com/send?phone=237696870700&text=Bonjour+je+souhaite+reserver+pour+le+tournoi+"+this.tournament.name;
     } else {
-      window.location.href="https://api.whatsapp.com/send?phone=237696870700&text=Hello+I+want+to+reset+my+password+please.+Longrich";
+      window.location.href="https://api.whatsapp.com/send?phone=237696870700&text=Hello+I+want+to+buy+for+tournament"+this.tournament.name;
     }
   }
 
@@ -168,10 +167,9 @@ export class TournamentDetailPage implements OnInit {
       user_id:this.user.id,
       tournament_id:this.id,
       state:'paid'
-    }
+    };
 
     this.api.getList('subscriptions',opt).then((d:any)=>{
-      console.log(d);
       if(d.length>0){
         // l'utilisateur a déjà effectué une reservation
         this.can_subscribe = false;

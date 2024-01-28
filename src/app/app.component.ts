@@ -125,7 +125,7 @@ export class AppComponent {
               //OneSignal.sendTags({'country_id':e.user.country_id});
             }
             // chargement des données
-            this.navCtrl.navigateRoot(['/tabs']);
+            //this.navCtrl.navigateRoot(['/tabs']);
           },q=>{
             this.auth.logout();
             this.is_loading=false;
