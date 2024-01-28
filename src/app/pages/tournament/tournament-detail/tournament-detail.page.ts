@@ -155,9 +155,9 @@ export class TournamentDetailPage implements OnInit {
 
   support(){
     if(this.translate.getDefaultLang()=='fr'){
-      window.location.href="https://api.whatsapp.com/send?phone=237696870700&text=Bonjour+je+souhaite+reserver+pour+le+tournoi+"+this.tournament.name;
+      window.location.href="https://api.whatsapp.com/send?phone=237673996540&text=Bonjour+je+souhaite+reserver+pour+le+tournoi+"+this.tournament.name;
     } else {
-      window.location.href="https://api.whatsapp.com/send?phone=237696870700&text=Hello+I+want+to+buy+for+tournament"+this.tournament.name;
+      window.location.href="https://api.whatsapp.com/send?phone=237673996540&text=Hello+I+want+to+buy+for+tournament"+this.tournament.name;
     }
   }
 

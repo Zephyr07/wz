@@ -484,5 +484,10 @@
   "min_participant":"Min. participant",
   "max_participant":"Max. participant",
   "new_tournament":"Nouveau tournoi",
-  "tournament_save":"Tournoi enregistré"
+  "tournament_save":"Tournoi enregistré",
+  "game":"Jeu",
+  "games":"Jeux",
+  "tournament":"Tournoi",
+  "no_game":"Aucun jeu",
+  "no_tournament":"Aucun tournoi"
 }

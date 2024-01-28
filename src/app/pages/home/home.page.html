@@ -2,14 +2,14 @@
   <ion-toolbar>
     <ion-item lines="none"  slot="start">
       <ion-thumbnail>
-        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+        <img alt="{{user.person.full_name}}" src="{{user.person.image}}" />
       </ion-thumbnail>
-      <ion-label class="label">Item Thumbnail</ion-label>
+      <ion-label class="label">{{user.person.full_name}}</ion-label>
     </ion-item>
 
     <ion-buttons slot="end">
       <ion-button>
-        <ion-icon slot="icon-only" name="chatbubbles-outline"></ion-icon>
+        <span style="color: var(--ion-color-warning); font-weight: bold">{{user.point|priceFormat}} <ion-icon name="medal-outline"></ion-icon></span>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -43,7 +43,7 @@
           [slidesPerView]="2.3"
           [speed]="1000"
           [autoplay]="{enable:true,delay:7000}" #swiperComponent>
-          <swiper-slide *ngFor="let t of tournaments">
+          <swiper-slide *ngFor="let t of tournaments" (click)="goToTournament(t)">
             <img src="{{t.image}}" alt="{{t.name}}">
           </swiper-slide>
 
@@ -62,23 +62,8 @@
     </ion-toolbar>
 
     <ion-row class="games">
-      <ion-col size="4">
-        <img alt="Silhouette of mountains" src="../../../assets/img/wz/waz.jpeg" />
-      </ion-col>
-      <ion-col size="4">
-        <img alt="Silhouette of mountains" src="../../../assets/img/wz/qsd.jpg" />
-      </ion-col>
-      <ion-col size="4">
-        <img alt="Silhouette of mountains" src="../../../assets/img/wz/street.jpeg" />
-      </ion-col>
-      <ion-col size="4">
-        <img alt="Silhouette of mountains" src="../../../assets/img/wz/street.jpeg" />
-      </ion-col>
-      <ion-col size="4">
-      <img alt="Silhouette of mountains" src="../../../assets/img/wz/waz.jpeg" />
-      </ion-col>
-      <ion-col size="4">
-        <img alt="Silhouette of mountains" src="../../../assets/img/wz/qsd.jpg" />
+      <ion-col size="4"  *ngFor="let s of games" (click)="goToGame(s)">
+        <img alt="{{s.name}}" src="{{s.image}}" />
       </ion-col>
     </ion-row>
   </ion-grid>

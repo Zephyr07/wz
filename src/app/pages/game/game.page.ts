@@ -20,7 +20,6 @@ export class GamePage implements OnInit {
     town:{}
   };
 
-  is_participation = false;
   user:any={};
   search="";
   is_loading=true;
@@ -61,11 +60,6 @@ export class GamePage implements OnInit {
     };
 
     this.api.get('games',id,opt).then((d:any)=>{
-      let da = moment(d.start_at).utc();
-      d.heure = da.format('H') + 'h' + da.format('mm');
-      d.jour = da.format('DD');
-      d.mois = da.format('MMM');
-      d.participant = d.participants.length;
       this.game = d;
       document.getElementById('open-modal').click();
     })
@@ -94,43 +88,6 @@ export class GamePage implements OnInit {
 
   filterGame(id){
     this.games = _.filter(this.old_games,{category_id:id});
-  }
-
-  participer(id){
-    if(this.api.checkUser()){
-      let user = JSON.parse(localStorage.getItem('user_lr'));
-      const opt = {
-        game_id:id,
-        user_id:user.id
-      };
-
-      this.api.post('participants',opt).then((d:any)=>{
-        this.is_participation=true;
-        this.util.doToast("participation_save",3000);
-        this.game.participant++;
-      },q=>{
-        this.util.handleError(q);
-      })
-    } else {
-      this.util.loginModal();
-    }
-  }
-
-  removeParticipation(id){
-    const opt = {
-      game_id:id,
-      user_id:this.user.id
-    };
-
-    this.api.getList('participants',opt).then((d:any)=>{
-      d[0].remove().then(a=>{
-        this.is_participation=false;
-        this.game.participant--;
-        this.util.doToast("participation_cancel",3000);
-      })
-    },q=>{
-      this.util.handleError(q);
-    })
   }
 
   goTo(s){

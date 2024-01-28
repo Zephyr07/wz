@@ -478,6 +478,17 @@
   "add_seminar":"Add seminar",
   "add_training":"Add training",
   "commission_to_paid":"Commission to paid",
-  "open_backoffice":"Open back office"
+  "open_backoffice":"Open back office",
+  "fees":"Fees",
+  "winner_price":"Winner price",
+  "min_participant":"Min. participant",
+  "max_participant":"Max. participant",
+  "new_tournament":"New tournament",
+  "tournament_save":"Tournament saved",
+  "game":"Game",
+  "games":"Games",
+  "tournament":"Tournament",
+  "no_game":"Any game",
+  "no_tournament":"Any tournament"
   
 }

@@ -26,7 +26,9 @@ export class HomePage implements OnInit {
   places:any=[];
   old_places:any=[];
   isLoadingPlace=false;
-  user:any=null;
+  user:any={
+    person:{}
+  };
 
   per_page = 20;
   page = 1;
@@ -84,6 +86,7 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.settings=JSON.parse(localStorage.getItem("wz_settings"))[0];
     this.getTournaments();
+    this.getGames();
   }
 
 
@@ -171,9 +174,10 @@ export class HomePage implements OnInit {
   getGames(){
     //this.util.showLoading("loading");
     const opt = {
-      should_paginate:false,
+      should_paginate:true,
       _sort:'created_at',
-      _sortDir:'desc'
+      _sortDir:'desc',
+      per_page:9
     };
 
     this.api.getList('games',opt).then(d=>{
@@ -185,14 +189,14 @@ export class HomePage implements OnInit {
     })
   }
 
-  goToTournament(a){
-    if(a.target_name == 'seminar'){
-      const navigationExtra : NavigationExtras = {state: {title:a.title, id:a.target_id}};
-      this.router.navigateByUrl('seminar',navigationExtra);
-    } else if(a.target_name=='promotion'){
-      const navigationExtra : NavigationExtras = {state: {title:a.title, id:a.target_id}};
-      this.router.navigateByUrl('promotion',navigationExtra);
-    }
+  goToTournament(p){
+    const navigationExtra : NavigationExtras = {state: {name:p.name, id:p.id}};
+    this.router.navigateByUrl('tournament/tournament-detail',navigationExtra);
+  }
+
+  goToGame(p){
+    const navigationExtra : NavigationExtras = {state: {name:p.name, id:p.id}};
+    this.router.navigateByUrl('tabs/game',navigationExtra);
   }
 
   getUser(){
