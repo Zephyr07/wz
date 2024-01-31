@@ -91,7 +91,7 @@
               </ion-col>
               <ion-col>
                 <ion-title style="padding-left: 0">{{game.name}}</ion-title>
-                <p>
+                <p style="margin: 0;">
                   <ion-badge>{{game.category.name}}</ion-badge>&nbsp;<ion-badge color="dark">+{{game.age}}</ion-badge>
                   <br>
                   <ion-badge *ngIf="!game.online" color="light">Local</ion-badge> <ion-badge *ngIf="game.online" color="light">En ligne</ion-badge>&nbsp;

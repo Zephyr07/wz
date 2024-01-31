@@ -121,6 +121,11 @@ export class UserPage implements OnInit {
     this.router.navigateByUrl('user/my-tournament');
   }
 
+  goToMySchedule(){
+    //const navigationExtra : NavigationExtras = {state: {film:{'name':f.name, 'id':f.id}}};
+    this.router.navigateByUrl('user/my-schedule');
+  }
+
   goToPoint(){
     //const navigationExtra : NavigationExtras = {state: {film:{'name':f.name, 'id':f.id}}};
     this.router.navigateByUrl('point');

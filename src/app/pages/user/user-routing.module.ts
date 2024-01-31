@@ -30,6 +30,10 @@ const routes: Routes = [
   {
     path: 'my-tournament',
     loadChildren: () => import('./my-tournament/my-tournament.module').then( m => m.MyTournamentPageModule)
+  },
+  {
+    path: 'my-schedule',
+    loadChildren: () => import('./my-schedule/my-schedule.module').then( m => m.MySchedulePageModule)
   }
 
 ];

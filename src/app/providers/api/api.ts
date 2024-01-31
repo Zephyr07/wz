@@ -178,7 +178,7 @@ export class ApiProvider {
         let now = moment();
         let start_at = moment(s.created_at);
         //console.log(start_at.add(s.duration,'month').format("YY MM DD"),now.format("YY MM DD"));
-        if(start_at.add(s.duration,'month')>now){
+        if(start_at.add(s.pack.duration,'month')>now){
           // activé
           status.is_actived=true;
         }

@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-item lines="none"  slot="start">
+    <ion-item lines="none"  slot="start" (click)="goTo('user')">
       <ion-thumbnail>
         <img alt="{{user.person.full_name}}" src="{{user.person.image}}" />
       </ion-thumbnail>
@@ -54,7 +54,7 @@
 
   <ion-grid>
     <ion-toolbar class="ion-no-border">
-      <ion-title slot="start">Nos Jeux</ion-title>
+      <ion-title slot="start">Jeux</ion-title>
 
       <ion-buttons slot="end">
         <ion-button (click)="goTo('game')"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>

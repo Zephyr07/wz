@@ -12,12 +12,12 @@ const routes: Routes = [
         loadChildren: () => import('../pages/home/home.module').then(m => m.HomePageModule)
       },
       {
-        path: 'user',
-        loadChildren: () => import('../pages/user/user.module').then(m => m.UserPageModule)
-      },
-      {
         path: 'game',
         loadChildren: () => import('../pages/game/game.module').then(m => m.GamePageModule)
+      },
+      {
+        path: 'store',
+        loadChildren: () => import('../pages/store/store.module').then(m => m.StorePageModule)
       },
       {
         path: 'tournament',

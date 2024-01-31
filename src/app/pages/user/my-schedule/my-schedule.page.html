@@ -1,0 +1,33 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'Mes reservations'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="{{'pull_down'|translate}}"
+      refreshingSpinner="circles"
+      refreshingText="{{'loading'|translate}}...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-grid>
+
+    <ion-card *ngFor="let m of schedules" class="radius">
+      <ion-card-header>
+        <ion-card-title class="black">{{m.game.name}}</ion-card-title>
+        <ion-card-subtitle>Reserver pour le <span class="primary">{{m.date|dateFormat}}</span></ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        Nombre de joueur : <span class="bold primary">{{m.player_number}}</span> <br>
+        Nombre d'heure : <span class="bold primary">{{m.duration}}</span>
+      </ion-card-content>
+    </ion-card>
+  </ion-grid>
+</ion-content>

@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {IonModal, ModalController} from "@ionic/angular";
 import {ApiProvider} from "../../providers/api/api";
 import {UtilProvider} from "../../providers/util/util";
-import {Router} from "@angular/router";
+import {NavigationExtras, Router} from "@angular/router";
 import * as moment from "moment";
 import * as _ from "lodash";
 
@@ -100,6 +100,8 @@ export class GamePage implements OnInit {
   }
   schedule(){
     // reserver une seance de jeu
+    const navigationExtra : NavigationExtras = {state: {name:this.game.name, id:this.game.id}};
+    this.router.navigateByUrl('schedule',navigationExtra);
     this.closeModal();
   }
 
