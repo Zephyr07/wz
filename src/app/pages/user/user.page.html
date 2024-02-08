@@ -53,6 +53,13 @@
       </ion-label>
     </ion-item>
 
+    <ion-item *ngIf="settings.android.subscription=='enable' && user.subscription" lines="none" button (click)="goToSubscription()">
+      <ion-icon name="diamond-outline" slot="start"></ion-icon>
+      <ion-label>
+        {{'my_subscription'|translate}}
+      </ion-label>
+    </ion-item>
+
     <ion-item lines="none" button (click)="askLanguage()">
       <ion-icon name="flag-outline" slot="start"></ion-icon>
       <ion-label>

@@ -1,0 +1,51 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>{{'store'|translate}}s</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-grid>
+    <ion-toolbar class="ion-no-border">
+      <ion-title slot="start">Réservation</ion-title>
+    </ion-toolbar>
+
+    <ion-row style="margin-bottom: 15px">
+      <ion-col size="12" (click)="goToSchedule()">
+        <img src="../../../assets/img/wz/booking.png" style="height: 170px; width: 100%; border-radius: 20px 20px 0 0; border-top:3px solid #eee"/>
+
+        <ion-item class="item" lines="none">
+          <ion-label>
+            <p class="bold primary" style="font-size: 18px">
+              Reserver une séance
+            </p>
+            <p style="white-space: normal">Reserver une seance de jeux pour vous, votre famille ou pour une autre personne</p>
+
+          </ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-toolbar class="ion-no-border">
+      <ion-title slot="start">Abonnement à la salle</ion-title>
+    </ion-toolbar>
+
+    <ion-row class="games">
+      <ion-col size="6" (click)="subscribe('SOLO')">
+        <img alt="" src="../../../assets/img/packs/1.png" />
+      </ion-col>
+      <ion-col size="6" (click)="subscribe('DUO')">
+        <img alt="" src="../../../assets/img/packs/2.png" />
+      </ion-col>
+      <ion-col size="12" (click)="subscribe('FAMILLE')">
+        <img alt="" src="../../../assets/img/packs/3.png" style="height: 250px"/>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+
+</ion-content>

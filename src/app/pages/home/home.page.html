@@ -42,9 +42,35 @@
           [spaceBetween]="10"
           [slidesPerView]="2.3"
           [speed]="1000"
+          [loop]="true"
           [autoplay]="{enable:true,delay:7000}" #swiperComponent>
           <swiper-slide *ngFor="let t of tournaments" (click)="goToTournament(t)">
             <img src="{{t.image}}" alt="{{t.name}}">
+          </swiper-slide>
+
+        </swiper-container>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-toolbar class="ion-no-border">
+      <ion-title slot="start">Tarifs</ion-title>
+    </ion-toolbar>
+
+    <ion-row class="games">
+      <ion-col>
+
+        <swiper-container
+          [speed]="1000"
+          [spaceBetween]="10"
+          [loop]="true"
+          [autoplay]="{enable:true,delay:5000}" #swiperComponent>
+          <swiper-slide>
+            <img alt="Tarif" src="https://wzs.warzone237.com/public/img/Tarifaire%20WZ%20App.png" style="height: 200px"/>
+          </swiper-slide>
+          <swiper-slide>
+            <img alt="Tarif membre" src="https://wzs.warzone237.com/public/img/tarif_2.png" style="height: 200px"/>
           </swiper-slide>
 
         </swiper-container>
@@ -79,14 +105,26 @@
         <ion-icon color="primary" name="location"></ion-icon> En face de la pharmacie de l'Harmonie <br>
         <ion-icon color="primary" name="map"></ion-icon> Akwa-Nord, Douala
       </ion-col>
-      <ion-col size="12" style="margin-bottom: 20px">
+      <ion-col size="12">
         <ion-icon color="primary" name="calendar"></ion-icon> Mardi à Dimanche <br>
         <ion-icon color="primary" name="time"></ion-icon> 10h à 21h
+      </ion-col>
+      <ion-col size="12">
+        <ion-icon color="primary" name="at"></ion-icon> thewarzone237 <br>
+        <ion-icon color="primary" name="globe"></ion-icon> www.warzone237.com
       </ion-col>
     </ion-row>
   </ion-grid>
 
-
+  <ion-grid>
+    <ion-row>
+      <ion-col style="margin-bottom: 20px">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9465.412708228892!2d9.726062757710482!3d4.078223192125652!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x106113e541bdcea7%3A0x182a67ef53fa9d6f!2sWarZone%20(WZ)%20-%20Salle%20de%20jeux%20vid%C3%A9os%20WZ!5e0!3m2!1sfr!2scm!4v1707403834155!5m2!1sfr!2scm"
+                style="border:2px solid var(--ion-color-primary); border-radius: 20px; width: 100%; max-height: 300px"
+                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 </ion-content>
 <a id="contact" style="display: none" href="tel:673996540"></a>

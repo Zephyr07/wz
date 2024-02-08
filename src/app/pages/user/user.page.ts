@@ -135,7 +135,7 @@ export class UserPage implements OnInit {
     if(this.user.subscription){
       this.router.navigateByUrl('user/subscription');
     } else {
-      this.router.navigateByUrl('user/pack');
+      this.router.navigateByUrl('tabs/store');
     }
   }
 
@@ -167,8 +167,8 @@ export class UserPage implements OnInit {
 
   logout(){
     this.auth.logout().then((d:any)=>{
-      //this.router.navigateByUrl('login');
-      this.router.navigateByUrl('home');
+      this.router.navigateByUrl('login');
+      //this.router.navigateByUrl('home');
     })
   }
 

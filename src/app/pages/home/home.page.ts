@@ -177,7 +177,7 @@ export class HomePage implements OnInit {
       should_paginate:true,
       _sort:'created_at',
       _sortDir:'desc',
-      per_page:9
+      per_page:6
     };
 
     this.api.getList('games',opt).then(d=>{

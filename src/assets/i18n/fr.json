@@ -492,5 +492,6 @@
   "no_tournament":"Aucun tournoi",
   "reservation":"Réservation",
   "game_type":"Type de jeu",
-  "choose_game_type":"Choisir le type de jeu"
+  "choose_game_type":"Choisir le type de jeu",
+  "store":"Boutique"
 }

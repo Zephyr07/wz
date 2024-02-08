@@ -18,8 +18,6 @@
   </ion-refresher>
   <ion-grid>
 
-    <ion-searchbar animated="true" placeholder="{{'search'|translate}}" [(ngModel)]="search" type="text" (ionInput)="getItems($event)"></ion-searchbar>
-
     <ion-list>
       <ion-item *ngFor="let m of subscriptions" (click)="goToTournament(m.tournament)">
         <ion-label>{{m.tournament.name}}</ion-label>
