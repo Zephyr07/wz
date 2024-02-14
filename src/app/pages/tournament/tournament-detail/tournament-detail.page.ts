@@ -19,11 +19,12 @@ export class TournamentDetailPage implements OnInit {
   show_pointer=false;
   tabID="company";
   name="";
+  texte="";
   content="";
   isLoadingRank = true;
   is_phone=false;
   user:any={};
-  can_subscribe=true;
+  can_subscribe=false;
   phone:number;
   MIN = NUMBER_RANGE.min;
   MAX = NUMBER_RANGE.max;
@@ -84,7 +85,7 @@ export class TournamentDetailPage implements OnInit {
   getTournament(id){
     this.id=id;
     const opt = {
-      _includes:"subscriptions"
+      _includes:"participants"
     };
 
     this.api.get('tournaments',id,opt).then(d=>{
@@ -113,40 +114,29 @@ export class TournamentDetailPage implements OnInit {
     document.getElementById('backButton').click();
   }
 
-  goBuyPack(){
-    this.util.showLoading('initiation_payment');
-    // creation du paiement en type account
-    const opt = {
-      type:'tournament',
-      tournament_id:this.tournament.id,
-    };
-    this.api.post('init_buy_training',opt).then(async (d:any) => {
-      // initialisation du payment my-coolPay
-      this.api.post('payment/' + d.id + '/' + this.phone,{}).then(e=>{
+  showSchedule(){
+    if(this.tournament.fees<this.user.unit){
+      this.util.showLoading("payment");
+
+      const opt ={
+        type:'tournament',
+        tournament_id:this.tournament.id,
+        user_id:this.user.id,
+        price_was:this.tournament.fees
+      };
+
+      this.api.post('participants',opt).then(d=>{
+        this.util.doToast("Votre inscription au tournoi "+this.tournament.name+" a été enregistrée",3000);
+        this.can_subscribe=false;
         this.util.hideLoading();
-        this.modalRank.setCurrentBreakpoint(0);
-        this.util.doToast('payment_pending',5000);
-        // redirection vers la page de l'user
-        setTimeout(()=>{
-          //fermeture du modal
-          this.phone=0;
-        },3000)
-      }, q=>{
+      },q=>{
         this.util.hideLoading();
         this.util.handleError(q);
       })
-      //console.log(d);
-    },q=>{
-      this.util.hideLoading();
-      this.util.handleError(q);
-    });
-    // requete vers my-cool pay
 
-
-  }
-
-  showSchedule(){
-    document.getElementById('open-modal-rank').click();
+    } else {
+      this.util.doToast("Solde insuffisant. Veuillez recharger votre compte",5000);
+    }
   }
 
   checkNumber(){
@@ -169,10 +159,13 @@ export class TournamentDetailPage implements OnInit {
       state:'paid'
     };
 
-    this.api.getList('subscriptions',opt).then((d:any)=>{
+    this.api.getList('participants',opt).then((d:any)=>{
       if(d.length>0){
         // l'utilisateur a déjà effectué une reservation
         this.can_subscribe = false;
+        this.texte = "Vous participez déjà a ce tournoi";
+      } else {
+        this.can_subscribe=true;
       }
     })
   }

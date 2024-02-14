@@ -1,0 +1,55 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>{{'my_points'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="{{'pull_to_refresh'|translate}}"
+      refreshingSpinner="circles"
+      refreshingText="{{'loading'|translate}}...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card color="primary" class="radius">
+    <ion-card-header style="padding-bottom: 0;">
+      <ion-card-title style="text-align: center; font-size: 50px">{{user.unit|priceFormat}}</ion-card-title>
+      <ion-card-subtitle class="ion-text-center">{{'unit'|translate}}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content class="ion-text-center">
+      <div class="divider"></div>
+      <ion-button (click)="recharge()" color="light">{{'recharge'|translate}}</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-grid>
+    <ion-toolbar class="ion-no-border">
+      <ion-title slot="start">{{'recharge_history'|translate}}</ion-title>
+    </ion-toolbar>
+
+    <ion-row style="margin-bottom: 15px">
+      <ion-col size="12">
+        <ion-item *ngFor="let item of old_payments">
+          <ion-label>
+            <h2>{{item.amount|priceFormat}} U - {{item.type}}</h2>
+            <h3>{{item.ref}}</h3>
+            <p>{{item.created_at|dateFormat:1}} -
+              <span *ngIf="item.status==3">{{'paid'|translate}}</span>
+              <span *ngIf="item.status==1">{{'pending'|translate}}</span>
+              <span *ngIf="item.status==4">{{'fail'|translate}}</span>
+              <span *ngIf="item.status==2">{{'submitted'|translate}}</span>
+            </p>
+          </ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

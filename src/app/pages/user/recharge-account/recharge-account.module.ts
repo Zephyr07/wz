@@ -4,23 +4,21 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { SubscriptionPageRoutingModule } from './subscription-routing.module';
+import { RechargeAccountPageRoutingModule } from './recharge-account-routing.module';
 
-import { SubscriptionPage } from './subscription.page';
+import { RechargeAccountPage } from './recharge-account.page';
 import {PipeModule} from "../../../pipe/pipe.module";
 import {TranslateModule} from "@ngx-translate/core";
-import {OupsInfoModule} from "../../../components/oups-info/oups-info.module";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TranslateModule,
+    RechargeAccountPageRoutingModule,
     PipeModule,
-    SubscriptionPageRoutingModule,
-    OupsInfoModule
+    TranslateModule
   ],
-  declarations: [SubscriptionPage]
+  declarations: [RechargeAccountPage]
 })
-export class SubscriptionPageModule {}
+export class RechargeAccountPageModule {}

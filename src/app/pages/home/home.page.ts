@@ -91,11 +91,14 @@ export class HomePage implements OnInit {
 
 
   ionViewWillEnter() {
-    if (this.api.checkUser()) {
-      this.user = JSON.parse(localStorage.getItem('user_wz'));
+    let user = JSON.parse(localStorage.getItem('user_wz'));
+    this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
+      this.user = a.data.user;
+      this.user.subscription_status=this.api.checkSubscription(this.user.subscription);
+      localStorage.setItem('user_wz',JSON.stringify(this.user));
 
       this.getUser();
-    }
+    });
     //this.getTournaments();
     this.settings=JSON.parse(localStorage.getItem("wz_settings"))[0];
   }
@@ -194,6 +197,10 @@ export class HomePage implements OnInit {
     this.router.navigateByUrl('tournament/tournament-detail',navigationExtra);
   }
 
+  goToSchedule(){
+    this.router.navigateByUrl('schedule');
+  }
+
   goToGame(p){
     const navigationExtra : NavigationExtras = {state: {name:p.name, id:p.id}};
     this.router.navigateByUrl('tabs/game',navigationExtra);
@@ -214,7 +221,7 @@ export class HomePage implements OnInit {
 
 
   doRefresh(event) {
-    this.getTournaments();
+    //this.getTournaments();
     if(this.api.checkUser()){
       this.getUser();
     } else {

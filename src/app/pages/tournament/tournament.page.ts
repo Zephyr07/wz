@@ -44,6 +44,7 @@ export class TournamentPage implements OnInit {
       should_paginate:false,
       _sort:'start_at',
       _sortDir:'desc',
+      "start_at-get":moment().add(-1,'days').format('YYYY-MM-DD'),
     };
 
     this.api.getList('tournaments',opt).then((d:any)=>{

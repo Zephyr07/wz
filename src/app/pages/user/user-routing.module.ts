@@ -7,7 +7,8 @@ const routes: Routes = [
   {
     path: '',
     component: UserPage
-  },  {
+  },
+  {
     path: 'subscription',
     loadChildren: () => import('./subscription/subscription.module').then( m => m.SubscriptionPageModule)
   },
@@ -34,6 +35,10 @@ const routes: Routes = [
   {
     path: 'my-schedule',
     loadChildren: () => import('./my-schedule/my-schedule.module').then( m => m.MySchedulePageModule)
+  },
+  {
+    path: 'recharge-account',
+    loadChildren: () => import('./recharge-account/recharge-account.module').then( m => m.RechargeAccountPageModule)
   }
 
 ];

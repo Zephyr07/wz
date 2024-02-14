@@ -40,7 +40,6 @@ export class MySchedulePage implements OnInit {
       status:"paid",
       _includes:'game'
     };
-    console.log(opt);
     this.api.getList('schedules',opt).then((d:any)=>{
       this.old_schedules=d;
       this.schedules=d;

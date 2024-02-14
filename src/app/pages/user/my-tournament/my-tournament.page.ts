@@ -14,6 +14,7 @@ export class MyTournamentPage implements OnInit {
   search="";
   title="";
   user:any;
+  is_loading = true;
 
   constructor(
     private api:ApiProvider,
@@ -46,9 +47,10 @@ export class MyTournamentPage implements OnInit {
       _includes:'tournament'
     };
 
-    this.api.getList('subscriptions',opt).then((d:any)=>{
+    this.api.getList('participants',opt).then((d:any)=>{
       this.old_subscriptions=d;
       this.subscriptions=d;
+      this.is_loading=false;
     })
   }
   getItems(ev: any) {

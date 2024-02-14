@@ -139,6 +139,11 @@ export class UserPage implements OnInit {
     }
   }
 
+  goToRecharge(){
+    //const navigationExtra : NavigationExtras = {state: {film:{'name':f.name, 'id':f.id}}};
+    this.router.navigateByUrl('user/recharge-account');
+  }
+
   goToSetting(){
     //const navigationExtra : NavigationExtras = {state: {film:{'name':f.name, 'id':f.id}}};
     this.router.navigateByUrl('setting');

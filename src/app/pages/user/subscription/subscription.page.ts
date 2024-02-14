@@ -51,8 +51,8 @@ export class SubscriptionPage implements OnInit {
 
     this.api.getList('subscriptions',opt).then((d:any)=>{
       if(d.length>0){
-        d[d.length-1].expiration_date=moment(d[d.length-1].created_at).add(d[d.length-1].duration,'month').format('DD MMMM YYYY à HH:mm');
         this.subscription = d[d.length-1];
+        this.subscription.expired_at = moment(this.subscription.start_at).add('month',this.subscription.pack.duration).format('DD MMMM YYYY à HH:mm');
         this.subscription_status=this.api.checkSubscription(d[d.length-1]);
       }
       this.is_loading=false;
@@ -71,7 +71,7 @@ export class SubscriptionPage implements OnInit {
     }, 500);
   }
   goToSubscription(){
-    this.router.navigateByUrl('user/pack');
+    this.router.navigateByUrl('store');
   }
 
 }

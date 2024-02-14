@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ApiProvider} from "../../providers/api/api";
 import {Router} from "@angular/router";
 import {UtilProvider} from "../../providers/util/util";
-import {TranslateService} from "@ngx-translate/core";
-import {AlertController, ModalController, NavController} from "@ionic/angular";
+import {AlertController, ModalController} from "@ionic/angular";
 import * as _ from "lodash";
 import * as moment from "moment";
 import {NUMBER_RANGE} from "../../services/contants";
@@ -52,9 +51,7 @@ export class SchedulePage implements OnInit {
               private router : Router,
               private util:UtilProvider,
               public modalController: ModalController,
-              public alertController: AlertController,
-              private navCtrl:NavController,
-              private translate: TranslateService
+              public alertController: AlertController
   ) {
     if(this.router.getCurrentNavigation().extras.state){
       // @ts-ignore
@@ -79,10 +76,12 @@ export class SchedulePage implements OnInit {
 
   ionViewWillEnter() {
     this.settings = JSON.parse(localStorage.getItem("wz_settings"))[0];
-    if (this.api.checkUser()) {
-      this.user = JSON.parse(localStorage.getItem('user_wz'));
-      this.user.subscription_status = this.api.checkSubscription(this.user.subscription);
-    }
+    let user = JSON.parse(localStorage.getItem('user_wz'));
+    this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
+      this.user = a.data.user;
+      this.user.subscription_status=this.api.checkSubscription(this.user.subscription);
+      localStorage.setItem('user_wz',JSON.stringify(this.user));
+    });
   }
 
   getGame(id){
@@ -163,7 +162,7 @@ export class SchedulePage implements OnInit {
     this.util.showLoading('initiation_payment');
     // creation du paiement en type account
     const opt = {
-      type:'booking_game',
+      category_id:this.category_id,
       game_id:this.game_id,
       date:this.start_at,
       duration:this.duration,
@@ -171,20 +170,15 @@ export class SchedulePage implements OnInit {
       user_id:this.user.id,
       reduc:this.reduc
     };
-    this.api.post('init_buy_training',opt).then(async (d:any) => {
-      // initialisation du payment my-coolPay
-      this.api.post('payment/' + d.id + '/' + this.phone,{}).then(e=>{
-        this.util.hideLoading();
-        this.util.doToast('payment_pending',5000);
-        // redirection vers la page de l'user
-        setTimeout(()=>{
-          this.navCtrl.navigateRoot(['/user/my-schedule']);
-        },3000)
-      }, q=>{
-        this.util.hideLoading();
-        this.util.handleError(q);
-      })
-      //console.log(d);
+    this.api.post('schedules',opt).then(async (d:any) => {
+      this.util.hideLoading();
+      this.util.doToast("Reservation enregistrée",3000);
+      this.category_id=0;
+      this.game_id=0;
+      this.user.unit-=this.duration*this.player_number*this.price;
+      this.duration=0;
+      this.player_number=0;
+      this.start_at = undefined;
     },q=>{
       this.util.hideLoading();
       this.util.handleError(q);

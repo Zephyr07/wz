@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{'Mes tournois'|translate}}</ion-title>
+    <ion-title>{{'my_tournaments'|translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -22,6 +22,8 @@
       <ion-item *ngFor="let m of subscriptions" (click)="goToTournament(m.tournament)">
         <ion-label>{{m.tournament.name}}</ion-label>
       </ion-item>
+
+      <app-oups-info [text]="'no_tournament'" *ngIf="!is_loading && subscriptions.length<1"></app-oups-info>
     </ion-list>
   </ion-grid>
 </ion-content>

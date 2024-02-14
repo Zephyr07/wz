@@ -30,7 +30,7 @@
       <ion-label>PS4</ion-label>
     </ion-segment-button>
     <ion-segment-button value="vr" (click)="filterGame(3)">
-      <ion-label>Réalité Virtuelle</ion-label>
+      <ion-label>{{'vr'|translate}}</ion-label>
     </ion-segment-button>
   </ion-segment>
 
@@ -94,8 +94,8 @@
                 <p style="margin: 0;">
                   <ion-badge>{{game.category.name}}</ion-badge>&nbsp;<ion-badge color="dark">+{{game.age}}</ion-badge>
                   <br>
-                  <ion-badge *ngIf="!game.online" color="light">Local</ion-badge> <ion-badge *ngIf="game.online" color="light">En ligne</ion-badge>&nbsp;
-                  <ion-badge *ngIf="!game.multiplayer" color="light">Solo</ion-badge><ion-badge *ngIf="game.multiplayer" color="light">Multijoueur</ion-badge>
+                  <ion-badge *ngIf="!game.online" color="light">Local</ion-badge> <ion-badge *ngIf="game.online" color="light">{{'online'|translate}}</ion-badge>&nbsp;
+                  <ion-badge *ngIf="!game.multiplayer" color="light">Solo</ion-badge><ion-badge *ngIf="game.multiplayer" color="light">{{'multiplayer'|translate}}</ion-badge>
                 </p>
               </ion-col>
             </ion-row>

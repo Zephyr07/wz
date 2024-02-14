@@ -41,12 +41,13 @@ export class AppComponent {
     //this.is_loading=!this.api.checkCredential();
     this.splash();
     // this language will be used as a fallback when a translation isn't found in the current language
-    translate.setDefaultLang('fr');
     if(!this.api.checkCredential()){
       Device.getLanguageCode().then(d=>{
         this.translate.use(d.value);
         moment.locale(d.value);
       })
+    } else {
+      translate.setDefaultLang('fr');
     }
 
     this.init();

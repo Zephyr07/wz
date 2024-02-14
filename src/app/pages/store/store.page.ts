@@ -36,71 +36,62 @@ export class StorePage implements OnInit {
 
   async subscribe(t){
     let pack_id=1;
+    let time=20;
+    let price = 20000;
     if(t=='DUO'){
       pack_id=2;
+      time = 40;
+      price = 30000;
     } else if(t=='FAMILLE'){
       pack_id=3;
+      time = 90;
+      price = 50000;
     }
 
-    // demande du numéro
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Paiement',
-      subHeader:'Entrer le compte Mobile Money (Orange ou MTN) pour payer votre abonnement '+t,
-      inputs: [
-        {
-          name: 'phone',
-          type: 'number',
-          placeholder: 'Téléphone'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Annuler',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            //console.log('Confirm Cancel');
-          }
-        }, {
-          text: 'Payer',
-          handler: (data:any) => {
-            //console.log('Confirm Ok', data);
-            if(data.phone>=NUMBER_RANGE.min && data.phone<=NUMBER_RANGE.max){
-              this.util.showLoading('initiation_payment');
-              // connexion
+    if(this.user.unit>=price){
+      // demande du numéro
+      const alert = await this.alertController.create({
+        cssClass: 'my-custom-class',
+        header: "S'abonner",
+        subHeader:'Vous allez souscrire à '+time+" heures de jeu. Coût : "+price+" U",
+        buttons: [
+          {
+            text: 'Annuler',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => {
+              //console.log('Confirm Cancel');
+            }
+          }, {
+            text: 'Confirmer',
+            handler: (data:any) => {
               const opt = {
-                type:'account',
                 pack_id,
+                price_was:price,
                 user_id:this.user.id,
-              };
-              this.api.post('init_buy_training',opt).then(async (d:any) => {
-                // initialisation du payment my-coolPay
-                this.api.post('payment/' + d.id + '/' + data.phone,{}).then(e=>{
-                  this.util.hideLoading();
-                  this.util.doToast('payment_pending',5000);
-                  // redirection vers la page de l'user
-                  setTimeout(()=>{
-                    //this.navCtrl.navigateRoot(['/user/my-schedule']);
-                  },3000)
-                }, q=>{
-                  this.util.hideLoading();
-                  this.util.handleError(q);
-                })
-                //console.log(d);
-              },q=>{
+                type:'pack'
+              }
+              this.util.showLoading('initiation_payment');
+              this.api.post('subscriptions',opt).then(d=>{
+                console.log(d);
+
+                this.util.hideLoading();
+                this.util.doToast('Abonnement activé, vous beneficiez d\'une remise sur nos prix',3000)
+              }, q=>{
                 this.util.hideLoading();
                 this.util.handleError(q);
               });
-            } else {
-              this.util.doToast('Erreur sur le numéro',3000);
             }
           }
-        }
-      ]
-    });
+        ]
+      });
 
-    await alert.present();
+      await alert.present();
+    } else {
+      this.util.doToast('Solde insuffisant. Veuillez recharger votre compte',3000);
+    }
+
+
   }
 
 }

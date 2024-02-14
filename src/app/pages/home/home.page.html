@@ -8,9 +8,11 @@
     </ion-item>
 
     <ion-buttons slot="end">
-      <ion-button>
-        <span style="color: var(--ion-color-warning); font-weight: bold">{{user.point|priceFormat}} <ion-icon name="medal-outline"></ion-icon></span>
-      </ion-button>
+      <div>
+        <span style="color: var(--ion-color-primary); font-weight: bold">{{user.unit|priceFormat}} <ion-icon name="aperture-outline"></ion-icon></span>
+        <br *ngIf="user.hour>0">
+        <span *ngIf="user.hour>0" style="color: var(--ion-color-warning); font-weight: bold">{{user.hour|priceFormat}} <ion-icon name="time-outline"></ion-icon></span>
+      </div>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -27,9 +29,31 @@
 
 
   <ion-grid>
+    <ion-toolbar class="ion-no-border">
+      <ion-title slot="start">{{'schedule'|translate}}</ion-title>
+    </ion-toolbar>
+
+    <ion-row style="margin-bottom: 15px">
+      <ion-col size="12" (click)="goToSchedule()">
+        <img src="../../../assets/img/wz/booking.png" style="height: 170px; width: 100%; border-radius: 20px 20px 0 0; border-top:3px solid #eee"/>
+
+        <ion-item class="item" lines="none">
+          <ion-label>
+            <p class="bold primary" style="font-size: 18px">
+              {{'schedule_game'|translate}}
+            </p>
+            <p style="white-space: normal">{{'schedule_game_text'|translate}}</p>
+
+          </ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid *ngIf="tournaments.length>0">
 
     <ion-toolbar class="ion-no-border">
-      <ion-title slot="start">Evènements</ion-title>
+      <ion-title slot="start">{{'tournaments'|translate}}</ion-title>
 
       <ion-buttons slot="end">
         <ion-button (click)="goTo('tournament')"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
@@ -55,7 +79,23 @@
 
   <ion-grid>
     <ion-toolbar class="ion-no-border">
-      <ion-title slot="start">Tarifs</ion-title>
+      <ion-title slot="start">{{'games'|translate}}</ion-title>
+
+      <ion-buttons slot="end">
+        <ion-button (click)="goTo('game')"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+
+    <ion-row class="games">
+      <ion-col size="4"  *ngFor="let s of games" (click)="goToGame(s)">
+        <img alt="{{s.name}}" src="{{s.image}}" />
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-toolbar class="ion-no-border">
+      <ion-title slot="start">{{'prices'|translate}}</ion-title>
     </ion-toolbar>
 
     <ion-row class="games">
@@ -77,23 +117,6 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
-  <ion-grid>
-    <ion-toolbar class="ion-no-border">
-      <ion-title slot="start">Jeux</ion-title>
-
-      <ion-buttons slot="end">
-        <ion-button (click)="goTo('game')"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
-      </ion-buttons>
-    </ion-toolbar>
-
-    <ion-row class="games">
-      <ion-col size="4"  *ngFor="let s of games" (click)="goToGame(s)">
-        <img alt="{{s.name}}" src="{{s.image}}" />
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
 
   <ion-grid>
     <ion-toolbar class="ion-no-border">
