@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {NavigationExtras, Router} from "@angular/router";
-import {AlertController} from "@ionic/angular";
+import {AlertController, ModalController} from "@ionic/angular";
 import {NUMBER_RANGE} from "../../services/contants";
 import {UtilProvider} from "../../providers/util/util";
 import {ApiProvider} from "../../providers/api/api";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-store',
@@ -13,13 +14,35 @@ import {ApiProvider} from "../../providers/api/api";
 export class StorePage implements OnInit {
 
   user:any={};
+  CANCEL="";
+  AMOUNT="";
+  UPDATE="";
+  TEXT="";
+  PHONE="";
 
   constructor(
     private router:Router,
     private util:UtilProvider,
     private api:ApiProvider,
-    private alertController : AlertController
-  ) { }
+    private alertController : AlertController,
+    private translate:TranslateService
+  ) {
+    this.translate.get('cancel').subscribe( (res: string) => {
+      this.CANCEL=res;
+    });
+    this.translate.get('confirm').subscribe( (res: string) => {
+      this.UPDATE=res;
+    });
+    this.translate.get('recharge_account').subscribe( (res: string) => {
+      this.TEXT=res;
+    });
+    this.translate.get('phone').subscribe( (res: string) => {
+      this.PHONE=res;
+    });
+    this.translate.get('amount').subscribe( (res: string) => {
+      this.AMOUNT=res;
+    });
+  }
 
   ngOnInit() {
   }
@@ -53,7 +76,7 @@ export class StorePage implements OnInit {
       const alert = await this.alertController.create({
         cssClass: 'my-custom-class',
         header: "S'abonner",
-        subHeader:'Vous allez souscrire à '+time+" heures de jeu. Coût : "+price+" U",
+        subHeader:'Vous allez souscrire à '+time+" heures de jeu. Coût : "+price+" U. Tout abonnement précédent sera annulé",
         buttons: [
           {
             text: 'Annuler',
@@ -88,10 +111,74 @@ export class StorePage implements OnInit {
 
       await alert.present();
     } else {
-      this.util.doToast('Solde insuffisant. Veuillez recharger votre compte',3000);
+      // recharge du compte
+      this.recharge(price,pack_id,time);
+      //this.util.doToast('Solde insuffisant. Veuillez recharger votre compte',3000);
     }
 
 
+  }
+
+  async recharge(amount,pack_id, time) {
+    const alert = await this.alertController.create({
+      header: "S'abonner",
+      subHeader:'Vous allez souscrire à '+time+" heures de jeu. Coût : "+amount+" FCFA.",
+      buttons: [
+        {
+          text: this.CANCEL,
+          role: 'cancel',
+        },
+        {
+          text: this.UPDATE,
+          role:'confirm',
+          handler:(data)=>{
+            if(!isNaN(data.phone) && data.phone <= NUMBER_RANGE.max && data.phone >= NUMBER_RANGE.min){
+              this.util.showLoading("treatment");
+              const opt = {
+                type:'account-pack',
+                pack_id,
+                amount,
+                user_id:this.user.id
+              };
+              this.api.post('init_buy_account',opt).then(async (d:any) => {
+                // initialisation du payment my-coolPay
+                this.api.post('payment/' + d.id + '/' + data.phone,{}).then(e=>{
+                  this.util.hideLoading();
+                  this.util.doToast('payment_pending',5000);
+                  // redirection vers la page de l'user
+                  /*setTimeout(()=>{
+                    this.navCtrl.navigateRoot(['/user']);
+                  },3000)*/
+                }, q=>{
+                  this.util.hideLoading();
+                  this.util.handleError(q);
+                })
+                //console.log(d);
+              },q=>{
+                this.util.hideLoading();
+                this.util.handleError(q);
+              });
+            } else {
+              this.util.doToast('Veuillez entrer un numéro de téléphone valide',3000);
+            }
+          }
+        },
+      ],
+      inputs: [
+        {
+          placeholder: this.PHONE,
+          value:this.user.phone,
+          type:'number',
+          name:'phone',
+          attributes: {
+            min: NUMBER_RANGE.min,
+            max: NUMBER_RANGE.max
+          },
+        }
+      ],
+    });
+
+    await alert.present();
   }
 
 }

@@ -136,7 +136,7 @@ export class CreateAccountPage implements OnInit {
           }
         })
       }
-    } else if(this.step==9){
+    } else if(this.step==4){
       if(this.referral!="" && this.referral!=null){
         // verification si le code promo existe
         const opt ={
@@ -147,7 +147,7 @@ export class CreateAccountPage implements OnInit {
           if(d.length>0){
             //code existantS
             this.step+=1;
-            if(this.step==4){
+            if(this.step==5){
               this.texte = "save";
             }
           } else {
@@ -162,11 +162,11 @@ export class CreateAccountPage implements OnInit {
         }
       }
 
-    } else if(this.step==4){
+    } else if(this.step==5){
       this.save();
     } else {
       this.step+=1;
-      if(this.step==4){
+      if(this.step==5){
         this.texte = "save";
       }
     }
@@ -279,7 +279,7 @@ export class CreateAccountPage implements OnInit {
         //country_id:this.country_id,
         phone:this.phone,
         email:this.email,
-        //referral:this.referral,
+        referral:this.referral,
         //external_id,
         settings:JSON.stringify([{"language":this.lang},{"notification":"true"}])
       };
@@ -358,7 +358,7 @@ export class CreateAccountPage implements OnInit {
       this.util.doToast("Erreur sur l'image",3000, 'danger');
       return false;
     } else if (this.password.length<8){
-      this.step=4;
+      this.step=5;
       this.util.doToast("Le mot de passe doit contenir 8 caractères",3000, 'danger');
       return false;
     } else {

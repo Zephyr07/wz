@@ -89,9 +89,9 @@
               <ion-col size="3">
                 <img src="{{game.image}}" alt="" style=" border-radius: 10px">
               </ion-col>
-              <ion-col>
-                <ion-title style="padding-left: 0">{{game.name}}</ion-title>
-                <p style="margin: 0;">
+              <ion-col size="9">
+                <h3 style="margin-top:0 !important;">{{game.name}}</h3>
+                <p size="12" style="margin: 0;">
                   <ion-badge>{{game.category.name}}</ion-badge>&nbsp;<ion-badge color="dark">+{{game.age}}</ion-badge>
                   <br>
                   <ion-badge *ngIf="!game.online" color="light">Local</ion-badge> <ion-badge *ngIf="game.online" color="light">{{'online'|translate}}</ion-badge>&nbsp;

@@ -7,11 +7,12 @@
       <ion-label class="label">{{user.person.full_name}}</ion-label>
     </ion-item>
 
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" (click)="goToMyPoints()">
       <div>
         <span style="color: var(--ion-color-primary); font-weight: bold">{{user.unit|priceFormat}} <ion-icon name="aperture-outline"></ion-icon></span>
         <br *ngIf="user.hour>0">
-        <span *ngIf="user.hour>0" style="color: var(--ion-color-warning); font-weight: bold">{{user.hour|priceFormat}} <ion-icon name="time-outline"></ion-icon></span>
+        <span *ngIf="user.hour>0" style="color: var(--ion-color-warning); font-weight: bold">
+          {{user.hour|priceFormat}} <ion-icon name="time-outline"></ion-icon></span>
       </div>
     </ion-buttons>
   </ion-toolbar>
@@ -52,7 +53,7 @@
 
   <ion-grid *ngIf="tournaments.length>0">
 
-    <ion-toolbar class="ion-no-border">
+    <ion-toolbar class="ion-no-border" (click)="goTo('tournament')">
       <ion-title slot="start">{{'tournaments'|translate}}</ion-title>
 
       <ion-buttons slot="end">
@@ -78,7 +79,7 @@
   </ion-grid>
 
   <ion-grid>
-    <ion-toolbar class="ion-no-border">
+    <ion-toolbar class="ion-no-border" (click)="goTo('game')">
       <ion-title slot="start">{{'games'|translate}}</ion-title>
 
       <ion-buttons slot="end">

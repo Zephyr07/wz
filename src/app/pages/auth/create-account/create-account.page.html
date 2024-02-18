@@ -24,7 +24,7 @@
     </ion-fab-button>
   </ion-fab>
 
-  <div class="custom ion-text-center" *ngIf="step==4" style="height: calc(100% - 150px);margin-top:25px">
+  <div class="custom ion-text-center" *ngIf="step==5" style="height: calc(100% - 150px);margin-top:25px">
     <div>
       <h2 style="margin-top:10px">Recapitulatif</h2>
       <p>
@@ -39,9 +39,9 @@
     </div>
   </div>
 
-  <div *ngIf="step!=4" class="custom" style="height: calc(100% - 150px)">
+  <div *ngIf="step!=5" class="custom" style="height: calc(100% - 150px)">
 
-    <div *ngIf="step!=4" style="text-align: center">
+    <div *ngIf="step!=5" style="text-align: center">
       <img src="../../../../assets/img/wz/logo_bl.svg" alt="Logo WarZone" style="width: 20vh; margin-top: 100px">
       <h2>{{'welcome'|translate}}</h2>
       <p>{{'create_paragraph'|translate}}
@@ -107,12 +107,12 @@
         <ion-label *ngIf="step==3">{{'image'|translate}}</ion-label>
         <ion-button style="margin-bottom: 10px" *ngIf="step==3" expand="block" color="primary" fill="outline" (click)="addImage()">{{'select_image'|translate}}</ion-button>
 
-        <ion-label *ngIf="step==9">{{'Entrez le code de la personne qui vous a parlez'|translate}}</ion-label>
-        <ion-input *ngIf="step==9" (keyup.enter)="next()" type="text" [(ngModel)]="referral" [ngModelOptions]="{standalone: true}" placeholder="{{'referral'|translate}}"></ion-input>
+        <ion-label *ngIf="step==4">{{'Entrez le code de la personne qui vous a parlez'|translate}}</ion-label>
+        <ion-input *ngIf="step==4" (keyup.enter)="next()" type="text" [(ngModel)]="referral" [ngModelOptions]="{standalone: true}" placeholder="{{'referral'|translate}}"></ion-input>
 
-        <ion-label *ngIf="step==4">{{'password'|translate}} ({{'8_caracter'|translate}})</ion-label>
-        <ion-input *ngIf="step==4" (keyup.enter)="next()" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" type="password" placeholder="{{'password'|translate}}"></ion-input>
-        <ion-button shape="round" expand="block" color="primary" [disabled]="step==4 && password==null" (click)="next()">{{texte|translate}}</ion-button>
+        <ion-label *ngIf="step==5">{{'password'|translate}} ({{'8_caracter'|translate}})</ion-label>
+        <ion-input *ngIf="step==5" (keyup.enter)="next()" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" type="password" placeholder="{{'password'|translate}}"></ion-input>
+        <ion-button shape="round" expand="block" color="primary" [disabled]="step==5 && password==null" (click)="next()">{{texte|translate}}</ion-button>
       </ion-col>
     </ion-row>
 </ion-footer>

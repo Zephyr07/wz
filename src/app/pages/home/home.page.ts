@@ -113,6 +113,10 @@ export class HomePage implements OnInit {
     }
   }
 
+  goToMyPoints(){
+    this.router.navigateByUrl('/user/recharge-account');
+  }
+
   goTo(url){
     if(url=='simulateur' || url=="training"){
       if(this.api.checkUser()){

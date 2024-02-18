@@ -496,7 +496,7 @@
   "game_type":"Type de jeu",
   "choose_game_type":"Choisir le type de jeu",
   "store":"Boutique",
-  "recharge_history":"Historique de recharge",
+  "transaction_history":"Historique des transactions",
   "paid":"Payé",
   "fail":"Echec",
   "submitted":"Soumis",
@@ -516,5 +516,11 @@
   "to_win":"à gagner",
   "participate":"Participer",
   "schedule_at":"Réservé pour le",
-  "tournaments":"Tournois"
+  "tournaments":"Tournois",
+  "buy-tournament":"Reservation tournoi",
+  "buy-schedule":"Réservation seance de jeu",
+  "buy-pack":"Achat pack",
+  "account-recharge":"Recharge du compte",
+  "referral_point":"Point de parrainage",
+  "bonus_point":"Point bonus"
 }

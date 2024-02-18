@@ -8,6 +8,24 @@
 
   <ion-grid>
     <ion-toolbar class="ion-no-border">
+      <ion-title slot="start">{{'subscription_warzone'|translate}}</ion-title>
+    </ion-toolbar>
+
+    <ion-row class="games">
+      <ion-col size="6" (click)="subscribe('SOLO')">
+        <img alt="" src="../../../assets/img/packs/1.png" />
+      </ion-col>
+      <ion-col size="6" (click)="subscribe('DUO')">
+        <img alt="" src="../../../assets/img/packs/2.png" />
+      </ion-col>
+      <ion-col size="12" (click)="subscribe('FAMILLE')">
+        <img alt="" src="../../../assets/img/packs/3.png" style="height: 250px"/>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-toolbar class="ion-no-border">
       <ion-title slot="start">{{'reservation'|translate}}</ion-title>
     </ion-toolbar>
 
@@ -27,25 +45,6 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
-  <ion-grid>
-    <ion-toolbar class="ion-no-border">
-      <ion-title slot="start">{{'subscription_warzone'|translate}}</ion-title>
-    </ion-toolbar>
-
-    <ion-row class="games">
-      <ion-col size="6" (click)="subscribe('SOLO')">
-        <img alt="" src="../../../assets/img/packs/1.png" />
-      </ion-col>
-      <ion-col size="6" (click)="subscribe('DUO')">
-        <img alt="" src="../../../assets/img/packs/2.png" />
-      </ion-col>
-      <ion-col size="12" (click)="subscribe('FAMILLE')">
-        <img alt="" src="../../../assets/img/packs/3.png" style="height: 250px"/>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
 
 
 </ion-content>

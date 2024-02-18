@@ -40,10 +40,10 @@ export const CryptoJSAesJson = {
     };
     if (cipherParams.iv) {
       vbJsonString['iv'] = cipherParams.iv.toString()
-    };
+    }
     if (cipherParams.salt) {
       vbJsonString['s'] = cipherParams.salt.toString()
-    };
+    }
     return JSON.stringify(vbJsonString);
   },
   parse: function (jsonStr) {

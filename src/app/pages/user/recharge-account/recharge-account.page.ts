@@ -157,10 +157,70 @@ export class RechargeAccountPage implements OnInit {
       _sortDir:'desc'
     }
 
-    this.api.getList("payments",opt).then(d=>{
+    this.api.getList("transactions",opt).then(d=>{
       this.old_payments = d;
     })
 
+  }
+
+  async withdrawal() {
+    const alert = await this.alertController.create({
+      header: this.TEXT,
+      buttons: [
+        {
+          text: this.CANCEL,
+          role: 'cancel',
+        },
+        {
+          text: this.UPDATE,
+          role:'confirm',
+          handler:(data)=>{
+            if(!isNaN(data.amount) && data.amount>=500){
+              if(!isNaN(data.phone) && data.phone <= NUMBER_RANGE.max && data.phone >= NUMBER_RANGE.min){
+                const opt = {
+                  phone:data.phone,
+                  amount:data.amount
+                };
+                this.api.post('payout',opt).then(d=>{
+                  console.log(d);
+                }, q=>{
+                  this.util.doToast(q.data,3000);
+                })
+              } else {
+                this.util.doToast('Veuillez entrer un numéro de téléphone valide',3000);
+              }
+            } else {
+              this.util.doToast('Veuillez entrer un montant supérieur ou égale à 500',3000);
+            }
+
+          }
+        },
+      ],
+      inputs: [
+        {
+          placeholder: this.AMOUNT,
+          value:500,
+          type:'number',
+          name:'amount',
+          attributes: {
+            step:50,
+            min: 0
+          },
+        },
+        {
+          placeholder: this.PHONE,
+          value:this.user.phone,
+          type:'number',
+          name:'phone',
+          attributes: {
+            min: NUMBER_RANGE.min,
+            max: NUMBER_RANGE.max
+          },
+        }
+      ],
+    });
+
+    await alert.present();
   }
 
   doRefresh(event) {

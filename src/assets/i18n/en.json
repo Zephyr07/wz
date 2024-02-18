@@ -516,6 +516,10 @@
   "to_win":"to win",
   "participate":"Participate",
   "schedule_at":"Schedule at",
-  "tournaments":"Tournaments"
+  "tournaments":"Tournaments",
+  "buy-tournament":"Buy for tournament",
+  "buy-schedule":"Buy for booking a game",
+  "buy-pack":"Buy for pack",
+  "account-recharge":"Account recharge"
   
 }
