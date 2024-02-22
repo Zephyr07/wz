@@ -81,7 +81,10 @@
       <ion-col size="12">
         <ion-item *ngFor="let item of old_payments">
           <ion-label>
-            <h2><span class="primary bold">{{item.transaction_amount|priceFormat}} U</span> - {{item.type|translate}}</h2>
+            <h2>Montant : <span class="primary bold">{{item.transaction_amount|priceFormat}} <span *ngIf="item.type!='withdrawal'">U</span> <span *ngIf="item.type=='withdrawal'" >FCFA</span></span> ({{item.type|translate}})</h2>
+            <h3 *ngIf="item.type=='withdrawal'">Frais de retrait : {{item.transaction_amount*0.05|priceFormat}} FCFA</h3>
+            <h3 *ngIf="item.type=='withdrawal'">Compte : {{'referral_point'|translate}}</h3>
+            <h3 *ngIf="item.type!='withdrawal'">Compte : {{'unity'|translate}}</h3>
             <p>{{item.created_at|dateFormat:1}}</p>
           </ion-label>
         </ion-item>

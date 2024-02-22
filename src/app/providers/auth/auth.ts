@@ -72,7 +72,42 @@ d
     });
 
   }
+  activate(credentials: {code: number}) {
+    //this.permissionsService.flushPermissions();
+    return new Promise((resolve, reject) => {
+      let crypt = this.util.encryptAESData(credentials);
+      this.api.post('auth/activate',{value:crypt})
+        .then( (response) => {
+          const data = this.util.decryptAESData(JSON.stringify(response));
+          this.storeSession(data);
+          localStorage.setItem('auth_wz',JSON.stringify(credentials));
+          /*angular.forEach(data.userRole, function (value) {
+            AclService.attachRole(value)
+          });
+d
+          AclService.setAbilities(data.abilities);
+          $auth.setToken(response.data);*/
+          resolve(data);
+        }, function(error) {
+          // //console.log(error);
+          /*if (error.status == 401) {
+            var errors = error.data.errors;
+            for (var key in errors) {
+              if (errors.hasOwnProperty(key)) {
+                var txt = errors[key][0];
+                for (var i = 1; i < errors[key].length; i++) {
+                  txt += "<br>" + errors[key][i];
+                }
+                key = key.split("_").join(" ");
+                ToastApi.error({'msg': txt})
+              }
+            }
+          }*/
+          reject(error);
+        });
+    });
 
+  }
   delete(credentials: { password: string, email:string}) {
     //this.permissionsService.flushPermissions();
     return new Promise((resolve, reject) => {

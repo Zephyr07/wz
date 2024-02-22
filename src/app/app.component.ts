@@ -126,7 +126,13 @@ export class AppComponent {
               //OneSignal.sendTags({'country_id':e.user.country_id});
             }
             // chargement des données
-            this.navCtrl.navigateRoot(['/tabs']);
+            if(e.user.status=='pending_activation'){
+              this.navCtrl.navigateRoot(['/activated-account']);
+            } else if(e.user.status=='enable') {
+              this.navCtrl.navigateRoot(['/tabs']);
+            } else {
+              this.util.doToast('Contacter le support au +237 673996540',5000, 'warning');
+            }
           },q=>{
             this.auth.logout();
             this.is_loading=false;
@@ -136,7 +142,7 @@ export class AppComponent {
         } else {
           // l'utilisateur n'existe pas
           this.is_loading=false;
-          this.navCtrl.navigateRoot(['/create-account']);
+          this.navCtrl.navigateRoot(['/login']);
         }
       }
     });

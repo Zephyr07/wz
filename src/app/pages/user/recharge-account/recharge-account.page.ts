@@ -55,7 +55,7 @@ export class RechargeAccountPage implements OnInit {
   }
 
   ngOnInit() {
-    this.getOldPayments();
+
   }
 
   ionViewWillEnter() {
@@ -63,6 +63,8 @@ export class RechargeAccountPage implements OnInit {
       let user = JSON.parse(localStorage.getItem('user_wz'));
       this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
         this.user = a.data.user;
+        this.getOldPayments();
+        console.log(this.user);
         localStorage.setItem('user_wz',JSON.stringify(this.user));
         this.subscription_status=this.api.checkSubscription(this.user.subscription);
         this.getPerson(this.user.id);
@@ -155,9 +157,14 @@ export class RechargeAccountPage implements OnInit {
       should_paginate:false,
       _sort:'created_at',
       _sortDir:'desc'
-    }
+    };
 
-    this.api.getList("transactions",opt).then(d=>{
+    this.api.getList("transactions",opt).then((d:any)=>{
+      d.forEach(v=>{
+        if(v.type=='withdrawal'){
+          v.transaction_amount = v.transaction_amount/1.05;
+        }
+      });
       this.old_payments = d;
     })
 
@@ -165,7 +172,8 @@ export class RechargeAccountPage implements OnInit {
 
   async withdrawal() {
     const alert = await this.alertController.create({
-      header: this.TEXT,
+      header: "Montant du retrait",
+      subHeader:"Les frais de retrait sont de 5% du montant.",
       buttons: [
         {
           text: this.CANCEL,
@@ -176,19 +184,18 @@ export class RechargeAccountPage implements OnInit {
           role:'confirm',
           handler:(data)=>{
             if(!isNaN(data.amount) && data.amount>=500){
-              if(!isNaN(data.phone) && data.phone <= NUMBER_RANGE.max && data.phone >= NUMBER_RANGE.min){
-                const opt = {
-                  phone:data.phone,
-                  amount:data.amount
-                };
-                this.api.post('payout',opt).then(d=>{
-                  console.log(d);
-                }, q=>{
-                  this.util.doToast(q.data,3000);
-                })
-              } else {
-                this.util.doToast('Veuillez entrer un numéro de téléphone valide',3000);
-              }
+              const opt = {
+                user_id:this.user.id,
+                transaction_amount:data.amount,
+                type:'withdrawal',
+                status:"pending"
+              };
+              this.api.post('transactions',opt).then(d=>{
+                this.util.doToast("Votre demande de retrait sera traitée sous 48h.",5000);
+                this.getOldPayments();
+              }, q=>{
+                this.util.doToast(q.data,3000);
+              })
             } else {
               this.util.doToast('Veuillez entrer un montant supérieur ou égale à 500',3000);
             }
@@ -205,16 +212,6 @@ export class RechargeAccountPage implements OnInit {
           attributes: {
             step:50,
             min: 0
-          },
-        },
-        {
-          placeholder: this.PHONE,
-          value:this.user.phone,
-          type:'number',
-          name:'phone',
-          attributes: {
-            min: NUMBER_RANGE.min,
-            max: NUMBER_RANGE.max
           },
         }
       ],

@@ -522,5 +522,8 @@
   "buy-pack":"Achat pack",
   "account-recharge":"Recharge du compte",
   "referral_point":"Point de parrainage",
-  "bonus_point":"Point bonus"
+  "bonus_point":"Point bonus",
+  "activation_code":"Code d'activation",
+  "activation_account":"Activation du compte",
+  "active":"Activer"
 }
