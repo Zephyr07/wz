@@ -129,7 +129,7 @@ export class AppComponent {
             if(e.user.status=='pending_activation'){
               this.navCtrl.navigateRoot(['/activated-account']);
             } else if(e.user.status=='enable') {
-              this.navCtrl.navigateRoot(['/tabs']);
+              //this.navCtrl.navigateRoot(['/tabs']);
             } else {
               this.util.doToast('Contacter le support au +237 673996540',5000, 'warning');
             }

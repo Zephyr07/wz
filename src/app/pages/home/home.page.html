@@ -4,7 +4,10 @@
       <ion-thumbnail>
         <img alt="{{user.person.full_name}}" src="{{user.person.image}}" />
       </ion-thumbnail>
-      <ion-label class="label">{{user.person.full_name}}</ion-label>
+      <ion-label class="label">{{user.person.full_name}}
+        <br *ngIf="is_subscription">
+        <span *ngIf="is_subscription" style="color:var(--ion-color-medium); font-size: 15px;">{{'member'|translate}}</span>
+      </ion-label>
     </ion-item>
 
     <ion-buttons slot="end" (click)="goToMyPoints()">
@@ -134,7 +137,7 @@
         <ion-icon color="primary" name="time"></ion-icon> 10h à 21h
       </ion-col>
       <ion-col size="12">
-        <ion-icon color="primary" name="at"></ion-icon> thewarzone237 <br>
+        <ion-icon color="primary" name="logo-facebook"></ion-icon> <ion-icon color="primary" name="logo-instagram"></ion-icon> <ion-icon color="primary" name="logo-tiktok"></ion-icon> <ion-icon color="primary" name="logo-youtube"></ion-icon> @thewarzone237 <br>
         <ion-icon color="primary" name="globe"></ion-icon> www.warzone237.com
       </ion-col>
     </ion-row>

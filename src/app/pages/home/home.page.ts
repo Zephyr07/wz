@@ -27,9 +27,10 @@ export class HomePage implements OnInit {
   old_places:any=[];
   isLoadingPlace=false;
   user:any={
-    person:{}
+    person:{},
   };
 
+  is_subscription = false;
   per_page = 20;
   page = 1;
   last_page = 10000000;
@@ -95,6 +96,7 @@ export class HomePage implements OnInit {
     this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
       this.user = a.data.user;
       this.user.subscription_status=this.api.checkSubscription(this.user.subscription);
+      this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
       localStorage.setItem('user_wz',JSON.stringify(this.user));
 
       this.getUser();
