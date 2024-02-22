@@ -520,6 +520,9 @@
   "buy-tournament":"Buy for tournament",
   "buy-schedule":"Buy for booking a game",
   "buy-pack":"Buy for pack",
-  "account-recharge":"Account recharge"
+  "account-recharge":"Account recharge",
+  "activation_code":"Activation code",
+  "activation_account":"Activation account",
+  "active":"Active"
   
 }

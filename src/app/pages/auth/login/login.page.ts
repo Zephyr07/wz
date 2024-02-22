@@ -43,7 +43,14 @@ export class LoginPage implements OnInit {
         this.util.hideLoading();
 
         //this.navCtrl.navigateRoot(['/home']);
-        this.navCtrl.navigateRoot(['/tabs']);
+        if(d.user.status=='pending_activation'){
+          this.navCtrl.navigateRoot(['/activated-account']);
+        } else if(d.user.status=='enable') {
+          this.navCtrl.navigateRoot(['/tabs']);
+        } else {
+          this.util.doToast('Contacter le support au +237 673996540',5000, 'warning');
+        }
+
       }, q=>{
         alert(JSON.stringify(q));
         this.util.hideLoading();
@@ -59,7 +66,8 @@ export class LoginPage implements OnInit {
   }
 
   goToRegister(){
-    this.router.navigateByUrl('create-account');
+    //this.router.navigateByUrl('create-account');
+    window.location.href="https://wzs.warzone237.com/inscription/#/register"
   }
 
 }

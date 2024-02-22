@@ -90,6 +90,10 @@ const routes: Routes = [
   {
     path: 'store',
     loadChildren: () => import('./pages/store/store.module').then( m => m.StorePageModule)
+  },
+  {
+    path: 'activated-account',
+    loadChildren: () => import('./pages/auth/activated-account/activated-account.module').then( m => m.ActivatedAccountPageModule)
   }
 ];
 @NgModule({
