@@ -178,7 +178,7 @@
   "no_found_title":"No found",
   "no_connected":"Log in to try your luck",
   "no_connected_title":"Not logged",
-  "unit":"UNITS",
+  "unit":"Unit",
   "claim_ticket":"Claim ticket",
   "delete":"Delete",
   "deleted":"deleted",
@@ -521,8 +521,12 @@
   "buy-schedule":"Buy for booking a game",
   "buy-pack":"Buy for pack",
   "account-recharge":"Account recharge",
+  "referral_point":"Referral point",
+  "bonus_point":"Bonus point",
   "activation_code":"Activation code",
   "activation_account":"Activation account",
-  "active":"Active"
+  "active":"Active",
+  "hour_pack":"Game hour pack",
+  "member":"Member"
   
 }

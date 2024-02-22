@@ -31,7 +31,7 @@ export class SubscriptionPage implements OnInit {
 
   ionViewWillEnter(){
     if(this.api.checkUser()){
-      this.user=JSON.parse(localStorage.getItem('user_lr'));
+      this.user=JSON.parse(localStorage.getItem('user_wz'));
       this.subscription_status=this.api.checkSubscription(this.user.subscription);
       this.getSubscriptions();
     } else{
@@ -71,7 +71,9 @@ export class SubscriptionPage implements OnInit {
     }, 500);
   }
   goToSubscription(){
-    this.router.navigateByUrl('store');
+    this.router.navigateByUrl('/tabs/store');
   }
+
+
 
 }

@@ -12,6 +12,18 @@
     </ion-toolbar>
 
     <ion-row class="games">
+      <ion-col size="12" (click)="subscribe('ABONNEMENT')">
+        <img alt="" src="../../../assets/img/packs/4.png"  style="height: 300px"/>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-toolbar class="ion-no-border">
+      <ion-title slot="start">{{'hour_pack'|translate}}</ion-title>
+    </ion-toolbar>
+
+    <ion-row class="games">
       <ion-col size="6" (click)="subscribe('SOLO')">
         <img alt="" src="../../../assets/img/packs/1.png" />
       </ion-col>
@@ -19,7 +31,7 @@
         <img alt="" src="../../../assets/img/packs/2.png" />
       </ion-col>
       <ion-col size="12" (click)="subscribe('FAMILLE')">
-        <img alt="" src="../../../assets/img/packs/3.png" style="height: 250px"/>
+        <img alt="" src="../../../assets/img/packs/3.png" style="height: 300px"/>
       </ion-col>
     </ion-row>
   </ion-grid>

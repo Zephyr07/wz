@@ -178,7 +178,7 @@
   "no_found":"Vos fonds ne suffisent pas pour participer à la tombola",
   "no_connected_title":"Pas connecté",
   "no_connected":"Connectez-vous pour tenter votre chance",
-  "unit":"UNITES",
+  "unit":"Unité",
   "claim_ticket":"Réclamer mon ticket",
   "delete":"Supprimer",
   "deleted":"supprimé(e)",
@@ -525,5 +525,7 @@
   "bonus_point":"Point bonus",
   "activation_code":"Code d'activation",
   "activation_account":"Activation du compte",
-  "active":"Activer"
+  "active":"Activer",
+  "hour_pack":"Pack d'heure de jeu",
+  "member":"Membre"
 }
