@@ -28,6 +28,7 @@ export class CreateAccountPage implements OnInit {
   MAX = NUMBER_RANGE.max;
   imagesContainer= new FormData();
   referral:any = null;
+  sponsor_code:any = null;
   image = "";
   step=0;
   country_id=0;
@@ -137,6 +138,32 @@ export class CreateAccountPage implements OnInit {
         })
       }
     } else if(this.step==4){
+      if(this.sponsor_code!="" && this.sponsor_code!=null){
+        // verification si le sponsor_code existe
+        const opt ={
+          sponsor_code:this.sponsor_code
+        }
+
+        this.api.getList('users',opt).then((d:any)=>{
+          if(d.length<=0){
+            //code n'existe pas
+            this.step+=1;
+            if(this.step==6){
+              this.texte = "save";
+            }
+          } else {
+            this.sponsor_code="";
+            this.util.doToast('sponsor_code_exist',3000, 'warning','top');
+          }
+        })
+      } else{
+        this.step+=1;
+        if(this.step==6){
+          this.texte = "save";
+        }
+      }
+
+    } else if(this.step==5){
       if(this.referral!="" && this.referral!=null){
         // verification si le code promo existe
         const opt ={
@@ -157,16 +184,16 @@ export class CreateAccountPage implements OnInit {
         })
       } else{
         this.step+=1;
-        if(this.step==5){
+        if(this.step==6){
           this.texte = "save";
         }
       }
 
-    } else if(this.step==5){
+    } else if(this.step==6){
       this.save();
     } else {
       this.step+=1;
-      if(this.step==5){
+      if(this.step==6){
         this.texte = "save";
       }
     }
@@ -257,7 +284,7 @@ export class CreateAccountPage implements OnInit {
   previous(){
     if(this.step>0){
       this.step-=1;
-      if(this.step<6){
+      if(this.step<5){
         this.texte="next"
       }
     }
@@ -280,6 +307,7 @@ export class CreateAccountPage implements OnInit {
         phone:this.phone,
         email:this.email,
         referral:this.referral,
+        sponsor_code:this.sponsor_code,
         //external_id,
         settings:JSON.stringify([{"language":this.lang},{"notification":"true"}])
       };
@@ -358,7 +386,7 @@ export class CreateAccountPage implements OnInit {
       this.util.doToast("Erreur sur l'image",3000, 'danger');
       return false;
     } else if (this.password.length<8){
-      this.step=5;
+      this.step=6;
       this.util.doToast("Le mot de passe doit contenir 8 caractères",3000, 'danger');
       return false;
     } else {

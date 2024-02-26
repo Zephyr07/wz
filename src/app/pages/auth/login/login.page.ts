@@ -17,6 +17,15 @@ export class LoginPage implements OnInit {
   is_loading=false;
   email:any=null;
   password="";
+  settings:any={
+    android:{
+      subscription:false
+    },
+    ios:{
+      subscription:false
+    }
+  };
+
   constructor(
     private util:UtilProvider,
     private auth:AuthProvider,
@@ -25,7 +34,16 @@ export class LoginPage implements OnInit {
     private navCtrl:NavController
   ) { }
 
+  ionViewWillEnter() {
+    // recupération des settings
+    if(localStorage.getItem('wz_settings')!='undefined'){
+      this.settings = JSON.parse(localStorage.getItem('wz_settings'))[0];
+    } else {
+
+    }
+  }
   ngOnInit() {
+
   }
 
   login() {
@@ -66,8 +84,13 @@ export class LoginPage implements OnInit {
   }
 
   goToRegister(){
-    //this.router.navigateByUrl('create-account');
-    window.location.href="https://wzs.warzone237.com/inscription/#/register"
+    if(this.settings.register_out==false){
+      window.location.href="https://wzs.warzone237.com/inscription/#/register"
+    } else {
+      this.router.navigateByUrl('create-account');
+    }
+
+
   }
 
 }

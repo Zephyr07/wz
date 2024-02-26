@@ -6,6 +6,7 @@ import {ApiProvider} from "../../../providers/api/api";
 import {UtilProvider} from "../../../providers/util/util";
 import {AlertController, ModalController, NavController} from "@ionic/angular";
 import {TranslateService} from "@ngx-translate/core";
+import { Share } from '@capacitor/share';
 
 @Component({
   selector: 'app-recharge-account',
@@ -26,6 +27,14 @@ export class RechargeAccountPage implements OnInit {
   AMOUNT="";
   old_payments:any=[];
   subscription_status:any={};
+  settings:any={
+    android:{
+      subscription:false
+    },
+    ios:{
+      subscription:false
+    }
+  };
 
   constructor(
     private router:Router,
@@ -59,12 +68,17 @@ export class RechargeAccountPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    // recupération des settings
+    if(localStorage.getItem('wz_settings')!='undefined'){
+      this.settings = JSON.parse(localStorage.getItem('wz_settings'))[0];
+    } else {
+
+    }
     if (this.api.checkUser()) {
       let user = JSON.parse(localStorage.getItem('user_wz'));
       this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
         this.user = a.data.user;
         this.getOldPayments();
-        console.log(this.user);
         localStorage.setItem('user_wz',JSON.stringify(this.user));
         this.subscription_status=this.api.checkSubscription(this.user.subscription);
         this.getPerson(this.user.id);
@@ -72,6 +86,14 @@ export class RechargeAccountPage implements OnInit {
     } else {
       this.router.navigate(['/login']);
     }
+  }
+
+  async shareSponsorCode(){
+    await Share.share({
+      title: 'Partager',
+      text: 'Utilise mon code promo et gagne 30 minutes de jeu gratuit à WarZone',
+      url: 'https://wzs.warzone237.com/inscription/#/register/'+this.user.sponsor_code
+    });
   }
 
   getPerson(user_id){
