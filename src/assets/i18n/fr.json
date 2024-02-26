@@ -527,5 +527,12 @@
   "activation_account":"Activation du compte",
   "active":"Activer",
   "hour_pack":"Pack d'heure de jeu",
-  "member":"Membre"
+  "member":"Membre",
+  "referral_text":"Vous obtenez 10% du montant de la recharge des personnes que vous avez parrainé",
+  "bonus_text":"Vous obtenez 10% du montant chaque fois que vous effectué une recharge",
+  "withdrawal_fee":"Frais de retrait",
+  "account":"Compte",
+  "sponsor_code_exist":"Nom d'utilisateur indisponible",
+  "user_name":"Nom d'utilisateur",
+  "share":"Partager"
 }

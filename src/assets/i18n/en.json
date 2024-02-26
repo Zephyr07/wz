@@ -496,7 +496,7 @@
   "game_type":"Type of game",
   "choose_game_type":"Choose type of game",
   "store":"Store",
-  "recharge_history":"Recharge history",
+  "transaction_history":"Transaction history",
   "paid":"Paid",
   "fail":"Fail",
   "submitted":"submitted",
@@ -527,6 +527,13 @@
   "activation_account":"Activation account",
   "active":"Active",
   "hour_pack":"Game hour pack",
-  "member":"Member"
+  "member":"Member",
+  "referral_text":"You get 10% of the recharge amount of the people you sponsored",
+  "bonus_text":"You get 10% of the amount each time you top up",
+  "withdrawal_fee":"Withdrawal fee",
+  "account":"Account",
+  "sponsor_code_exist":"Username unavailable",
+  "user_name":"Username",
+  "share":"Share"
   
 }
