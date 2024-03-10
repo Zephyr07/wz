@@ -32,6 +32,7 @@ export class ProductPage implements OnInit {
       should_paginate:false,
       _sort:'name',
       _sortDir:'asc',
+      "status":"enable"
     };
 
     this.api.getList('products',opt).then(d=>{

@@ -1,0 +1,80 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Commande</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-progress-bar *ngIf="is_loading" type="indeterminate"></ion-progress-bar>
+
+  <ion-row>
+    <ion-col>
+      <img src="{{product.image.url}}" alt="" style="height: 250px; width: 100%">
+    </ion-col>
+  </ion-row>
+
+
+  <ion-row>
+    <ion-col>
+      <div>
+        <ion-row>
+          <ion-col size="4" class="bold secondary">{{'product'|translate}} :</ion-col>
+          <ion-col class="ion-text-right primary bold">
+            {{product.name}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="4" class="bold primary">{{'price'|translate}} :</ion-col>
+          <ion-col class="ion-text-right secondary bold">
+            {{product.price|priceFormat}} U
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="9" class="bold secondary">{{'delivery_time'|translate}} :</ion-col>
+          <ion-col class="ion-text-right primary bold">
+            {{product.delivery_time}} {{'day'|translate}}<span *ngIf="product.delivery_time>1">s</span>
+          </ion-col>
+        </ion-row>
+      </div>
+    </ion-col>
+  </ion-row>
+  <div class="divider"></div>
+  <ion-grid class="custom">
+    <ion-row>
+      <ion-col>
+        <ion-select [(ngModel)]="quantity" label="{{'quantity'|translate}}" label-placement="floating" placeholder="{{'quantity'|translate}}">
+          <ion-select-option value="1">1</ion-select-option>
+          <ion-select-option value="2">2</ion-select-option>
+          <ion-select-option value="3">3</ion-select-option>
+          <ion-select-option value="4">4</ion-select-option>
+          <ion-select-option value="5">5</ion-select-option>
+          <ion-select-option value="6">6</ion-select-option>
+          <ion-select-option value="7">7</ion-select-option>
+          <ion-select-option value="8">8</ion-select-option>
+          <ion-select-option value="9">9</ion-select-option>
+          <ion-select-option value="10">10</ion-select-option>
+        </ion-select>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-select [(ngModel)]="delivery" label="{{'Livraison à domicile?'|translate}}" label-placement="floating" placeholder="{{'Livraison à domicile?'|translate}}">
+          <ion-select-option value="1">Oui</ion-select-option>
+          <ion-select-option value="0">Non</ion-select-option>
+        </ion-select>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="divider"></div>
+  <div class="title ion-text-center" style="font-size: 20px">
+    {{'total_pay'|translate}} : <span class="secondary">{{quantity*product.price+(1000*delivery)|priceFormat}}</span> U
+  </div>
+
+  <ion-row>
+    <ion-col size="12" class="ion-text-center">
+      <ion-button (click)="askOrder()" [disabled]="quantity==0">{{'order'|translate}}</ion-button>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

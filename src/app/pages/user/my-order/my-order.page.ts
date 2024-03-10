@@ -3,18 +3,17 @@ import {ApiProvider} from "../../../providers/api/api";
 import {NavigationExtras, Router} from "@angular/router";
 
 @Component({
-  selector: 'app-my-tournament',
-  templateUrl: './my-tournament.page.html',
-  styleUrls: ['./my-tournament.page.scss'],
+  selector: 'app-my-order',
+  templateUrl: './my-order.page.html',
+  styleUrls: ['./my-order.page.scss'],
 })
-export class MyTournamentPage implements OnInit {
+export class MyOrderPage implements OnInit {
 
-  subscriptions=[];
-  old_subscriptions=[];
+  orders=[];
+  old_orders=[];
   search="";
   title="";
   user:any;
-  is_loading = true;
 
   constructor(
     private api:ApiProvider,
@@ -26,43 +25,41 @@ export class MyTournamentPage implements OnInit {
   ngOnInit() {
     if (this.api.checkUser()) {
       this.user = JSON.parse(localStorage.getItem('user_wz'));
-      this.getSubscription(this.user.id);
+      this.getOrder(this.user.id);
     } else {
       this.router.navigate(['/login']);
     }
   }
 
-  goToTournament(m){
-    const navigationExtra : NavigationExtras = {state: {name:m.name, id:m.id}};
-    this.router.navigateByUrl('tournament/tournament-detail',navigationExtra);
-  }
-
-  getSubscription(id){
+  getOrder(id){
     const opt = {
       should_paginate:false,
       _sort:'created_at',
       _sortDir:'desc',
       user_id:id,
-      state:"paid",
-      _includes:'tournament'
+      _includes:'product'
     };
-
-    this.api.getList('participants',opt).then((d:any)=>{
-      this.old_subscriptions=d;
-      this.subscriptions=d;
-      this.is_loading=false;
+    this.api.getList('orders',opt).then((d:any)=>{
+      this.old_orders=d;
+      this.orders=d;
     })
   }
+
+  goToProduct(p){
+    const navigationExtra : NavigationExtras = {state: {name:p.name, id:p.id}};
+    this.router.navigateByUrl('product/product-detail',navigationExtra);
+  }
+
   getItems(ev: any) {
     // Reset items back to all of the items
-    this.subscriptions = this.old_subscriptions;
+    this.orders = this.old_orders;
 
     // set val to the value of the searchbar
     const val = ev.target.value;
 
     if (val && val.trim() !== '') {
-      this.subscriptions = this.subscriptions.filter((item) => {
-        return (item.title.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      this.orders = this.orders.filter((item) => {
+        return (item.product.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
       });
     }
 
@@ -71,7 +68,7 @@ export class MyTournamentPage implements OnInit {
   }
 
   doRefresh(event) {
-    this.getSubscription(this.user.id);
+    this.getOrder(this.user.id);
     setTimeout(() => {
       console.log('Async operation has ended');
       event.target.complete();

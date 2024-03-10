@@ -288,7 +288,7 @@
   "missing":"missing",
   "missings":"missing",
   "for_search":"to start the search",
-  "is_delivery":"Can deliver",
+  "is_delivery":"Home delivery",
   "is_moving":"Moving place",
   "choose_town":"Choose town",
   "choose_category":"Choose category",
@@ -534,6 +534,19 @@
   "account":"Account",
   "sponsor_code_exist":"Username unavailable",
   "user_name":"Username",
-  "share":"Share"
+  "share":"Share",
+  "no_subscription_tournament":"You must be a WarZone member to participate",
+  "payment":"Payment",
+  "buy_tournament":"Tournament participation",
+  "promo_code_is":"Your promo code is",
+  "number_sponsored_player":"Number of sponsored players",
+  "become_member_first":"You must be a member to purchase this pack",
+  "day":"Day",
+  "quantity":"Quantity",
+  "delivery_time":"Delivery time after validation of the order",
+  "order":"Order",
+  "order_at":"Ordered on",
+  "delivery_schedule_at":"Delivery scheduled for",
+  "my_orders":"My orders"
   
 }

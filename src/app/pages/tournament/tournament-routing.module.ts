@@ -11,10 +11,6 @@ const routes: Routes = [
   {
     path: 'tournament-detail',
     loadChildren: () => import('./tournament-detail/tournament-detail.module').then( m => m.TournamentDetailPageModule)
-  },
-  {
-    path: 'buy-tournament',
-    loadChildren: () => import('./buy-tournament/buy-tournament.module').then( m => m.BuyTournamentPageModule)
   }
 ];
 

@@ -322,7 +322,8 @@ export class CreateAccountPage implements OnInit {
         }
         this.api.updateImage(this.imagesContainer,'people',r.user.person,'account_created');
         //this.navCtrl.navigateRoot(['/user']);
-        this.navCtrl.navigateRoot(['/tabs']);
+        //this.navCtrl.navigateRoot(['/tabs']);
+        this.navCtrl.navigateRoot(['/activated-account']); // activation du compte
         this.util.hideLoading();
       },q=>{
         this.util.hideLoading();

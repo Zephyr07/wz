@@ -27,6 +27,12 @@ export class StatutPipe implements PipeTransform{
       return 'Payée';
     } else if (value === 'pending_payment') {
       return 'En attente de paiement';
+    } else if (value === 'pending_validation') {
+      return 'En attente de validation de la commande';
+    } else if (value === 'cancel') {
+      return 'Commande annulée';
+    } else if (value === 'delivered') {
+      return 'Livrée';
     } else if (value === 'unpaid') {
       return 'Non payée';
     } else if (value === 1) {

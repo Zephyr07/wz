@@ -14,14 +14,8 @@
     </ion-buttons>
 
     <ion-fab vertical="top" horizontal="start" slot="fixed" style="margin-top:25px">
-      <ion-fab-button color="primary" size="small" (click)="backToPreviousPage()">
+      <ion-fab-button color="light" size="small" (click)="backToPreviousPage()">
         <ion-icon name="chevron-back-outline"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
-
-    <ion-fab vertical="top" horizontal="end" slot="fixed" style="margin-top:25px">
-      <ion-fab-button color="primary" size="small" (click)="newRank()">
-        <ion-icon name="star"></ion-icon>
       </ion-fab-button>
     </ion-fab>
 
@@ -44,12 +38,12 @@
         <ion-card-header>
           <ion-skeleton-text *ngIf="isLoading" animated ></ion-skeleton-text>
 
-          <ion-card-title *ngIf="!isLoading" style="font-size: 30px; color:var(--ion-color-danger);font-weight: bold">{{product.name}} </ion-card-title>
-          <ion-card-subtitle  style="color: var(--ion-color-dark)">
+          <ion-card-title *ngIf="!isLoading" style="font-size: 30px;font-weight: bold">{{product.name}} </ion-card-title>
+          <ion-card-title *ngIf="!isLoading" style="font-size: 20px; color:var(--ion-color-primary);font-weight: bold">{{product.price|priceFormat}} U</ion-card-title>
+          <ion-card-subtitle >
             <app-rank [rank]="product.ratings.avg"></app-rank>
 
-            <span class="ion-float-right primary" (click)="showRank()" style="text-decoration: underline; margin-left:10px">{{'comments'|translate}}</span>
-            <span class="ion-float-right primary" (click)="showTestimonial()" style="text-decoration: underline">{{'testimonial'|translate}}s</span> &nbsp;
+            <span class="ion-float-right" (click)="showRank()" style="text-decoration: underline; margin-left:10px">{{'comments'|translate}}</span>
 
           </ion-card-subtitle>
 
@@ -63,26 +57,17 @@
           <span style="font-size: 16px" [innerHTML]="product.description"></span>
         </ion-card-content>
 
-        <div class="divider"></div>
-
-        <ion-card-content *ngIf="!isLoading"  style="padding-top:10px">
-          <ion-row>
-            <ion-col size="6" style="font-size: 14px; font-weight: bold; color:var(--ion-color-primary)">{{'country'|translate}}</ion-col>
-            <ion-col size="4" style="font-size: 14px; text-align: right; font-weight: bold; color:var(--ion-color-primary)">{{'price'|translate}}</ion-col>
-            <ion-col size="2" style="font-size: 14px; text-align: right; font-weight: bold; color:var(--ion-color-primary)">PV</ion-col>
-          </ion-row>
-          <ion-row *ngFor="let p of product.prices">
-            <ion-col size="6">{{p.country.name}}</ion-col>
-            <ion-col size="4" style="text-align: right">{{p.price|priceFormat}} {{p.country.currency}}</ion-col>
-            <ion-col size="2" style="text-align: right">{{p.pv|priceFormat}}</ion-col>
-          </ion-row>
-        </ion-card-content>
-
 
 
       </div>
 
     </div>
+
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button (click)="goToOrder()">
+        <ion-icon name="cart"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
 
   </ion-content>
 
@@ -154,41 +139,4 @@
   </ion-modal>
 
 
-  <ion-button style="display: none" id="open-modal-testimonial" expand="block">Open Sheet Modal</ion-button>
-
-  <ion-modal #modalTestimonial trigger="open-modal-testimonial" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.75]">
-    <ng-template>
-      <ion-content>
-        <ion-toolbar>
-          <ion-title>{{'testimonial'|translate}}s</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="newTestimonial()">
-              <ion-icon slot="icon-only" color="primary" name="add"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-
-        <ion-list style="padding: 15px">
-          <ion-item *ngFor="let i of testimonials">
-            <ion-avatar slot="end">
-              <img src="{{i.user.partner.image}}" />
-            </ion-avatar>
-            <ion-label>
-              <h3><span class="primary">{{i.user.partner.full_name}}</span></h3>
-              <p style="white-space: normal">{{i.content}}.</p>
-              <small style="font-weight: lighter;font-size: 10px">{{'the'|translate}} {{i.created_at|dateFormat:true}}</small>
-            </ion-label>
-          </ion-item>
-        </ion-list>
-
-
-        <ion-infinite-scroll threshold="100px" (ionInfinite)="getTestimonials()">
-          <ion-infinite-scroll-content
-            loadingSpinner="bubbles"
-            loadingText="{{'loading'|translate}}">
-          </ion-infinite-scroll-content>
-        </ion-infinite-scroll>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
 </ion-content>

@@ -94,6 +94,10 @@ const routes: Routes = [
   {
     path: 'activated-account',
     loadChildren: () => import('./pages/auth/activated-account/activated-account.module').then( m => m.ActivatedAccountPageModule)
+  },
+  {
+    path: 'order',
+    loadChildren: () => import('./pages/order/order.module').then( m => m.OrderPageModule)
   }
 ];
 @NgModule({
