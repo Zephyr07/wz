@@ -547,5 +547,15 @@
   "order":"Commander",
   "order_at":"Commandé le",
   "delivery_schedule_at":"Livraison prévue le",
-  "my_orders":"Mes commandes"
+  "my_orders":"Mes commandes",
+  "play":"Jouer",
+  "replay":"Rejouer",
+  "my_tombolas":"Mes tombolas",
+  "failed":"Perdu",
+  "won":"Gagné",
+  "good_answer":"La bonne réponse",
+  "your_sponsor_code":"Votre code promo",
+  "number_referral":"Nombre de personne parrainée",
+  "buy_tombola":"Tombola",
+  "sponsorship":"Parrainage"
 }

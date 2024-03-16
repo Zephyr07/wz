@@ -21,10 +21,6 @@ const routes: Routes = [
     loadChildren: () => import('./demand/demand.module').then( m => m.DemandPageModule)
   },
   {
-    path: 'my-training',
-    loadChildren: () => import('./my-training/my-training.module').then( m => m.MyTrainingPageModule)
-  },
-  {
     path: 'referral',
     loadChildren: () => import('./referral/referral.module').then( m => m.ReferralPageModule)
   },
@@ -43,6 +39,10 @@ const routes: Routes = [
   {
     path: 'my-order',
     loadChildren: () => import('./my-order/my-order.module').then( m => m.MyOrderPageModule)
+  },
+  {
+    path: 'my-tombola',
+    loadChildren: () => import('./my-tombola/my-tombola.module').then( m => m.MyTombolaPageModule)
   }
 
 ];

@@ -1,0 +1,56 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'Menu'|translate}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="contactUs()">
+        <ion-icon slot="icon-only" name="chatbubbles-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="menu" style="margin-top:50px">
+
+    <ion-item lines="none" button (click)="goToAccount()">
+      <ion-icon name="person" slot="start"></ion-icon>
+      <ion-label>
+        {{'my_account'|translate}}
+      </ion-label>
+    </ion-item>
+    <ion-item *ngIf="settings.android.referral=='enable'" lines="none" button (click)="goToReferral()">
+      <ion-icon name="share-social-outline" slot="start"></ion-icon>
+      <ion-label>
+        {{'sponsorship'|translate}}
+      </ion-label>
+    </ion-item>
+
+    <ion-item lines="none" button (click)="askLanguage()">
+      <ion-icon name="flag-outline" slot="start"></ion-icon>
+      <ion-label>
+        {{'set_language'|translate}}
+      </ion-label>
+    </ion-item>
+
+    <ion-item lines="none" button (click)="cgu()">
+      <ion-icon name="document-text-outline" slot="start"></ion-icon>
+      <ion-label>
+        {{'Politique d\'utilisation'|translate}}
+      </ion-label>
+    </ion-item>
+
+    <ion-item lines="none" button (click)="cgv()">
+      <ion-icon name="document-text-outline" slot="start"></ion-icon>
+      <ion-label>
+        {{'Condition générale de vente'|translate}}
+      </ion-label>
+    </ion-item>
+
+
+  </div>
+  <a id="contact" style="display: none" href="mailto:thewarzone237@gmail.com"></a>
+
+</ion-content>

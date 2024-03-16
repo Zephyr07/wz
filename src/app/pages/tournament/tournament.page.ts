@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {ApiProvider} from "../../providers/api/api";
 import {NavigationExtras, Router} from "@angular/router";
 import {UtilProvider} from "../../providers/util/util";
-import {ModalAddPromotionComponent} from "../../components/modal-add-promotion/modal-add-promotion.component";
 import {ModalController} from "@ionic/angular";
 import {ModalAddTournamentComponent} from "../../components/modal-add-tournament/modal-add-tournament.component";
 import * as moment from "moment";

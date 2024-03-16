@@ -11,21 +11,31 @@
       <ion-icon name="home"></ion-icon>
     </ion-tab-button>
 
-    <ion-tab-button tab="game" class="game">
+    <ion-tab-button tab="game">
       <ion-icon name="game-controller"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="tournament" class="game">
+      <ion-icon name="calendar"></ion-icon>
+      <ion-badge *ngIf="tournament>0">{{tournament}}</ion-badge>
     </ion-tab-button>
 
     <svg height="50" viewBox="0 0 100 50" width="100" xmlns="http://www.w3.org/2000/svg">
       <path d="M100 0v50H0V0c.543 27.153 22.72 49 50 49S99.457 27.153 99.99 0h.01z" fill="pink" fill-rule="evenodd">
               </path></svg>
 
-    <ion-tab-button tab="tournament" class="event">
-      <ion-icon name="calendar"></ion-icon>
-      <ion-badge *ngIf="tournament>0">{{tournament}}</ion-badge>
+    <ion-tab-button tab="tombola" class="event">
+      <ion-icon name="dice"></ion-icon>
+      <ion-badge *ngIf="tombola>0">{{tombola}}</ion-badge>
     </ion-tab-button>
 
-    <ion-tab-button tab="store" class="user">
+    <ion-tab-button tab="store">
       <ion-icon name="storefront"></ion-icon>
     </ion-tab-button>
+
+    <ion-tab-button tab="menu" class="user">
+      <ion-icon name="menu"></ion-icon>
+    </ion-tab-button>
   </ion-tab-bar>
+
 </ion-tabs>

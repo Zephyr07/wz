@@ -76,79 +76,92 @@ export class StorePage implements OnInit {
   }
 
   async subscribe(t){
-    if(this.is_subscription && t!="ABONNEMENT"){
-      let pack_id=1;
-      if(t=='DUO'){
-        pack_id=2;
-      } else if(t=='FAMILLE'){
-        pack_id=3;
-      } else if(t=='ABONNEMENT'){
-        pack_id=4;
-      }
-
-      this.pack = _.find(this.packs,{'id':pack_id});
-
-      let titre ="S'abonner";
-      let text = 'Vous allez souscrire à '+this.pack.game_hour+" heures de jeu. Coût : "+this.pack.price+" U. Tout abonnement précédent sera annulé";
-      let result = "Pack acheté, vos heures de jeux ont été créditées";
-      if(pack_id==4){
-        titre = "Devenir membre";
-        text = "Vous allez devenir membre de la salle et bénéficier de reduction sur nos prix. Coût : 1 000U";
-        result = "Bienvenue cher membre. Vous bénéficier des reductions sur nos prix"
-      }
-
-      if(this.user.unit>=this.pack.price){
-        // demande du numéro
-        const alert = await this.alertController.create({
-          cssClass: 'my-custom-class',
-          header: titre,
-          subHeader:text,
-          buttons: [
-            {
-              text: 'Annuler',
-              role: 'cancel',
-              cssClass: 'secondary',
-              handler: () => {
-                //console.log('Confirm Cancel');
-              }
-            }, {
-              text: 'Confirmer',
-              handler: (data:any) => {
-                let target = "transactions";
-                if(pack_id==4){
-                  // subscription
-                  target = "subscriptions";
-                }
-                const opt = {
-                  pack_id,
-                  user_id:this.user.id,
-                  type:'pack'
-                };
-                this.util.showLoading('initiation_payment');
-                this.api.post(target,opt).then(d=>{
-                  this.util.hideLoading();
-                  this.util.doToast(result,5000)
-                }, q=>{
-                  this.util.hideLoading();
-                  this.util.handleError(q);
-                });
-              }
-            }
-          ]
-        });
-
-        await alert.present();
-      } else {
-        // recharge du compte
-        this.recharge(this.pack);
-        //this.util.doToast('Solde insuffisant. Veuillez recharger votre compte',3000);
+    if(t=='ABONNEMENT'){
+      if(this.is_subscription){
+        this.util.doToast("Vous êtes déjà membre",3000,'light');
+      } else{
+        this.buyPack(4);
       }
     } else {
-      this.util.doToast("become_member_first",3000);
+      if(this.is_subscription){
+        let pack_id=1;
+        if(t=='DUO'){
+          pack_id=2;
+        } else if(t=='FAMILLE'){
+          pack_id=3;
+        } else if(t=='ABONNEMENT'){
+          pack_id=4;
+        }
+
+        this.buyPack(pack_id)
+
+      } else {
+        this.util.doToast("become_member_first",3000);
+      }
+    }
+  }
+
+  async buyPack(pack_id){
+    this.pack = _.find(this.packs,{'id':pack_id});
+
+    let titre ="S'abonner";
+    let text = 'Vous allez souscrire à '+this.pack.game_hour+" heures de jeu. Coût : "+this.pack.price+" U. Tout abonnement précédent sera annulé";
+    let result = "Pack acheté, vos heures de jeux ont été créditées";
+    if(pack_id==4){
+      titre = "Devenir membre";
+      text = "Vous allez devenir membre de la salle et bénéficier de reduction sur nos prix. Coût : 1 000U";
+      result = "Bienvenue cher membre. Vous bénéficiez des reductions sur nos prix"
     }
 
+    if(this.user.unit>=this.pack.price){
+      // demande du numéro
+      const alert = await this.alertController.create({
+        cssClass: 'my-custom-class',
+        header: titre,
+        subHeader:text,
+        buttons: [
+          {
+            text: 'Annuler',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => {
+              //console.log('Confirm Cancel');
+            }
+          }, {
+            text: 'Confirmer',
+            handler: (data:any) => {
+              let target = "transactions";
+              if(pack_id==4){
+                // subscription
+                target = "subscriptions";
+              }
+              const opt = {
+                pack_id,
+                user_id:this.user.id,
+                type:'pack'
+              };
+              this.util.showLoading('initiation_payment');
+              this.api.post(target,opt).then(d=>{
+                if(pack_id==4){
+                  this.is_subscription=true;
+                }
+                this.util.hideLoading();
+                this.util.doToast(result,5000)
+              }, q=>{
+                this.util.hideLoading();
+                this.util.handleError(q);
+              });
+            }
+          }
+        ]
+      });
 
-
+      await alert.present();
+    } else {
+      // recharge du compte
+      this.recharge(this.pack);
+      //this.util.doToast('Solde insuffisant. Veuillez recharger votre compte',3000);
+    }
   }
 
   async recharge(pack) {

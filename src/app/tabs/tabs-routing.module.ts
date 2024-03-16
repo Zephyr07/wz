@@ -24,6 +24,14 @@ const routes: Routes = [
         loadChildren: () => import('../pages/tournament/tournament.module').then(m => m.TournamentPageModule)
       },
       {
+        path: 'tombola',
+        loadChildren: () => import('../pages/tombola/tombola.module').then(m => m.TombolaPageModule)
+      },
+      {
+        path: 'menu',
+        loadChildren: () => import('../pages/menu/menu.module').then(m => m.MenuPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full'

@@ -11,7 +11,6 @@ import {TranslateModule} from "@ngx-translate/core";
 import {RankComponentModule} from "../../../components/rank/rank.module";
 import {ModalAddRankModule} from "../../../components/modal-add-rank/modal-add-rank.module";
 import {PipeModule} from "../../../pipe/pipe.module";
-import {ModalAddTestimonialModule} from "../../../components/modal-add-testimonial/modal-add-testimonial.module";
 
 @NgModule({
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
@@ -23,7 +22,6 @@ import {ModalAddTestimonialModule} from "../../../components/modal-add-testimoni
     TranslateModule,
     RankComponentModule,
     ModalAddRankModule,
-    ModalAddTestimonialModule,
     PipeModule
   ],
   declarations: [ProductDetailPage]
