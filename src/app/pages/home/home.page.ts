@@ -205,7 +205,7 @@ export class HomePage implements OnInit {
   doRefresh(event) {
     //this.getTournaments();
     if(this.api.checkUser()){
-      this.getUser();
+      this.ionViewWillEnter();
     } else {
 
     }
