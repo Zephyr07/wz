@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {UtilProvider} from "../util/util";
 import * as moment from "moment";
-import {ActionSheetController} from "@ionic/angular";
+import {ActionSheetController, AlertController} from "@ionic/angular";
 import {TranslateService} from "@ngx-translate/core";
 
-import {API_ENDPOINT} from "../../services/contants";
+import {API_ENDPOINT, NUMBER_RANGE} from "../../services/contants";
 import * as _ from "lodash";
 import axios from "axios";
 
@@ -40,17 +40,39 @@ http.interceptors.response.use((res:any) =>{
 export class ApiProvider {
 
   public date_format = 'Y-M-D';
-
+  private TEXT="";
+  private CANCEL="";
+  private UPDATE="";
+  private PHONE="";
+  private AMOUNT="";
   public autoplay_val = 5000;
   public slide_speed = 700;
 
   constructor(
     private router: Router,
+    private alertController: AlertController,
     private actionSheetController: ActionSheetController,
     private translate:TranslateService,
     private util:UtilProvider
   ) {
-
+    this.translate.get('recharge_account').subscribe( (res: string) => {
+      this.TEXT=res;
+    });
+    this.translate.get('cancel').subscribe( (res: string) => {
+      this.CANCEL=res;
+    });
+    this.translate.get('confirm').subscribe( (res: string) => {
+      this.UPDATE=res;
+    });
+    this.translate.get('recharge_account').subscribe( (res: string) => {
+      this.TEXT=res;
+    });
+    this.translate.get('phone').subscribe( (res: string) => {
+      this.PHONE=res;
+    });
+    this.translate.get('amount').subscribe( (res: string) => {
+      this.AMOUNT=res;
+    });
   }
 
   public getList(target:string,data?:any){
@@ -162,6 +184,77 @@ export class ApiProvider {
       return false;
     }
 
+  }
+
+  async rechargeAccount(fees,user_id) {
+    let text = "Recharger votre compte de "+fees+"U. Entrer le numéro pour le paiement mobile";
+    const alert = await this.alertController.create({
+      header: this.TEXT,
+      subHeader: text,
+      buttons: [
+        {
+          text: this.CANCEL,
+          role: 'cancel',
+        },
+        {
+          text: this.UPDATE,
+          role:'confirm',
+          handler:(data)=>{
+            if(!isNaN(data.phone) && data.phone <= NUMBER_RANGE.max && data.phone >= NUMBER_RANGE.min){
+              this.util.showLoading("treatment");
+              const opt = {
+                type:'account',
+                amount:data.amount,
+                user_id
+              };
+              this.post('init_buy_account',opt).then(async (d:any) => {
+                // initialisation du payment my-coolPay
+                this.post('payment/' + d.id + '/' + data.phone,{}).then(e=>{
+                  this.util.hideLoading();
+                  this.util.doToast('payment_pending',5000);
+                  // redirection vers la page de l'user
+                  /*setTimeout(()=>{
+                    this.navCtrl.navigateRoot(['/user']);
+                  },3000)*/
+                }, q=>{
+                  this.util.hideLoading();
+                  this.util.handleError(q);
+                })
+                //console.log(d);
+              },q=>{
+                this.util.hideLoading();
+                this.util.handleError(q);
+              });
+            } else {
+              this.util.doToast('Veuillez entrer un numéro de téléphone valide',3000);
+            }
+          }
+        },
+      ],
+      inputs: [
+        {
+          placeholder: this.AMOUNT,
+          type:'number',
+          name:'amount',
+          value:fees,
+          attributes: {
+            step:50,
+            min: 0
+          },
+        },
+        {
+          placeholder: this.PHONE,
+          type:'number',
+          name:'phone',
+          attributes: {
+            min: NUMBER_RANGE.min,
+            max: NUMBER_RANGE.max
+          },
+        }
+      ],
+    });
+
+    await alert.present();
   }
 
   checkSubscription(s){

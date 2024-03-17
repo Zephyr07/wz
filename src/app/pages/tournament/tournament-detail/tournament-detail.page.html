@@ -28,36 +28,56 @@
     </div>
 
     <div class="presentation">
-      <ion-card-header>
+      <ion-card-header style="flex-direction:column">
         <ion-skeleton-text *ngIf="isLoading" animated ></ion-skeleton-text>
 
-        <ion-card-title *ngIf="!isLoading" style="font-size: 30px; color:var(--ion-color-danger);font-weight: bold">
-          <span style="color:#000 !important;">{{'tournament'|translate}}</span> {{tournament.name}}
+        <ion-card-title *ngIf="!isLoading" style="font-size:25px;font-weight: bold">
+          <span style="color:#000 !important;" *ngIf="tournament.price_type=='cash'">{{'tournament'|translate}}</span> {{tournament.name}}
         </ion-card-title>
-        <ion-card-title *ngIf="!isLoading" style="font-size: 20px; color:var(--ion-color-danger);font-weight: bold">
+
+        <ion-card-title *ngIf="!isLoading && tournament.price_type=='cash'" style="font-size: 20px; color:var(--ion-color-danger)">
           {{tournament.winner_price |priceFormat}} FCFA <span  style="color:#000 !important;">{{'to_win'|translate}}</span>
         </ion-card-title>
-        <ion-card-subtitle  style="color: var(--ion-color-dark)">
+        <ion-card-title *ngIf="!isLoading && tournament.price_type!='cash'" style="font-size: 20px; color:var(--ion-color-danger);font-weight: bold">
+          {{tournament.winner_price}} <span  style="color:#000 !important;">{{'to_win'|translate}}</span>
+        </ion-card-title>
+        <ion-card-title style="font-size: 14px; margin-top:10px">
+          <ion-icon name="time"></ion-icon> {{tournament.start_at|dateFormat}} - {{tournament.end_at|dateFormat}}
+        </ion-card-title>
 
-          <span [innerHTML]="tournament.description"></span>
+        <ion-card-subtitle  style="color: var(--ion-color-dark); text-transform: none; font-weight: normal; font-size:14px " [innerHTML]="tournament.description">
         </ion-card-subtitle>
 
 
         <ion-skeleton-text *ngIf="isLoading" animated style="width: 20%"></ion-skeleton-text>
         <ion-skeleton-text *ngIf="isLoading" animated style="width: 10%"></ion-skeleton-text>
+
+        <ion-card-content *ngIf="texte!=''" class="ion-no-padding">
+          <ion-row>
+            <ion-col size="12" style="text-align: center; text-transform: uppercase; font-weight: bold; color:var(--ion-color-primary)">
+              {{texte}}
+              <br>
+              <span style="color:#000">Votre numéro est le <strong>"{{number}}"</strong></span>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+
+        <ion-card-content class="ion-no-padding" *ngIf="!is_subscription">
+          <ion-row>
+            <ion-col size="12" style="text-align: center; text-transform: uppercase; font-weight: bold; color:var(--ion-color-warning)">
+              {{'no_subscription_tournament'|translate}}
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
       </ion-card-header>
 
       <div class="divider"></div>
       <ion-card-content *ngIf="!isLoading"  style="padding-top:10px">
-        <ion-row>
-          <ion-col size="8" style="font-size: 14px; font-weight: bold;">{{'date'|translate}}</ion-col>
-          <ion-col size="4" style="font-size: 14px; text-align: right; font-weight: bold; color:var(--ion-color-primary)">{{tournament.start_at|dateFormat}}</ion-col>
-        </ion-row>
-        <ion-row>
+        <ion-row *ngIf="tournament.price_type=='cash'">
           <ion-col size="8" style="font-size: 14px; font-weight: bold;">{{'min_participant'|translate}}</ion-col>
           <ion-col size="4" style="font-size: 14px; text-align: right; font-weight: bold; color:var(--ion-color-primary)">{{tournament.min_participant|priceFormat}}</ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row *ngIf="tournament.price_type=='cash'">
           <ion-col size="8" style="font-size: 14px; font-weight: bold;">{{'min_participant'|translate}}</ion-col>
           <ion-col size="4" style="font-size: 14px; text-align: right; font-weight: bold; color:var(--ion-color-primary)">{{tournament.max_participant|priceFormat}}</ion-col>
         </ion-row>
@@ -67,13 +87,7 @@
         </ion-row>
       </ion-card-content>
 
-      <ion-card-content *ngIf="texte!=''">
-        <ion-row>
-          <ion-col size="12" style="text-align: center; text-transform: uppercase; font-weight: bold; color:var(--ion-color-primary)">
-            {{texte}}
-          </ion-col>
-        </ion-row>
-      </ion-card-content>
+
 
 
     </div>
@@ -82,6 +96,10 @@
 
 </ion-content>
 
-<ion-footer class="ion-text-center">
-  <ion-button *ngIf="can_subscribe" (click)="showSchedule()">{{'participate'|translate}}</ion-button>
+<ion-footer class="ion-text-center" *ngIf="is_subscription">
+  <ion-button *ngIf="can_subscribe" (click)="askSchedule()">{{'participate'|translate}}</ion-button>
+</ion-footer>
+
+<ion-footer class="ion-text-center" *ngIf="!is_subscription">
+  <ion-button *ngIf="can_subscribe" color="dark" (click)="subscribe()">{{'subscribe_subscription'|translate}}</ion-button>
 </ion-footer>

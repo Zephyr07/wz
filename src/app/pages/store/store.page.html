@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>{{'store'|translate}}s</ion-title>
+    <ion-title>{{'store'|translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -13,8 +13,36 @@
 
     <ion-row class="games">
       <ion-col size="12" (click)="subscribe('ABONNEMENT')">
-        <img alt="" src="../../../assets/img/packs/4.png"  style="height: 300px"/>
+        <img alt="" src="../../../assets/img/packs/4.png"  style="height: 200px"/>
       </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="card-background-page" (click)="goTo('product')">
+    <ion-toolbar class="ion-no-border">
+      <ion-title slot="start">{{'OTAKUGET+'|translate}}</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="goTo('product')"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+
+    <ion-row>
+      <ion-col>
+        <swiper-container
+          [spaceBetween]="10"
+          [slidesPerView]="2"
+          [speed]="1000"
+          [loop]="true"
+          [autoplay]="{enable:true,delay:6000}" #swiperComponents>
+          <swiper-slide *ngFor="let p of products">
+            <ion-card class="small">
+              <img src="{{p.image.url}}"/>
+            </ion-card>
+          </swiper-slide>
+
+        </swiper-container>
+      </ion-col>
+
     </ion-row>
   </ion-grid>
 
@@ -24,17 +52,28 @@
     </ion-toolbar>
 
     <ion-row class="games">
-      <ion-col size="6" (click)="subscribe('SOLO')">
-        <img alt="" src="../../../assets/img/packs/1.png" />
-      </ion-col>
-      <ion-col size="6" (click)="subscribe('DUO')">
-        <img alt="" src="../../../assets/img/packs/2.png" />
-      </ion-col>
-      <ion-col size="12" (click)="subscribe('FAMILLE')">
-        <img alt="" src="../../../assets/img/packs/3.png" style="height: 300px"/>
+      <ion-col>
+        <swiper-container
+                          [spaceBetween]="10"
+                          [slidesPerView]="2.3"
+                          [speed]="1000"
+                          [loop]="true"
+                          [autoplay]="{enable:true,delay:7000}" #swiperComponent>
+          <swiper-slide (click)="subscribe('SOLO')">
+            <img alt="" src="../../../assets/img/packs/1.png" />
+          </swiper-slide>
+          <swiper-slide (click)="subscribe('DUO')">
+            <img alt="" src="../../../assets/img/packs/2.png" />
+          </swiper-slide>
+          <swiper-slide (click)="subscribe('FAMILLE')">
+            <img alt="" src="../../../assets/img/packs/3.png" />
+          </swiper-slide>
+
+        </swiper-container>
       </ion-col>
     </ion-row>
   </ion-grid>
+
 
   <ion-grid>
     <ion-toolbar class="ion-no-border">

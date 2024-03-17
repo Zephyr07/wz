@@ -46,6 +46,12 @@
         {{'my_points'|translate}}
       </ion-label>
     </ion-item>
+    <ion-item lines="none" button (click)="goToMyOrder()">
+      <ion-icon name="cart-outline" slot="start"></ion-icon>
+      <ion-label>
+        {{'my_orders'|translate}}
+      </ion-label>
+    </ion-item>
     <ion-item lines="none" button (click)="goToMySchedule()">
       <ion-icon name="calendar-outline" slot="start"></ion-icon>
       <ion-label>

@@ -120,32 +120,8 @@ export class HomePage implements OnInit {
   }
 
   goTo(url){
-    if(url=='simulateur' || url=="training"){
-      if(this.api.checkUser()){
-        const user = JSON.parse(localStorage.getItem('user_wz'));
-        const sub = this.api.checkSubscription(user.subscription);
-        if(sub.is_actived){
-          if(user.subscription.pack.code=='free'){
-            this.util.showModal(this.NO_SUBSCRIPTION_TITLE,this.NO_SUBSCRIPTION_CONTENT,this.SUBSCRIPTION,'user/pack');
-          } else if(user.subscription.pack.code=='essentiel'){
-            if(url=='simulateur'){
-              this.router.navigateByUrl(url);
-            } else {
-              // upgrade du pack
-              this.util.showModal(this.UPGRADE_PACK_TITLE,this.UPGRADE_PACK_TEXT,this.SUBSCRIPTION,'user/pack');
-            }
-          } else if(user.subscription.pack.code=='vip'){
-            this.router.navigateByUrl(url);
-          }
-
-        } else if (sub.is_subscription && !sub.is_actived){
-          this.util.showModal(this.SUBSCRIPTION_EXPIRED_TITLE,this.SUBSCRIPTION_EXPIRED_CONTENT,this.SUBSCRIPTION,'user/pack');
-        } else {
-          this.util.showModal(this.NO_SUBSCRIPTION_TITLE,this.NO_SUBSCRIPTION_CONTENT,this.SUBSCRIPTION,'user/pack');
-        }
-      } else {
-        this.util.loginModal();
-      }
+    if(url=='product'){
+      this.router.navigateByUrl(url);
     } else if(url=='user' || url=='tournament'){
       if(this.api.checkUser()){
         this.router.navigateByUrl(url);
@@ -167,7 +143,7 @@ export class HomePage implements OnInit {
     //this.util.showLoading("loading");
     const opt = {
       should_paginate:false,
-      'start_at-get':moment().format("YYYY-MM-DD hh:mm:ss")
+      'end_at-get':moment().format("YYYY-MM-DD hh:mm:ss")
 
     };
 
@@ -184,7 +160,7 @@ export class HomePage implements OnInit {
     //this.util.showLoading("loading");
     const opt = {
       should_paginate:true,
-      _sort:'created_at',
+      _sort:'updated_at',
       _sortDir:'desc',
       per_page:6
     };

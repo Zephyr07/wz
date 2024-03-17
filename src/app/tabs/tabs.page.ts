@@ -22,7 +22,7 @@ export class TabsPage {
     const opt = {
       should_paginate:false,
       _agg:'count',
-      'start_at-get':moment().format("YYYY-MM-DD hh:mm:ss")
+      'end_at-get':moment().format("YYYY-MM-DD hh:mm:ss")
 
     };
 

@@ -56,7 +56,7 @@
             <p class="bold primary" style="font-size: 18px">
               {{s.name}}
             </p>
-            <p style="white-space: normal">{{s.description|limitTo:100}}<span *ngIf="s.description.length>100">...</span> </p>
+            <p style="white-space: normal; color:#000" [innerHTML]="s.description|limitTo:100"></p>
 
           </ion-label>
         </ion-item>

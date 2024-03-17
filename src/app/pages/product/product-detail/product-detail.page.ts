@@ -3,8 +3,7 @@ import {ModalAddRankComponent} from "../../../components/modal-add-rank/modal-ad
 import {ApiProvider} from "../../../providers/api/api";
 import {UtilProvider} from "../../../providers/util/util";
 import {AlertController, IonInfiniteScroll, IonModal, ModalController} from "@ionic/angular";
-import {Router} from "@angular/router";
-import {ModalAddTestimonialComponent} from "../../../components/modal-add-testimonial/modal-add-testimonial.component";
+import {NavigationExtras, Router} from "@angular/router";
 
 @Component({
   selector: 'app-product-detail',
@@ -13,13 +12,14 @@ import {ModalAddTestimonialComponent} from "../../../components/modal-add-testim
 })
 export class ProductDetailPage implements OnInit {
   @ViewChild('modalRank') modalRank: IonModal;
-  @ViewChild('modalTestimonial') modalTestimonial: IonModal;
+
+  user:any={};
+  is_subscription=false;
 
   id=0;
   title="";
   product:any={
     image:{},
-    prices:[],
     ratings:{}
   };
   isLoadingMap = true;
@@ -32,7 +32,6 @@ export class ProductDetailPage implements OnInit {
   isLoadingPrice=true;
   isLoadingCompany=true;
   offer_id:number;
-  tabID="company";
   name="";
   content="";
   distance="";
@@ -49,11 +48,6 @@ export class ProductDetailPage implements OnInit {
   max_length = 0;
   old_max_length = 0;
 
-  per_page_testimonial = 20;
-  page_testimonial = 1;
-  last_page_testimonial = 10000000;
-  max_length_testimonial = 0;
-  old_max_length_testimonial = 0;
 
   map: any;
 
@@ -75,13 +69,13 @@ export class ProductDetailPage implements OnInit {
   ) {
     if(this.router.getCurrentNavigation().extras.state){
       // @ts-ignore
-      this.id= this.router.getCurrentNavigation().extras.state.id;
+      this.id = this.router.getCurrentNavigation().extras.state.id;
       this.getProduct(this.id);
       // @ts-ignore
       this.title= this.router.getCurrentNavigation().extras.state.name;
     } else {
       //console.log("pas d'id");
-      this.id=10;
+      this.id=1;
       this.getProduct(this.id);
     }
   }
@@ -89,17 +83,23 @@ export class ProductDetailPage implements OnInit {
   ngOnInit() {
   }
 
+  ionViewWillEnter() {
+    if (this.api.checkUser()) {
+      this.user = JSON.parse(localStorage.getItem('user_wz'));
+      this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
+    }
+  }
+
   getProduct(id){
     this.id=id;
     const opt = {
-      _includes:"images,prices.country"
+      _includes:"images"
     };
 
     this.api.get('products',id,opt).then(d=>{
       this.product = d;
       //console.log(this.product);
       this.getCommentPlace();
-      this.getTestimonials();
       this.isLoading=false;
     },q=>{
       this.util.handleError(q);
@@ -108,7 +108,7 @@ export class ProductDetailPage implements OnInit {
 
   addRank(){
     if(this.api.checkUser()){
-      const user=JSON.parse(localStorage.getItem('user_lr'));
+      const user=JSON.parse(localStorage.getItem('user_wz'));
       this.util.showLoading('saving');
       let d:any = {};
       d.content = this.content;
@@ -121,9 +121,7 @@ export class ProductDetailPage implements OnInit {
       this.util.loginModal();
     }
   }
-  ionViewWillEnter(){
 
-  }
 
   backToPreviousPage(){
     document.getElementById('backButton').click();
@@ -153,47 +151,6 @@ export class ProductDetailPage implements OnInit {
 
   }
 
-  showTestimonial(){
-    document.getElementById('open-modal-testimonial').click();
-  }
-
-  async newTestimonial(o?:any){
-    if(this.api.checkUser()){
-      o=this.product;
-      const modal = await this.modalController.create({
-        component: ModalAddTestimonialComponent,
-        cssClass: 'my-custom-class',
-        componentProps: {
-          'objet': o
-        }
-      });
-      return await modal.present();
-    } else {
-      this.modalTestimonial.setCurrentBreakpoint(0);
-      this.util.loginModal();
-    }
-
-  }
-
-  doRefresh(event) {
-
-    this.page=1;
-    this.max_length = 0;
-    this.old_max_length = 0;
-    this.last_page= 9999999;
-    this.comments=[];
-    this.page_testimonial=1;
-    this.max_length_testimonial = 0;
-    this.old_max_length_testimonial = 0;
-    this.last_page_testimonial= 9999999;
-    this.testimonials=[];
-    this.getProduct(this.id);
-    setTimeout(() => {
-      console.log('Async operation has ended');
-      event.target.complete();
-    }, 1000);
-  }
-
 
   getCommentPlace(){
 
@@ -201,7 +158,7 @@ export class ProductDetailPage implements OnInit {
       ratingable_type:'App\\Models\\Product',
       ratingable_id:this.id,
       should_paginate:true,
-      _includes:'user.partner',
+      _includes:'user.person',
       _sort:'created_at',
       _sortDir:'desc',
       per_page:this.per_page,
@@ -215,10 +172,10 @@ export class ProductDetailPage implements OnInit {
         this.old_max_length = this.max_length;
         r.forEach(v=>{
           //v.created_at = moment(v.created_at).format("DD MMM YYYY");
-          if(v.user.partner.image.split('product_poster').length>0){
+          if(v.user.person.image.split('product_poster').length>0){
             // pas d'image
             // attribution image par defaut
-            v.user.partner.image="../../../../assets/icon/lr.png"
+            v.user.person.image="../../../../assets/img/wz/wz_noir.svg"
           }
           this.comments.push(v);
         });
@@ -236,44 +193,24 @@ export class ProductDetailPage implements OnInit {
     })
   }
 
-
-  getTestimonials(){
-    const opt = {
-      _sort:'created_at',
-      _sortDir:'desc',
-      _includes:'user.partner',
-      should_paginate:true,
-      status:'enable',
-      per_page:this.per_page_testimonial,
-      page:this.page_testimonial,
-      product_id:this.id
-    };
-
-    this.api.getList('testimonials',opt).then((r:any)=>{
-      if(r.length>0){
-        this.last_page_testimonial = r.metadata.last_page;
-        this.max_length_testimonial = r.metadata.total;
-        this.old_max_length_testimonial = this.max_length_testimonial;
-        r.forEach(v=>{
-          //v.created_at = moment(v.created_at).format("DD MMM YYYY");
-          if(v.user.partner.image.split('product_poster').length>0){
-            // pas d'image
-            // attribution image par defaut
-            v.user.partner.image="../../../../assets/icon/lr.png"
-          }
-          this.testimonials.push(v);
-        });
-        if(this.page_testimonial==1){
-          this.isLoadingRank=false;
-        }
-        this.page_testimonial++;
-      } else {
-        this.isLoadingRank=false;
-        //this.util.hideLoading();
-
-      }
-    }, q=>{
-      this.util.handleError(q);
-    })
+  goToOrder(){
+    const navigationExtra : NavigationExtras = {state: {name:this.product.name, id:this.product.id}};
+    this.router.navigateByUrl('order',navigationExtra);
   }
+
+  doRefresh(event) {
+
+    this.page=1;
+    this.max_length = 0;
+    this.old_max_length = 0;
+    this.last_page= 9999999;
+    this.comments=[];
+    this.testimonials=[];
+    this.getProduct(this.id);
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 1000);
+  }
+
 }

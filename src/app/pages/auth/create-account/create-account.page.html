@@ -87,7 +87,7 @@
         <ion-input *ngIf="step==4" (keyup.enter)="next()" type="text" [(ngModel)]="sponsor_code" [ngModelOptions]="{standalone: true}" placeholder="{{'user_name'|translate}}"></ion-input>
 
         <ion-label *ngIf="step==5">{{'Code promo (facultatif)'|translate}}</ion-label>
-        <ion-input *ngIf="step==5" (keyup.enter)="next()" type="text" [(ngModel)]="referral" [ngModelOptions]="{standalone: true}" placeholder="{{'referral'|translate}}"></ion-input>
+        <ion-input *ngIf="step==5" (keyup.enter)="next()" type="text" [(ngModel)]="referral" [ngModelOptions]="{standalone: true}" placeholder="{{'Code promo'|translate}}"></ion-input>
 
         <ion-label *ngIf="step==6">{{'password'|translate}} ({{'8_caracter'|translate}})</ion-label>
         <ion-input *ngIf="step==6" (keyup.enter)="next()" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" type="password" placeholder="{{'password'|translate}}"></ion-input>

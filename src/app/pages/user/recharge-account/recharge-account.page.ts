@@ -25,6 +25,7 @@ export class RechargeAccountPage implements OnInit {
   PASS="";
   NEW_PASS="";
   AMOUNT="";
+  referral_count=0;
   old_payments:any=[];
   subscription_status:any={};
   settings:any={
@@ -82,10 +83,23 @@ export class RechargeAccountPage implements OnInit {
         localStorage.setItem('user_wz',JSON.stringify(this.user));
         this.subscription_status=this.api.checkSubscription(this.user.subscription);
         this.getPerson(this.user.id);
+        this.getReferralCount(this.user.sponsor_code);
       });
     } else {
       this.router.navigate(['/login']);
     }
+  }
+
+  getReferralCount(sponsor_code){
+    const opt = {
+      _agg:'count',
+      referral:sponsor_code,
+      should_paginate:false
+    }
+
+    this.api.getList('users',opt).then((d:any)=>{
+      this.referral_count = d;
+    })
   }
 
   async shareSponsorCode(){
@@ -243,18 +257,7 @@ export class RechargeAccountPage implements OnInit {
   }
 
   doRefresh(event) {
-    if (this.api.checkUser()) {
-      let user = JSON.parse(localStorage.getItem('user_wz'));
-      this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
-        this.user = a.data.user;
-        localStorage.setItem('user_wz',JSON.stringify(this.user));
-        this.subscription_status=this.api.checkSubscription(this.user.subscription);
-        this.getPerson(this.user.id);
-        this.getOldPayments();
-      });
-    } else {
-      this.router.navigate(['/login']);
-    }
+    this.ionViewWillEnter();
 
     setTimeout(() => {
       //console.log('Async operation has ended');

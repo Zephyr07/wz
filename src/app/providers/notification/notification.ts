@@ -41,9 +41,9 @@ export class NotificationProvider {
   }
 
   handle(data){
-    if(data.target=='seminar'){
-      const navigationExtra : NavigationExtras = {state: {title:data.title, id:data.id}};
-      this.router.navigateByUrl('seminar',navigationExtra);
+    if(data.target=='tournament'){
+      const navigationExtra : NavigationExtras = {state: {name:data.name, id:data.id}};
+      this.router.navigateByUrl('tournament/tournament-detail',navigationExtra);
     } else if (data.target=='promotion'){
       // nouveau film en avant première
       const navigationExtra : NavigationExtras = {state: {title:data.title, id:data.id}};

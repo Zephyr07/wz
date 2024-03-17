@@ -39,6 +39,10 @@ const routes: Routes = [
   {
     path: 'recharge-account',
     loadChildren: () => import('./recharge-account/recharge-account.module').then( m => m.RechargeAccountPageModule)
+  },
+  {
+    path: 'my-order',
+    loadChildren: () => import('./my-order/my-order.module').then( m => m.MyOrderPageModule)
   }
 
 ];

@@ -4,21 +4,21 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ProductPageRoutingModule } from './product-routing.module';
+import { OrderPageRoutingModule } from './order-routing.module';
 
-import { ProductPage } from './product.page';
-import {TranslateModule} from "@ngx-translate/core";
+import { OrderPage } from './order.page';
 import {PipeModule} from "../../pipe/pipe.module";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ProductPageRoutingModule,
+    OrderPageRoutingModule,
+    PipeModule,
     TranslateModule,
-    PipeModule
   ],
-  declarations: [ProductPage]
+  declarations: [OrderPage]
 })
-export class ProductPageModule {}
+export class OrderPageModule {}

@@ -43,8 +43,12 @@
       </ion-item>
       <div class="ion-padding" slot="content">
         <p>{{'referral_text'|translate}}</p>
-        <p>Votre code promo est : <span class="bold primary">{{user.sponsor_code}}</span><br></p>
+        <p>{{'promo_code_is'|translate}} : <span class="bold primary" (click)="shareSponsorCode()">{{user.sponsor_code}}</span><br>
+          {{'number_sponsored_player'|translate}} : <span class="bold primary">{{referral_count}}</span><br>
+        </p>
         <ion-button (click)="shareSponsorCode()" color="light">{{'share'|translate}}</ion-button>
+
+
         <div class="radius">
           <ion-card-header style="padding: 5px;">
             <ion-card-title style="text-align: center; font-size: 50px">{{user.referral_point|priceFormat}}</ion-card-title>
