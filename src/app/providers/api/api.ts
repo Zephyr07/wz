@@ -257,7 +257,7 @@ export class ApiProvider {
     await alert.present();
   }
 
-  checkSubscription(s){
+  checkSubscription(s:any){
     let status = {
       is_subscription:false,
       is_actived:false,
@@ -269,9 +269,10 @@ export class ApiProvider {
         // payé
         status.is_paid=true;
         let now = moment();
-        let start_at = moment(s.created_at);
+        let start_at = moment(s.start_at);
+        let created_at = moment(s.created_at);
         //console.log(start_at.add(s.duration,'month').format("YY MM DD"),now.format("YY MM DD"));
-        if(start_at.add(s.pack.duration,'month')>now){
+        if(start_at.add(s.pack.duration,'month')>now && created_at.add(s.pack.duration,'month')>now){
           // activé
           status.is_actived=true;
         }

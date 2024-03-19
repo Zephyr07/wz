@@ -4,11 +4,6 @@
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title>{{'my_account'|translate}}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="contactUs()">
-        <ion-icon slot="icon-only" name="chatbubbles-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -64,18 +59,17 @@
         {{'my_tournaments'|translate}}
       </ion-label>
     </ion-item>
-
-    <ion-item *ngIf="settings.ios.subscription=='enable'" lines="none" button (click)="goToSubscription()">
-      <ion-icon name="diamond-outline" slot="start"></ion-icon>
+    <ion-item lines="none" button (click)="goToMyTombola()">
+      <ion-icon name="dice-outline" slot="start"></ion-icon>
       <ion-label>
-        {{'my_subscription'|translate}}
+        {{'my_tombolas'|translate}}
       </ion-label>
     </ion-item>
 
-    <ion-item lines="none" button (click)="askLanguage()">
-      <ion-icon name="flag-outline" slot="start"></ion-icon>
+    <ion-item *ngIf="settings.android.subscription=='enable'" lines="none" button (click)="goToSubscription()">
+      <ion-icon name="diamond-outline" slot="start"></ion-icon>
       <ion-label>
-        {{'set_language'|translate}}
+        {{'my_subscription'|translate}}
       </ion-label>
     </ion-item>
 

@@ -13,12 +13,12 @@
 
     <ion-row class="games">
       <ion-col size="12" (click)="subscribe('ABONNEMENT')">
-        <img alt="" src="../../../assets/img/packs/4.png"  style="height: 200px"/>
+        <img alt="" src="../../../assets/img/packs/4.png"  style="height: 250px"/>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <ion-grid class="card-background-page" (click)="goTo('product')">
+  <ion-grid class="card-background-page" (click)="goTo('product')" *ngIf="products.length>0">
     <ion-toolbar class="ion-no-border">
       <ion-title slot="start">{{'OTAKUGET+'|translate}}</ion-title>
       <ion-buttons slot="end">

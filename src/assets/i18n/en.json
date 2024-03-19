@@ -547,6 +547,16 @@
   "order":"Order",
   "order_at":"Ordered on",
   "delivery_schedule_at":"Delivery scheduled for",
-  "my_orders":"My orders"
-  
+  "my_orders":"My orders",
+  "play":"Play",
+  "replay":"Replay",
+  "my_tombolas":"My tombolas",
+  "failed":"Lost",
+  "won":"Won",
+  "good_answer":"The good answer",
+  "your_sponsor_code":"Your promo code",
+  "number_referral":"Referrals number",
+  "buy_tombola":"Tombola",
+  "sponsorship":"Sponsorship"
+
 }

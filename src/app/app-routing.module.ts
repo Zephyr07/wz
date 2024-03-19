@@ -32,22 +32,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/product/product.module').then( m => m.ProductPageModule)
   },
   {
-    path: 'stockist',
-    loadChildren: () => import('./pages/stockist/stockist.module').then( m => m.StockistPageModule)
-  },
-  {
-    path: 'seminar',
-    loadChildren: () => import('./pages/seminar/seminar.module').then( m => m.SeminarPageModule)
-  },
-  {
-    path: 'promotion',
-    loadChildren: () => import('./pages/promotion/promotion.module').then( m => m.PromotionPageModule)
-  },
-  {
-    path: 'simulateur',
-    loadChildren: () => import('./pages/simulateur/simulateur.module').then( m => m.SimulateurPageModule)
-  },
-  {
     path: 'faq',
     loadChildren: () => import('./pages/faq/faq.module').then( m => m.FaqPageModule)
   },
@@ -58,14 +42,6 @@ const routes: Routes = [
   {
     path: 'user',
     loadChildren: () => import('./pages/user/user.module').then( m => m.UserPageModule)
-  },
-  {
-    path: 'training',
-    loadChildren: () => import('./pages/training/training.module').then( m => m.TrainingPageModule)
-  },
-  {
-    path: 'testimonial',
-    loadChildren: () => import('./pages/testimonial/testimonial.module').then( m => m.TestimonialPageModule)
   },
   {
     path: 'test',
@@ -98,6 +74,18 @@ const routes: Routes = [
   {
     path: 'order',
     loadChildren: () => import('./pages/order/order.module').then( m => m.OrderPageModule)
+  },
+  {
+    path: 'tombola',
+    loadChildren: () => import('./pages/tombola/tombola.module').then( m => m.TombolaPageModule)
+  },
+  {
+    path: 'menu',
+    loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule)
+  },
+  {
+    path: 'referral',
+    loadChildren: () => import('./pages/referral/referral.module').then( m => m.ReferralPageModule)
   }
 ];
 @NgModule({

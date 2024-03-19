@@ -44,16 +44,9 @@ export class NotificationProvider {
     if(data.target=='tournament'){
       const navigationExtra : NavigationExtras = {state: {name:data.name, id:data.id}};
       this.router.navigateByUrl('tournament/tournament-detail',navigationExtra);
-    } else if (data.target=='promotion'){
-      // nouveau film en avant première
-      const navigationExtra : NavigationExtras = {state: {title:data.title, id:data.id}};
-      this.router.navigateByUrl('promotion',navigationExtra);
-    } else if (data.target=='training'){
-      // nouveau film en avant première
-      const navigationExtra : NavigationExtras = {state: {title:data.title, id:data.id}};
-      this.router.navigateByUrl('training',navigationExtra);
-    } else if (data.target=='stockist'){
-      this.router.navigateByUrl('stockist',{});
+    } else if(data.target=='tombola'){
+      const navigationExtra : NavigationExtras = {state: {name:data.name, id:data.id}};
+      this.router.navigateByUrl('tombola/tombola-detail',navigationExtra);
     }
   }
 
@@ -102,7 +95,7 @@ export class NotificationProvider {
 
    private async onPushReceived(payload: OSNotificationPayload) {
     // console.log('Push recevied:', payload);
-    let msg: string = "Nouvelle notification: " + payload.title + " " + payload.body
+    let msg: string = "Nouvelle notification: " + payload.title + " " + payload.body;
     const toast = await this.toastCtrl.create({
       message: msg,
       duration: 3000

@@ -10,11 +10,13 @@ import {UtilProvider} from "../providers/util/util";
 })
 export class TabsPage {
   tournament:any = 0;
+  tombola:any = 0;
   constructor(
     private api:ApiProvider,
     private util:UtilProvider
   ) {
-    this.getTournaments()
+    this.getTournaments();
+    this.getTombola();
   }
 
   getTournaments(){
@@ -28,6 +30,23 @@ export class TabsPage {
 
     this.api.getList('tournaments',opt).then(d=>{
       this.tournament = d;
+    },q=>{
+      //this.util.hideLoading();
+      this.util.handleError(q);
+    })
+  }
+
+  getTombola(){
+    //this.util.showLoading("loading");
+    const opt = {
+      should_paginate:false,
+      _agg:'count',
+      status:'enable'
+
+    };
+
+    this.api.getList('tombolas',opt).then(d=>{
+      this.tombola = d;
     },q=>{
       //this.util.hideLoading();
       this.util.handleError(q);
