@@ -29,5 +29,6 @@
         {{'game_hour'|translate}} : <span class="bold primary">{{m.duration}}</span>
       </ion-card-content>
     </ion-card>
+    <app-oups-info [text]="'no_schedule'" *ngIf="!is_loading && schedules.length<1"></app-oups-info>
   </ion-grid>
 </ion-content>

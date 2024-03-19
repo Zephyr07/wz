@@ -23,7 +23,7 @@
     <ion-skeleton-text *ngIf="isLoading" animated style="height: 350px"></ion-skeleton-text>
 
     <div *ngIf="!isLoading" >
-      <img style="height: 350px; width: 100%" src="{{tombola.image}}" />
+      <img style="height: 400px; width: 100%" src="{{tombola.image}}" />
 
     </div>
 
@@ -43,6 +43,10 @@
             <ion-col size="8" style="font-size: 14px; font-weight: bold;">{{'fees'|translate}}</ion-col>
             <ion-col size="4" style="font-size: 14px; text-align: right; font-weight: bold; color:var(--ion-color-primary)">{{tombola.fees|priceFormat}} U</ion-col>
           </ion-row>
+          <ion-row>
+            <ion-col size="8" style="font-size: 14px; font-weight: bold;">{{'Solde de votre compte'|translate}}</ion-col>
+            <ion-col size="4" style="font-size: 14px; text-align: right; font-weight: bold; color:var(--ion-color-tertiary)">{{user.unit|priceFormat}} U</ion-col>
+          </ion-row>
         </ion-card-content>
 
 
@@ -51,43 +55,6 @@
 
       </ion-card-header>
 
-      <div class="divider"></div>
-      <ion-card-content *ngIf="!is_played"  style="padding-top:10px">
-        <ion-row class="custom">
-          <ion-col size="12">
-            Entrer un nombre entre <strong class="primary">1</strong> et <strong class="primary">100</strong>.
-          </ion-col>
-          <ion-col size="12">
-            <ion-input type="number" min="1" max="100" [(ngModel)]="user_result"></ion-input>
-          </ion-col>
-        </ion-row>
-      </ion-card-content>
-
-      <ion-card-content class="ion-no-padding" *ngIf="is_played">
-        <ion-row>
-          <ion-col size="12" style="text-align: center; text-transform: uppercase; font-weight: bold; color:var(--ion-color-primary)" *ngIf="!is_win">
-            <ion-icon style="font-size: 60px" name="skull"></ion-icon>
-            <br>
-            Vous n'avez pas trouvez le bon nombre <br> Une prochaine fois peut-être
-          </ion-col>
-          <ion-col size="12" style="text-align: center; text-transform: uppercase; font-weight: bold; color:var(--ion-color-tertiary)" *ngIf="is_win">
-            <ion-icon style="font-size: 60px" name="happy"></ion-icon>
-            <br>
-            Félicitations !!!!! <br>Vous avez gagnez
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="6" style="text-align: center; font-weight: bold;">
-            <span style="font-size: 50px">{{user_result}}</span> <br>
-            Votre réponse
-          </ion-col>
-          <ion-col size="6" style="text-align: center; font-weight: bold; color:var(--ion-color-primary)">
-            <span style="font-size: 50px">{{result}}</span> <br>
-            La bonne réponse
-          </ion-col>
-        </ion-row>
-      </ion-card-content>
-
 
     </div>
 
@@ -95,14 +62,10 @@
 
 </ion-content>
 
-<ion-footer class="ion-text-center" *ngIf="!is_played && can_play">
-  <ion-button (click)="askSchedule()" [disabled]="user_result==undefined">{{'play'|translate}}</ion-button>
-</ion-footer>
-
-<ion-footer class="ion-text-center" *ngIf="is_played">
-  <ion-button (click)="replay()" color="tertiary">{{'replay'|translate}}</ion-button>
+<ion-footer class="ion-text-center" *ngIf="can_play">
+  <ion-button (click)="modalTombola()">{{'play'|translate}}</ion-button>
 </ion-footer>
 
 <ion-footer class="ion-text-center" *ngIf="!can_play">
-  <ion-button color="dark" (click)="showSchedule()">{{'recharger'|translate}}</ion-button>
+  <ion-button color="dark" (click)="showSchedule()">{{'recharge_account'|translate}}</ion-button>
 </ion-footer>

@@ -557,5 +557,7 @@
   "your_sponsor_code":"Votre code promo",
   "number_referral":"Nombre de personne parrainée",
   "buy_tombola":"Tombola",
-  "sponsorship":"Parrainage"
+  "sponsorship":"Parrainage",
+  "account_recharge":"Recharge du compte",
+  "no_order":"Aucune commande"
 }

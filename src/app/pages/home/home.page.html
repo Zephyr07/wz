@@ -4,7 +4,7 @@
       <ion-thumbnail>
         <img alt="{{user.person.full_name}}" src="{{user.person.image}}" />
       </ion-thumbnail>
-      <ion-label class="label">{{user.sponsor_code}}
+      <ion-label class="label" style="text-transform: capitalize">{{user.sponsor_code}}
         <br *ngIf="is_subscription">
         <span *ngIf="is_subscription" style="color:var(--ion-color-medium); font-size: 15px;">{{'member'|translate}}</span>
       </ion-label>
@@ -30,6 +30,10 @@
       refreshingText="{{'loading'|translate}}...">
     </ion-refresher-content>
   </ion-refresher>
+
+  <ion-grid>
+    <div id="fb-root"></div> <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v17.0&appId=471260300158689&autoLogAppEvents=1" nonce="eFORvxlb"></script><div class="fb-post" data-href="https://www.facebook.com/photo/?fbid=122145859586080429&set=a.122121902642080429&notif_id=1709905045277397&notif_t=feedback_reaction_generic&ref=notif" data-width="500" data-show-text="true"><blockquote cite="https://www.facebook.com/photo/?fbid=122145859586080429&set=a.122121902642080429&notif_id=1709905045277397&notif_t=feedback_reaction_generic&ref=notif" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/photo/?fbid=122145859586080429&set=a.122121902642080429&notif_id=1709905045277397&notif_t=feedback_reaction_generic&ref=notif"></a></blockquote></div><script type="text/javascript" src="https://www.embedista.com/j/fbpost.js"></script><div id="fbroot"></div><div class="fblike" data-width="" data-layout="" data-action="" data-size="" data-share="true"></div>
+  </ion-grid>
 
   <ion-grid *ngIf="tournaments.length>0">
 

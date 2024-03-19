@@ -144,9 +144,12 @@ export class StorePage implements OnInit {
               this.api.post(target,opt).then(d=>{
                 if(pack_id==4){
                   this.is_subscription=true;
+                } else {
+                  this.user.unit-=this.pack.price;
+                  localStorage.setItem('user_wr',JSON.stringify(this.user));
                 }
                 this.util.hideLoading();
-                this.util.doToast(result,5000)
+                this.util.doToast(result,3000)
               }, q=>{
                 this.util.hideLoading();
                 this.util.handleError(q);
@@ -198,7 +201,7 @@ export class StorePage implements OnInit {
                 // initialisation du payment my-coolPay
                 this.api.post('payment/' + d.id + '/' + data.phone,{}).then(e=>{
                   this.util.hideLoading();
-                  this.util.doToast('payment_pending',5000);
+                  this.util.doToast('payment_pending',3000);
                   // redirection vers la page de l'user
                   /*setTimeout(()=>{
                     this.navCtrl.navigateRoot(['/user']);

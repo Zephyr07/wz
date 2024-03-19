@@ -14,6 +14,7 @@ export class MySchedulePage implements OnInit {
   search="";
   title="";
   user:any;
+  is_loading = true;
 
   constructor(
     private api:ApiProvider,
@@ -32,6 +33,7 @@ export class MySchedulePage implements OnInit {
   }
 
   getSchedule(id){
+    this.is_loading=true;
     const opt = {
       should_paginate:false,
       _sort:'date',
@@ -41,6 +43,7 @@ export class MySchedulePage implements OnInit {
       _includes:'game'
     };
     this.api.getList('schedules',opt).then((d:any)=>{
+      this.is_loading=false;
       this.old_schedules=d;
       this.schedules=d;
     })
