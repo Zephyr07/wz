@@ -86,7 +86,11 @@ export class ProductDetailPage implements OnInit {
   ionViewWillEnter() {
     if (this.api.checkUser()) {
       this.user = JSON.parse(localStorage.getItem('user_wz'));
-      this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
+      this.api.getList('auth/me',{id:this.user.id}).then((a:any)=>{
+        this.user = a.data.user;
+        localStorage.setItem('user_wz',JSON.stringify(this.user));
+        this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
+      });
     }
   }
 

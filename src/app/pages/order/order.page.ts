@@ -52,7 +52,11 @@ export class OrderPage implements OnInit {
   ionViewWillEnter() {
     if (this.api.checkUser()) {
       this.user = JSON.parse(localStorage.getItem('user_wz'));
-      this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
+      this.api.getList('auth/me',{id:this.user.id}).then((a:any)=>{
+        this.user = a.data.user;
+        localStorage.setItem('user_wz',JSON.stringify(this.user));
+        this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
+      });
     }
   }
 
@@ -74,7 +78,7 @@ export class OrderPage implements OnInit {
     if(this.delivery==1){
       price+=1000;
     }
-    if(price==0 || price<this.user.unit){
+    if(price==0 || price<=this.user.unit){
       this.util.showLoading("payment");
 
       let opt ={

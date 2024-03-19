@@ -9,6 +9,7 @@ import { MySchedulePageRoutingModule } from './my-schedule-routing.module';
 import { MySchedulePage } from './my-schedule.page';
 import {PipeModule} from "../../../pipe/pipe.module";
 import {TranslateModule} from "@ngx-translate/core";
+import {OupsInfoModule} from "../../../components/oups-info/oups-info.module";
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import {TranslateModule} from "@ngx-translate/core";
     IonicModule,
     MySchedulePageRoutingModule,
     TranslateModule,
-    PipeModule
+    PipeModule,
+    OupsInfoModule
   ],
   declarations: [MySchedulePage]
 })

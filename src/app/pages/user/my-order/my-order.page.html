@@ -35,5 +35,6 @@
         {{'status'|translate}} : <span class="bold black">{{m.status|status}}</span> <br>
       </ion-card-content>
     </ion-card>
+    <app-oups-info [text]="'no_order'" *ngIf="!is_loading && orders.length<1"></app-oups-info>
   </ion-grid>
 </ion-content>

@@ -21,7 +21,7 @@
     <ion-list>
       <ion-item *ngFor="let m of subscriptions" (click)="goToTombola(m.tombola)">
         <ion-label>
-          <ion-title style="padding: 0">{{m.tombola.name}}</ion-title>
+          <div style="font-size:25px;font-weight: bold;">{{m.tombola.name}}</div>
           <p>
             {{'good_answer'|translate}} : <strong class="primary">{{m.result}}</strong> <br>
             {{'your_answer'|translate}} : <strong style="color: var(--ion-color-tertiary)">{{m.user_result}}</strong> <br>

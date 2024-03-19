@@ -39,7 +39,7 @@ export class ModalAddRankComponent implements OnInit {
 
   ionViewWillEnter(){
     if(this.api.checkUser()){
-      this.user=JSON.parse(localStorage.getItem('user_lr'));
+      this.user=JSON.parse(localStorage.getItem('user_wz'));
     } else{
     }
   }

@@ -24,7 +24,7 @@
       <ion-skeleton-text *ngIf="isLoading" animated style="height: 350px"></ion-skeleton-text>
 
       <div *ngIf="!isLoading" >
-        <img *ngIf="product.images.length==1" style="height: 350px; width: 100%" src="{{product.image.url}}" />
+        <img *ngIf="product.images.length==1" style="height: 400px; width: 100%" src="{{product.image.url}}" />
 
         <swiper-container *ngIf="product.images.length>1" [speed]="1000" [autoplay]="{enable:true,delay:7000}" #swiperComponent>
           <swiper-slide *ngFor="let i of product.images">

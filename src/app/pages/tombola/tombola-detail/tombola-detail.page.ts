@@ -5,6 +5,8 @@ import {ApiProvider} from "../../../providers/api/api";
 import {Router} from "@angular/router";
 import {UtilProvider} from "../../../providers/util/util";
 import {TranslateService} from "@ngx-translate/core";
+import {ModalEditUserComponent} from "../../../components/modal-edit-user/modal-edit-user.component";
+import {ModalTombolaComponent} from "../../../components/modal-tombola/modal-tombola.component";
 
 @Component({
   selector: 'app-tombola-detail',
@@ -107,7 +109,12 @@ export class TombolaDetailPage implements OnInit {
 
   ionViewWillEnter(){
     if(this.api.checkUser()){
-      this.user=JSON.parse(localStorage.getItem('user_wz'));
+      let user = JSON.parse(localStorage.getItem('user_wz'));
+      this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
+        this.user = a.data.user;
+        localStorage.setItem('user_wz',JSON.stringify(this.user));
+        this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
+      });
       this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
       //this.phone=this.user.phone;
     }
@@ -165,7 +172,8 @@ export class TombolaDetailPage implements OnInit {
         if(d.result == d.user_result){
           this.is_win=true;
         }
-
+        this.user.unit-=this.tombola.fees;
+        localStorage.setItem('user_wr',JSON.stringify(this.user));
         this.util.hideLoading();
       },q=>{
         this.util.hideLoading();
@@ -181,24 +189,22 @@ export class TombolaDetailPage implements OnInit {
     this.is_phone = this.MIN <= this.phone && this.phone <= this.MAX;
   }
 
-  support(){
-    if(this.translate.getDefaultLang()=='fr'){
-      window.location.href="https://api.whatsapp.com/send?phone=237673996540&text=Bonjour+je+souhaite+reserver+pour+le+tournoi+"+this.tombola.name;
-    } else {
-      window.location.href="https://api.whatsapp.com/send?phone=237673996540&text=Hello+I+want+to+buy+for+tombola"+this.tombola.name;
-    }
-  }
-
-  replay(){
-    this.is_win=false;
-    this.is_played=false;
-    this.result=0;
-    this.user_result=undefined
+  async modalTombola(o?:any){
+    o=this.tombola;
+    const modal = await this.modalController.create({
+      component: ModalTombolaComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        'tombola': o
+      }
+    });
+    return await modal.present();
   }
 
   doRefresh(event) {
     this.ionViewWillEnter();
     this.getTombola(this.id);
+    this.can_play = this.user.unit >= this.tombola.fees;
     setTimeout(() => {
       console.log('Async operation has ended');
       event.target.complete();

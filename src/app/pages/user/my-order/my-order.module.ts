@@ -9,6 +9,7 @@ import { MyOrderPageRoutingModule } from './my-order-routing.module';
 import { MyOrderPage } from './my-order.page';
 import {PipeModule} from "../../../pipe/pipe.module";
 import {TranslateModule} from "@ngx-translate/core";
+import {OupsInfoModule} from "../../../components/oups-info/oups-info.module";
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import {TranslateModule} from "@ngx-translate/core";
     IonicModule,
     MyOrderPageRoutingModule,
     TranslateModule,
-    PipeModule
+    PipeModule,
+    OupsInfoModule
   ],
   declarations: [MyOrderPage]
 })

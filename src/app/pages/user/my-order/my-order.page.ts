@@ -14,6 +14,7 @@ export class MyOrderPage implements OnInit {
   search="";
   title="";
   user:any;
+  is_loading=true;
 
   constructor(
     private api:ApiProvider,
@@ -32,6 +33,7 @@ export class MyOrderPage implements OnInit {
   }
 
   getOrder(id){
+    this.is_loading=true;
     const opt = {
       should_paginate:false,
       _sort:'created_at',
@@ -40,6 +42,7 @@ export class MyOrderPage implements OnInit {
       _includes:'product'
     };
     this.api.getList('orders',opt).then((d:any)=>{
+      this.is_loading=false;
       this.old_orders=d;
       this.orders=d;
     })
