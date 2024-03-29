@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {ApiProvider} from "../providers/api/api";
 import * as moment from 'moment';
 import {UtilProvider} from "../providers/util/util";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-tabs',
@@ -13,6 +14,7 @@ export class TabsPage {
   tombola:any = 0;
   constructor(
     private api:ApiProvider,
+    private router:Router,
     private util:UtilProvider
   ) {
     this.getTournaments();
@@ -51,5 +53,9 @@ export class TabsPage {
       //this.util.hideLoading();
       this.util.handleError(q);
     })
+  }
+
+  test(){
+    this.router.navigateByUrl('/test');
   }
 }

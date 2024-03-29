@@ -118,9 +118,11 @@ export class AppComponent {
         // recuperation de la ville de l'utilisateur
         // verification si l'utilisateur a déjà un compte
         if(this.api.checkCredential()){
+          this.util.showLoading('login');
           // connexion
           const cre = this.util.decryptAESData(JSON.parse(localStorage.getItem('auth_wz')));
           this.auth.login(cre).then((e:any)=>{
+            this.util.hideLoading();
             this.is_loading=false;
             if(isCordovaAvailable()){
               //OneSignal.sendTags({'country_id':e.user.country_id});
@@ -134,6 +136,7 @@ export class AppComponent {
               this.util.doToast('Contacter le support au +237 673996540',5000, 'warning');
             }
           },q=>{
+            this.util.hideLoading();
             this.auth.logout();
             this.is_loading=false;
             this.navCtrl.navigateRoot(['/login']);

@@ -1,6 +1,9 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>test</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>WarZone</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -13,9 +16,22 @@
       refreshingText="{{'loading'|translate}}...">
     </ion-refresher-content>
   </ion-refresher>
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">test</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
+
+  <ion-grid>
+    <ion-row style="text-align:center">
+      <ion-col style="text-align:center">
+        <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fweb.facebook.com%2Fthewarzone237&tabs&width=340&height=130&small_header=false&adapt_container_width=false&hide_cover=false&show_facepile=false&appId=860708305814901" width="340" height="130" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="divider"></div>
+
+  <ion-grid>
+    <ion-row>
+      <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@thewarzone237" data-unique-id="thewarzone237" data-embed-type="creator" style="max-width: 780px; min-width: 288px;" > <section> <a target="_blank" href="https://www.tiktok.com/@thewarzone237?refer=creator_embed">@thewarzone237</a> </section> </blockquote>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>

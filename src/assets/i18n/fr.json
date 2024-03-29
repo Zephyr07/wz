@@ -559,5 +559,9 @@
   "buy_tombola":"Tombola",
   "sponsorship":"Parrainage",
   "account_recharge":"Recharge du compte",
-  "no_order":"Aucune commande"
+  "no_order":"Aucune commande",
+  "sponsor_code_blank_space":"Le nom d'utilisateur ne doit pas contenir d'espace ou de caractères speciaux",
+  "sponsor_code_empty":"Nom d'utilisateur absent",
+  "one_month_to_win":"Un mois de jeu à gagner",
+  "play_and_win":"Joue et tente de gagner"
 }

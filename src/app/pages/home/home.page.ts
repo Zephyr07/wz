@@ -17,15 +17,14 @@ export class HomePage implements OnInit {
   @ViewChild('modalSearch') modal: IonModal;
   @ViewChild('swiperComponent') swiperComponent: Swiper;
 
-  search:any="";
+
+  schedule="disable";
+  tombola="disable";
+
   is_loading = true;
-  last_places:any=[];
   tournaments:any=[];
   games:any=[];
 
-  places:any=[];
-  old_places:any=[];
-  isLoadingPlace=false;
   user:any={
     person:{},
   };
@@ -103,6 +102,8 @@ export class HomePage implements OnInit {
     });
     //this.getTournaments();
     this.settings=JSON.parse(localStorage.getItem("wz_settings"))[0];
+    this.schedule = this.settings.schedule;
+    this.tombola = this.settings.tombola;
   }
 
 
@@ -134,6 +135,9 @@ export class HomePage implements OnInit {
       }
     } else if(url=='contact'){
       document.getElementById('contact').click();
+    } else if(url=='tombola'){
+      const navigationExtra : NavigationExtras = {state: {name:"1 mois de jeu à gagner", id:1}};
+      this.router.navigateByUrl('tombola/tombola-detail',navigationExtra);
     } else {
       this.router.navigateByUrl('tabs/'+url);
     }
@@ -162,7 +166,7 @@ export class HomePage implements OnInit {
       should_paginate:true,
       _sort:'updated_at',
       _sortDir:'desc',
-      per_page:6
+      per_page:9
     };
 
     this.api.getList('games',opt).then(d=>{

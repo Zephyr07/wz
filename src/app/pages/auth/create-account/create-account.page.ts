@@ -139,28 +139,30 @@ export class CreateAccountPage implements OnInit {
       }
     } else if(this.step==4){
       if(this.sponsor_code!="" && this.sponsor_code!=null){
-        // verification si le sponsor_code existe
-        const opt ={
-          sponsor_code:this.sponsor_code
+        if(!this.checkSpecialCharater(this.sponsor_code)){
+          this.util.doToast('sponsor_code_blank_space',3000, 'light','top');
+        } else {
+          // verification si le sponsor_code existe
+          const opt ={
+            sponsor_code:this.sponsor_code
+          };
+
+          this.api.getList('users',opt).then((d:any)=>{
+            if(d.length<=0){
+              //code n'existe pas
+              this.step+=1;
+              if(this.step==6){
+                this.texte = "save";
+              }
+            } else {
+              this.sponsor_code="";
+              this.util.doToast('sponsor_code_exist',3000, 'warning','top');
+            }
+          })
         }
 
-        this.api.getList('users',opt).then((d:any)=>{
-          if(d.length<=0){
-            //code n'existe pas
-            this.step+=1;
-            if(this.step==6){
-              this.texte = "save";
-            }
-          } else {
-            this.sponsor_code="";
-            this.util.doToast('sponsor_code_exist',3000, 'warning','top');
-          }
-        })
       } else{
-        this.step+=1;
-        if(this.step==6){
-          this.texte = "save";
-        }
+        this.util.doToast('sponsor_code_empty',3000, 'warning','top');
       }
 
     } else if(this.step==5){
@@ -172,9 +174,9 @@ export class CreateAccountPage implements OnInit {
 
         this.api.getList('users',opt).then((d:any)=>{
           if(d.length>0){
-            //code existantS
+            //code existant
             this.step+=1;
-            if(this.step==5){
+            if(this.step==6){
               this.texte = "save";
             }
           } else {
@@ -190,12 +192,61 @@ export class CreateAccountPage implements OnInit {
       }
 
     } else if(this.step==6){
+      this.texte = "save";
       this.save();
     } else {
       this.step+=1;
       if(this.step==6){
         this.texte = "save";
       }
+    }
+  }
+
+  checkSpecialCharater(text){
+    if(text.split(" ").length>0){
+      return false
+    } else if(text.split(",").length>0){
+      return false
+    } else if(text.split(";").length>0){
+      return false
+    } else if(text.split("#").length>0){
+      return false
+    } else if(text.split("@").length>0){
+      return false
+    } else if(text.split("/").length>0){
+      return false
+    } else if(text.split("\\").length>0){
+      return false
+    } else if(text.split("\"").length>0){
+      return false
+    } else if(text.split("?").length>0){
+      return false
+    } else if(text.split("!").length>0){
+      return false
+    } else if(text.split("$").length>0){
+      return false
+    } else if(text.split("*").length>0){
+      return false
+    } else if(text.split("(").length>0){
+      return false
+    } else if(text.split(")").length>0){
+      return false
+    } else if(text.split("]").length>0){
+      return false
+    } else if(text.split("[").length>0){
+      return false
+    } else if(text.split("{").length>0){
+      return false
+    } else if(text.split("}").length>0){
+      return false
+    } else if(text.split("+").length>0){
+      return false
+    } else if(text.split("=").length>0){
+      return false
+    } else if(text.split("&").length>0){
+      return false
+    } else {
+      return true
     }
   }
 
