@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  version:"1.0.12",
-  code:12,
+  version:"1.0.13",
+  code:13,
 };
 
 /*
