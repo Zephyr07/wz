@@ -31,10 +31,6 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <ion-grid>
-    <div id="fb-root"></div> <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v17.0&appId=471260300158689&autoLogAppEvents=1" nonce="eFORvxlb"></script><div class="fb-post" data-href="https://www.facebook.com/photo/?fbid=122145859586080429&set=a.122121902642080429&notif_id=1709905045277397&notif_t=feedback_reaction_generic&ref=notif" data-width="500" data-show-text="true"><blockquote cite="https://www.facebook.com/photo/?fbid=122145859586080429&set=a.122121902642080429&notif_id=1709905045277397&notif_t=feedback_reaction_generic&ref=notif" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/photo/?fbid=122145859586080429&set=a.122121902642080429&notif_id=1709905045277397&notif_t=feedback_reaction_generic&ref=notif"></a></blockquote></div><script type="text/javascript" src="https://www.embedista.com/j/fbpost.js"></script><div id="fbroot"></div><div class="fblike" data-width="" data-layout="" data-action="" data-size="" data-share="true"></div>
-  </ion-grid>
-
   <ion-grid *ngIf="tournaments.length>0">
 
     <ion-toolbar class="ion-no-border" (click)="goTo('tournament')">
@@ -74,7 +70,26 @@
     </ion-row>
   </ion-grid>
 
-  <ion-grid>
+  <ion-grid *ngIf="tombola=='enable'" class="card-background-page">
+
+    <ion-row style="margin-bottom: 15px" (click)="goTo('tombola')">
+      <ion-col size="12">
+        <img src="../../../assets/img/wz/tombola.png" style="height: 350px; width: 100%; border-radius: 20px; border-top:3px solid #eee"/>
+
+        <ion-item class="item" lines="none">
+          <ion-label>
+            <p class="bold primary" style="font-size: 18px; text-align: center">
+              MEGA TOMBOLA WARZONE
+            </p>
+            <p style="white-space: normal; color:#000; text-align: center">{{'play_and_win'|translate}}</p>
+
+          </ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid *ngIf="schedule=='enable'">
     <ion-toolbar class="ion-no-border">
       <ion-title slot="start">{{'schedule'|translate}}</ion-title>
     </ion-toolbar>

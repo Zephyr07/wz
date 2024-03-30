@@ -17,7 +17,7 @@ export const COOL_PAY_KEY = "4c704d4e-e2e2-4242-8a0c-68bb703122e4";
 
 // a configurer en fonction du pays
 export const NUMBER_RANGE={
-  min:650000000,
+  min:620000000,
   max:699999999
 };
 

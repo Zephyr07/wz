@@ -67,7 +67,8 @@ export class ReferralPage implements OnInit {
     const opt = {
       _agg:'count',
       referral:sponsor_code,
-      should_paginate:false
+      should_paginate:false,
+      status:'enable'
     }
 
     this.api.getList('users',opt).then((d:any)=>{

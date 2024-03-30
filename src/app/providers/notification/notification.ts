@@ -47,6 +47,18 @@ export class NotificationProvider {
     } else if(data.target=='tombola'){
       const navigationExtra : NavigationExtras = {state: {name:data.name, id:data.id}};
       this.router.navigateByUrl('tombola/tombola-detail',navigationExtra);
+    } else if(data.target=='referral'){
+      //const navigationExtra : NavigationExtras = {state: {name:data.name, id:data.id}};
+      this.router.navigateByUrl('referral');
+    } else if(data.target=='game'){
+      //const navigationExtra : NavigationExtras = {state: {name:data.name, id:data.id}};
+      this.router.navigateByUrl('tabs/game');
+    } else if(data.target=='store'){
+      //const navigationExtra : NavigationExtras = {state: {name:data.name, id:data.id}};
+      this.router.navigateByUrl('tabs/store');
+    } else if(data.target=='otakuget'){
+      //const navigationExtra : NavigationExtras = {state: {name:data.name, id:data.id}};
+      this.router.navigateByUrl('product');
     }
   }
 

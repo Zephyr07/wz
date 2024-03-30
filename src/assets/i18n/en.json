@@ -558,6 +558,10 @@
   "number_referral":"Referrals number",
   "buy_tombola":"Tombola",
   "sponsorship":"Sponsorship",
-  "account_recharge":"Account recharge"
+  "account_recharge":"Account recharge",
+  "sponsor_code_blank_space":"The username must not contain spaces or special characters",
+  "sponsor_code_empty":"Username empty",
+  "one_month_to_win":"A month of play to win",
+  "play_and_win":"Play and win"
 
 }

@@ -1,17 +1,10 @@
 <ion-content class="auth">
   <div class="custom-backgrounds">
-
-    <ion-toolbar >
-      <ion-buttons slot="start">
-        <ion-back-button  style="margin-left: 10px;" color="primary" defaultHref="/"></ion-back-button>
-      </ion-buttons>
-    </ion-toolbar>
-
     <ion-buttons slot="start" style="display: none;">
       <ion-back-button defaultHref="/" id="backButton"></ion-back-button>
     </ion-buttons>
 
-    <ion-fab hidden vertical="top" horizontal="start" style="margin-top:25px" slot="fixed">
+    <ion-fab vertical="top" horizontal="start" style="margin-top:25px" slot="fixed">
       <ion-fab-button color="primary" size="small" (click)="backToPreviousPage()">
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-fab-button>
