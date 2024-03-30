@@ -203,47 +203,49 @@ export class CreateAccountPage implements OnInit {
   }
 
   checkSpecialCharater(text){
-    if(text.split(" ").length>0){
+    if(text.split(" ").length>1){
       return false
-    } else if(text.split(",").length>0){
+    } else if(text.split(",").length>1){
       return false
-    } else if(text.split(";").length>0){
+    } else if(text.split(";").length>1){
       return false
-    } else if(text.split("#").length>0){
+    } else if(text.split("#").length>1){
       return false
-    } else if(text.split("@").length>0){
+    } else if(text.split("@").length>1){
       return false
-    } else if(text.split("/").length>0){
+    } else if(text.split("/").length>1){
       return false
-    } else if(text.split("\\").length>0){
+    } else if(text.split("\\").length>1){
       return false
-    } else if(text.split("\"").length>0){
+    } else if(text.split("\"").length>1){
       return false
-    } else if(text.split("?").length>0){
+    } else if(text.split("'").length>1){
       return false
-    } else if(text.split("!").length>0){
+    } else if(text.split("?").length>1){
       return false
-    } else if(text.split("$").length>0){
+    } else if(text.split("!").length>1){
       return false
-    } else if(text.split("*").length>0){
+    } else if(text.split("$").length>1){
       return false
-    } else if(text.split("(").length>0){
+    } else if(text.split("*").length>1){
       return false
-    } else if(text.split(")").length>0){
+    } else if(text.split("(").length>1){
       return false
-    } else if(text.split("]").length>0){
+    } else if(text.split(")").length>1){
       return false
-    } else if(text.split("[").length>0){
+    } else if(text.split("]").length>1){
       return false
-    } else if(text.split("{").length>0){
+    } else if(text.split("[").length>1){
       return false
-    } else if(text.split("}").length>0){
+    } else if(text.split("{").length>1){
       return false
-    } else if(text.split("+").length>0){
+    } else if(text.split("}").length>1){
       return false
-    } else if(text.split("=").length>0){
+    } else if(text.split("+").length>1){
       return false
-    } else if(text.split("&").length>0){
+    } else if(text.split("=").length>1){
+      return false
+    } else if(text.split("&").length>1){
       return false
     } else {
       return true
