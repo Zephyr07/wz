@@ -5,7 +5,6 @@ import {ApiProvider} from "../../../providers/api/api";
 import {Router} from "@angular/router";
 import {UtilProvider} from "../../../providers/util/util";
 import {TranslateService} from "@ngx-translate/core";
-import {ModalEditUserComponent} from "../../../components/modal-edit-user/modal-edit-user.component";
 import {ModalTombolaComponent} from "../../../components/modal-tombola/modal-tombola.component";
 
 @Component({
@@ -20,13 +19,15 @@ export class TombolaDetailPage implements OnInit {
   is_win = false;
   is_played = false;
   tombola:any={};
-  result=0
+  result=0;
+  unit=0;
 
   name="";
   texte="";
 
   is_phone=false;
-  user:any={};
+  private user:any={};
+  is_user=false;
 
   can_play=false;
   phone:number;
@@ -92,26 +93,13 @@ export class TombolaDetailPage implements OnInit {
   ngOnInit() {
   }
 
-  getTombola(id){
-    this.id=id;
-    let user=JSON.parse(localStorage.getItem('user_wz'));
-    this.api.get('tombolas',id).then((d:any)=>{
-      this.tombola = d;
-      if(user.unit>= d.fees){
-        this.can_play=true;
-      }
-      this.isLoading=false;
-    },q=>{
-      this.util.handleError(q);
-    })
-  }
-
-
   ionViewWillEnter(){
     if(this.api.checkUser()){
       let user = JSON.parse(localStorage.getItem('user_wz'));
       this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
+        this.is_user=true;
         this.user = a.data.user;
+        this.unit=this.user.unit;
         localStorage.setItem('user_wz',JSON.stringify(this.user));
         this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
       });
@@ -125,15 +113,43 @@ export class TombolaDetailPage implements OnInit {
     }
   }
 
+  login(){
+    this.router.navigateByUrl('/login');
+  }
+
+  getTombola(id){
+    this.id=id;
+    let user=JSON.parse(localStorage.getItem('user_wz'));
+    this.api.get('tombolas',id).then((d:any)=>{
+      this.tombola = d;
+      if(user){
+        if(user.unit>= d.fees){
+          this.can_play=true;
+        }
+      }
+
+      this.isLoading=false;
+    },q=>{
+      this.util.handleError(q);
+    })
+  }
+
+
+
+
   backToPreviousPage(){
     document.getElementById('backButton').click();
   }
 
   async askSchedule(){
+    let price = this.tombola.fees;
+    if(this.is_subscription){
+      price*=0.8;
+    }
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: "Confirmation",
-      subHeader:"Confirmez-vous le nombre "+this.user_result+" ? Cela vous coûtera "+this.tombola.fees+"U",
+      subHeader:"Confirmez-vous le nombre "+this.user_result+" ? Cela vous coûtera "+price+"U",
       buttons: [
         {
           text: 'Annuler',
@@ -155,7 +171,11 @@ export class TombolaDetailPage implements OnInit {
   }
 
   showSchedule(){
-    if(this.tombola.fees==0 || this.tombola.fees<this.user.unit){
+    let price = this.tombola.fees;
+    if(this.is_subscription){
+      price*=0.8;
+    }
+    if(price==0 || price<this.user.unit){
       this.util.showLoading("loading");
 
       const opt ={
@@ -163,7 +183,7 @@ export class TombolaDetailPage implements OnInit {
         user_result:this.user_result,
         tombola_id:this.tombola.id,
         user_id:this.user.id,
-        price_was:this.tombola.fees
+        price_was:price
       };
 
       this.api.post('tombola_participants',opt).then((d:any)=>{
@@ -181,7 +201,7 @@ export class TombolaDetailPage implements OnInit {
       })
 
     } else {
-      this.api.rechargeAccount(this.tombola.fees,this.user.id);
+      this.api.rechargeAccount(price,this.user.id);
     }
   }
 

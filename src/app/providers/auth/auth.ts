@@ -247,6 +247,7 @@ d
       http.defaults.headers['Authorization'] = "Bearer ";
       localStorage.removeItem('user_wz');
       localStorage.removeItem('auth_wz');
+      localStorage.setItem('is_user','false');
       ////console.log(localStorage.getItem('user'));
       resolve(true);
       // AclService.flushRoles();

@@ -59,12 +59,12 @@ export class LoginPage implements OnInit {
         }
         this.is_loading = true;
         this.util.hideLoading();
-
+        localStorage.setItem('is_user','true');
         //this.navCtrl.navigateRoot(['/home']);
         if(d.user.status=='pending_activation'){
           this.navCtrl.navigateRoot(['/activated-account']);
         } else if(d.user.status=='enable') {
-          this.navCtrl.navigateRoot(['/tabs']);
+          this.navCtrl.navigateRoot(['/tabs/home']);
         } else {
           this.util.doToast('Votre compte est désactivé. Contacter le support au +237 673996540',5000, 'warning');
         }

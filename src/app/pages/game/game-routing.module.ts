@@ -7,6 +7,14 @@ const routes: Routes = [
   {
     path: '',
     component: GamePage
+  },
+  {
+    path: 'game-list',
+    loadChildren: () => import('./game-list/game-list.module').then( m => m.GameListPageModule)
+  },
+  {
+    path: 'mini-game',
+    loadChildren: () => import('./mini-game/mini-game.module').then( m => m.MiniGamePageModule)
   }
 ];
 

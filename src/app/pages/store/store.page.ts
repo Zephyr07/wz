@@ -18,6 +18,7 @@ export class StorePage implements OnInit {
   pack:any={};
   packs:any=[];
   products:any=[];
+  is_user=false;
   is_subscription=false;
   CANCEL="";
   AMOUNT="";
@@ -54,10 +55,17 @@ export class StorePage implements OnInit {
     this.getOtakuProduct();
   }
 
-  ionViewWillEnter() {
-    if (this.api.checkUser()) {
-      this.user = JSON.parse(localStorage.getItem('user_wz'));
-      this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
+  ionViewWillEnter(){
+    if(this.api.checkUser()){
+      this.is_user=true;
+      this.user=JSON.parse(localStorage.getItem('user_wz'));
+      this.api.getList('auth/me',{id:this.user.id}).then((a:any)=>{
+        this.user = a.data.user;
+        this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
+        localStorage.setItem('user_wz',JSON.stringify(this.user));
+      });
+    } else {
+      this.is_user=false;
     }
   }
 
@@ -68,7 +76,12 @@ export class StorePage implements OnInit {
   }
 
   goToSchedule(){
-    this.router.navigateByUrl('schedule');
+    if(this.is_user){
+      // reserver une seance de jeu
+      this.router.navigateByUrl('schedule');
+    } else {
+      this.util.doToast("Vous devez être connecté pour pouvoir réserver",3000,'light');
+    }
   }
 
   goTo(text){
@@ -76,29 +89,34 @@ export class StorePage implements OnInit {
   }
 
   async subscribe(t){
-    if(t=='ABONNEMENT'){
-      if(this.is_subscription){
-        this.util.doToast("Vous êtes déjà membre",3000,'light');
-      } else{
-        this.buyPack(4);
+    if(this.is_user){
+      if(t=='ABONNEMENT'){
+        if(this.is_subscription){
+          this.util.doToast("Vous êtes déjà membre",3000,'light');
+        } else{
+          this.buyPack(4);
+        }
+      } else {
+        if(this.is_subscription){
+          let pack_id=1;
+          if(t=='DUO'){
+            pack_id=2;
+          } else if(t=='FAMILLE'){
+            pack_id=3;
+          } else if(t=='ABONNEMENT'){
+            pack_id=4;
+          }
+
+          this.buyPack(pack_id)
+
+        } else {
+          this.util.doToast("become_member_first",3000);
+        }
       }
     } else {
-      if(this.is_subscription){
-        let pack_id=1;
-        if(t=='DUO'){
-          pack_id=2;
-        } else if(t=='FAMILLE'){
-          pack_id=3;
-        } else if(t=='ABONNEMENT'){
-          pack_id=4;
-        }
-
-        this.buyPack(pack_id)
-
-      } else {
-        this.util.doToast("become_member_first",3000);
-      }
+      this.util.doToast("Vous devez être connecté pour continuer",3000,'light');
     }
+
   }
 
   async buyPack(pack_id){

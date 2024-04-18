@@ -46,7 +46,7 @@
 
     <ion-row>
       <ion-col>
-        <ion-select [(ngModel)]="player_number" label="{{'player_number'|translate}}" label-placement="floating" placeholder="{{'player_number'|translate}}">
+        <ion-select (ionChange)="setPrice()" [(ngModel)]="player_number" label="{{'player_number'|translate}}" label-placement="floating" placeholder="{{'player_number'|translate}}">
           <ion-select-option value="1">1</ion-select-option>
           <ion-select-option value="2">2</ion-select-option>
           <ion-select-option value="3">3</ion-select-option>
@@ -63,7 +63,7 @@
 
     <ion-row>
       <ion-col>
-        <ion-select [(ngModel)]="duration" label="{{'game_hour'|translate}}" label-placement="floating" placeholder="{{'game_hour'|translate}}">
+        <ion-select (ionChange)="setPrice()" [(ngModel)]="duration" label="{{'game_hour'|translate}}" label-placement="floating" placeholder="{{'game_hour'|translate}}">
           <ion-select-option value="1">1</ion-select-option>
           <ion-select-option value="2">2</ion-select-option>
           <ion-select-option value="3">3</ion-select-option>

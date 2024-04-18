@@ -11,7 +11,8 @@ import {UtilProvider} from "../../providers/util/util";
 export class ModalTombolaComponent  implements OnInit {
 
   tombola:any={};
-  user:any={};
+  private user:any={};
+  unit=0;
   fees = 0;
   type="solo";
   result:number;
@@ -24,6 +25,7 @@ export class ModalTombolaComponent  implements OnInit {
   isLoadingRank=true;
   is_played=false;
   is_win=false;
+  is_subscription=false;
 
   per_page = 20;
   page = 1;
@@ -42,6 +44,9 @@ export class ModalTombolaComponent  implements OnInit {
 
   ngOnInit() {
     this.fees = this.tombola.fees;
+    if(this.is_subscription){
+      this.fees*=0.8;
+    }
 
   }
 
@@ -50,6 +55,12 @@ export class ModalTombolaComponent  implements OnInit {
       let user = JSON.parse(localStorage.getItem('user_wz'));
       this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
         this.user = a.data.user;
+        this.unit=this.user.unit;
+        this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
+        this.fees = this.tombola.fees;
+        if(this.is_subscription){
+          this.fees*=0.8;
+        }
         localStorage.setItem('user_wz',JSON.stringify(this.user));
       });
     } else{
@@ -57,11 +68,10 @@ export class ModalTombolaComponent  implements OnInit {
   }
 
   async askSchedule(){
-    let t =this.tombola.fees;
+    let t =this.fees;
     let subheader = "Confirmez-vous le nombre "+this.user_result+" ? Cela vous coûtera "+t+"U";
     if(this.type=='triple'){
-      t = this.tombola.fees*3;
-      subheader = "Confirmez-vous les nombres "+this.user_result+", "+this.user_result1+" et "+this.user_result2+", ? Cela vous coûtera "+t+"U";
+      subheader = "Confirmez-vous les nombres "+this.user_result+", "+this.user_result1+" et "+this.user_result2+" ? Cela vous coûtera "+t+"U";
     }
 
     const alert = await this.alertController.create({
@@ -90,11 +100,9 @@ export class ModalTombolaComponent  implements OnInit {
 
   showSchedule(){
     if(this.checkResult()){
-      let t=this.tombola.fees;
-      if(this.type=='triple'){
-        t = this.tombola.fees*3
-      }
-      if(this.tombola.fees==0 || t<=this.user.unit){
+      let t=this.fees;
+
+      if(this.fees==0 || t<=this.user.unit){
         this.util.showLoading("loading");
 
         const opt ={
@@ -104,7 +112,8 @@ export class ModalTombolaComponent  implements OnInit {
           user_result2:this.user_result2,
           tombola_id:this.tombola.id,
           user_id:this.user.id,
-          price_was:t
+          price_was:t,
+          is_s:this.is_subscription
         };
 
         this.api.post('tombola_participants',opt).then((d:any)=>{
@@ -128,20 +137,22 @@ export class ModalTombolaComponent  implements OnInit {
         })
 
       } else {
-        this.util.doToast("Solde insuffisant",3000,'warning');
+        this.util.doToast("insufficient_balance",3000,'warning');
         this.api.rechargeAccount(t-this.user.unit,this.user.id);
       }
     } else {
-      this.util.doToast("Reponses absente",3000,"warning");
+      this.util.doToast("missing_answer",3000,"warning");
     }
 
   }
 
   setType(){
-    if(this.type=='solo'){
-      this.fees=this.tombola.fees;
-    } else {
-      this.fees = this.tombola.fees*3;
+    this.fees = this.tombola.fees;
+    if(this.is_subscription){
+      this.fees*=0.8;
+    }
+    if(this.type!='solo'){
+      this.fees = this.fees*3;
     }
     this.user_result = undefined;
     this.user_result2 = undefined;

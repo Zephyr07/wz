@@ -27,7 +27,7 @@
 
     </div>
 
-    <div class="presentation">
+    <div class="presentation" style="margin-bottom: 30px">
       <ion-card-header style="flex-direction:column">
         <ion-skeleton-text *ngIf="isLoading" animated ></ion-skeleton-text>
 
@@ -40,12 +40,21 @@
 
         <ion-card-content *ngIf="!isLoading"  style="padding-top:10px">
           <ion-row>
-            <ion-col size="8" style="font-size: 14px; font-weight: bold;">{{'fees'|translate}}</ion-col>
-            <ion-col size="4" style="font-size: 14px; text-align: right; font-weight: bold; color:var(--ion-color-primary)">{{tombola.fees|priceFormat}} U</ion-col>
+            <ion-col size="8" style="font-size: 14px; font-weight: bold;">{{'fees'|translate}} <span *ngIf="is_subscription">{{'member'|translate}}</span></ion-col>
+            <ion-col size="4" *ngIf="!is_subscription" style="font-size: 14px; text-align: right; font-weight: bold; color:var(--ion-color-primary)">{{tombola.fees|priceFormat}} U</ion-col>
+            <ion-col size="4" *ngIf="is_subscription" style="font-size: 14px; text-align: right; font-weight: bold; color:var(--ion-color-primary)">{{tombola.fees*0.8|priceFormat}} U</ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="8" style="font-size: 14px; font-weight: bold;">{{'Solde de votre compte'|translate}}</ion-col>
-            <ion-col size="4" style="font-size: 14px; text-align: right; font-weight: bold; color:var(--ion-color-tertiary)">{{user.unit|priceFormat}} U</ion-col>
+            <ion-col size="8" style="font-size: 14px; font-weight: bold;">{{'your_balance'|translate}}</ion-col>
+            <ion-col size="4" style="font-size: 14px; text-align: right; font-weight: bold; color:var(--ion-color-tertiary)">{{unit|priceFormat}} U</ion-col>
+          </ion-row>
+        </ion-card-content>
+
+        <ion-card-content class="ion-no-padding" *ngIf="!is_user">
+          <ion-row>
+            <ion-col size="12" style="text-align: center; text-transform: uppercase; font-weight: bold; color:var(--ion-color-warning)">
+              {{'no_login_tournament'|translate}}
+            </ion-col>
           </ion-row>
         </ion-card-content>
 
@@ -56,16 +65,20 @@
       </ion-card-header>
 
 
+      <div class="ion-text-center" *ngIf="can_play && is_user">
+        <ion-button (click)="modalTombola()">{{'play'|translate}}</ion-button>
+      </div>
+
+      <div class="ion-text-center" *ngIf="!can_play && is_user">
+        <ion-button color="tertiary" (click)="showSchedule()">{{'recharge_account'|translate}}</ion-button>
+      </div>
+
+      <div class="ion-text-center" *ngIf="!is_user">
+        <ion-button color="tertiary" (click)="login()">{{'login'|translate}}</ion-button>
+      </div>
     </div>
 
   </div>
 
 </ion-content>
 
-<ion-footer class="ion-text-center" *ngIf="can_play">
-  <ion-button (click)="modalTombola()">{{'play'|translate}}</ion-button>
-</ion-footer>
-
-<ion-footer class="ion-text-center" *ngIf="!can_play">
-  <ion-button color="dark" (click)="showSchedule()">{{'recharge_account'|translate}}</ion-button>
-</ion-footer>
