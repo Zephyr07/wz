@@ -27,23 +27,55 @@
 
     </div>
 
-    <div class="presentation">
+    <div class="presentation" style="margin-bottom: 30px">
       <ion-card-header style="flex-direction:column">
         <ion-skeleton-text *ngIf="isLoading" animated ></ion-skeleton-text>
 
+
+        <ion-row *ngIf="!isLoading" class="info-tournament">
+          <ion-col>
+            <span>
+              <ion-icon name="time-outline"></ion-icon>
+            </span>
+            <br>
+            <span class="big">{{tournament.jour}}</span>
+            <br>
+            <span style="text-transform: capitalize">{{tournament.mois}}</span>
+          </ion-col>
+          <ion-col>
+            <span>
+              <ion-icon name="trophy-outline"></ion-icon>
+            </span>
+            <br>
+            <span class="big">{{tournament.winner_price|priceFormat}}</span>
+            <br>
+            <span>FCFA</span>
+          </ion-col>
+          <ion-col (click)="listParticipant()">
+            <span>
+              <ion-icon name="people-outline"></ion-icon>
+            </span>
+            <br>
+            <span class="big">{{participants}}</span>
+            <br>
+            <span>Participant<span *ngIf="participants>1">s</span></span>
+          </ion-col>
+        </ion-row>
+
         <ion-card-title *ngIf="!isLoading" style="font-size:25px;font-weight: bold">
           <span style="color:#000 !important;" *ngIf="tournament.price_type=='cash'">{{'tournament'|translate}}</span> {{tournament.name}}
+          <br>
+          <span style="font-size: 20px; font-weight: normal">{{'fees'|translate}} :
+            <span class="bold primary" *ngIf="!is_subscription">{{tournament.fees|priceFormat}} U</span>
+            <span class="bold primary" *ngIf="is_subscription">{{tournament.fees*0.8|priceFormat}} U</span>
+          </span>
+          <br>
+          <span style="font-size: 15px; font-weight: normal">{{'status'|translate}} :
+            <span class="bold primary" *ngIf="tournament.min_participant>participants">{{'pending_participant'|translate}}</span>
+            <span class="bold primary" *ngIf="tournament.min_participant<=participants">{{'confirmed'|translate}}</span>
+          </span>
         </ion-card-title>
 
-        <ion-card-title *ngIf="!isLoading && tournament.price_type=='cash'" style="font-size: 20px; color:var(--ion-color-danger)">
-          {{tournament.winner_price |priceFormat}} FCFA <span  style="color:#000 !important;">{{'to_win'|translate}}</span>
-        </ion-card-title>
-        <ion-card-title *ngIf="!isLoading && tournament.price_type!='cash'" style="font-size: 20px; color:var(--ion-color-danger);font-weight: bold">
-          {{tournament.winner_price}} <span  style="color:#000 !important;">{{'to_win'|translate}}</span>
-        </ion-card-title>
-        <ion-card-title style="font-size: 14px; margin-top:10px">
-          <ion-icon name="time"></ion-icon> {{tournament.start_at|dateFormat}} - {{tournament.end_at|dateFormat}}
-        </ion-card-title>
 
         <ion-card-subtitle  style="color: var(--ion-color-dark); text-transform: none; font-weight: normal; font-size:14px " [innerHTML]="tournament.description">
         </ion-card-subtitle>
@@ -57,49 +89,94 @@
             <ion-col size="12" style="text-align: center; text-transform: uppercase; font-weight: bold; color:var(--ion-color-primary)">
               {{texte}}
               <br>
-              <span style="color:#000">Votre numéro est le <strong>"{{number}}"</strong></span>
+              <span style="color:#000">{{'your_number'|translate}} <strong>"{{number}}"</strong></span>
             </ion-col>
           </ion-row>
         </ion-card-content>
 
-        <ion-card-content class="ion-no-padding" *ngIf="!is_subscription">
+        <ion-card-content class="ion-no-padding" *ngIf="!is_user">
           <ion-row>
             <ion-col size="12" style="text-align: center; text-transform: uppercase; font-weight: bold; color:var(--ion-color-warning)">
-              {{'no_subscription_tournament'|translate}}
+              {{'no_login_tournament'|translate}}
             </ion-col>
           </ion-row>
         </ion-card-content>
       </ion-card-header>
 
-      <div class="divider"></div>
-      <ion-card-content *ngIf="!isLoading"  style="padding-top:10px">
-        <ion-row *ngIf="tournament.price_type=='cash'">
-          <ion-col size="8" style="font-size: 14px; font-weight: bold;">{{'min_participant'|translate}}</ion-col>
-          <ion-col size="4" style="font-size: 14px; text-align: right; font-weight: bold; color:var(--ion-color-primary)">{{tournament.min_participant|priceFormat}}</ion-col>
-        </ion-row>
-        <ion-row *ngIf="tournament.price_type=='cash'">
-          <ion-col size="8" style="font-size: 14px; font-weight: bold;">{{'min_participant'|translate}}</ion-col>
-          <ion-col size="4" style="font-size: 14px; text-align: right; font-weight: bold; color:var(--ion-color-primary)">{{tournament.max_participant|priceFormat}}</ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="8" style="font-size: 14px; font-weight: bold;">{{'fees'|translate}}</ion-col>
-          <ion-col size="4" style="font-size: 14px; text-align: right; font-weight: bold; color:var(--ion-color-primary)">{{tournament.fees|priceFormat}} U</ion-col>
-        </ion-row>
-      </ion-card-content>
-
-
-
-
+      <div class="ion-text-center" *ngIf="is_user && can_subscribe">
+        <ion-button (click)="openModal()">{{'participate'|translate}}</ion-button>
+      </div>
+      <div class="ion-text-center" *ngIf="!is_user">
+        <ion-button color="tertiary" (click)="login()">{{'login'|translate}}</ion-button>
+      </div>
     </div>
 
   </div>
 
+
+
+  <ion-button style="display: none" id="open-modal" expand="block">Open Sheet Modal</ion-button>
+
+  <ion-modal #modalRank trigger="open-modal" [initialBreakpoint]="0.50" [breakpoints]="[0, 0.5]">
+    <ng-template>
+      <ion-content>
+        <ion-toolbar>
+          <ion-title>{{'participate_tournament'|translate}}</ion-title>
+        </ion-toolbar>
+        <ion-grid style="margin-top: 10px;">
+          <ion-row class="info-tournament">
+            <ion-col>
+            <span>
+              <ion-icon name="time-outline"></ion-icon>
+            </span>
+              <br>
+              <span class="big">{{tournament.jour}}</span>
+              <br>
+              <span style="text-transform: capitalize">{{tournament.mois}}</span>
+            </ion-col>
+            <ion-col>
+            <span>
+              <ion-icon name="trophy-outline"></ion-icon>
+            </span>
+              <br>
+              <span class="big">{{tournament.winner_price|priceFormat}}</span>
+              <br>
+              <span>FCFA</span>
+            </ion-col>
+            <ion-col>
+            <span>
+              <ion-icon name="people-outline"></ion-icon>
+            </span>
+              <br>
+              <span class="big">{{participants}}</span>
+              <br>
+              <span>Participant<span *ngIf="participants>1">s</span></span>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <ion-grid>
+          <ion-row *ngIf="!is_subscription">
+            <ion-col size="8">
+              {{'reduce_member_text'|translate}}
+            </ion-col>
+            <ion-col size="4">
+              <ion-button color="tertiary" (click)="becomeMember()" [innerHTML]="'become_member'|translate"></ion-button>
+            </ion-col>
+          </ion-row>
+
+
+          <ion-row>
+            <ion-col size="12" *ngIf="!is_subscription">
+              <ion-button expand="block" (click)="askSchedule()">{{'participate'|translate}} - {{tournament.fees|priceFormat}} U</ion-button>
+            </ion-col>
+            <ion-col size="12" *ngIf="is_subscription">
+              <ion-button expand="block" (click)="askSchedule()">{{'participate'|translate}} - {{tournament.fees*0.8|priceFormat}} U <span style="text-decoration: line-through"> ({{tournament.fees|priceFormat}}U)</span></ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
 </ion-content>
-
-<ion-footer class="ion-text-center" *ngIf="is_subscription">
-  <ion-button *ngIf="can_subscribe" (click)="askSchedule()">{{'participate'|translate}}</ion-button>
-</ion-footer>
-
-<ion-footer class="ion-text-center" *ngIf="!is_subscription">
-  <ion-button *ngIf="can_subscribe" color="dark" (click)="subscribe()">{{'subscribe_subscription'|translate}}</ion-button>
-</ion-footer>

@@ -22,6 +22,7 @@ export class HomePage implements OnInit {
   tombola="disable";
 
   is_loading = true;
+  is_user:any ;
   tournaments:any=[];
   games:any=[];
 
@@ -91,15 +92,19 @@ export class HomePage implements OnInit {
 
 
   ionViewWillEnter() {
-    let user = JSON.parse(localStorage.getItem('user_wz'));
-    this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
-      this.user = a.data.user;
-      this.user.subscription_status=this.api.checkSubscription(this.user.subscription);
-      this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
-      localStorage.setItem('user_wz',JSON.stringify(this.user));
+    this.is_user =localStorage.getItem('is_user');
+    if(this.is_user=='true'){
+      let user = JSON.parse(localStorage.getItem('user_wz'));
+      this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
+        this.user = a.data.user;
+        this.user.subscription_status=this.api.checkSubscription(this.user.subscription);
+        this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
+        localStorage.setItem('user_wz',JSON.stringify(this.user));
 
-      this.getUser();
-    });
+        //this.getUser();
+      });
+    }
+
     //this.getTournaments();
     this.settings=JSON.parse(localStorage.getItem("wz_settings"))[0];
     this.schedule = this.settings.schedule;
@@ -184,12 +189,17 @@ export class HomePage implements OnInit {
   }
 
   goToSchedule(){
-    this.router.navigateByUrl('schedule');
+    if(this.is_user=='true'){
+      // reserver une seance de jeu
+      this.router.navigateByUrl('schedule');
+    } else {
+      this.util.doToast("Vous devez être connecté pour pouvoir réserver",3000,'light');
+    }
   }
 
   goToGame(p){
-    const navigationExtra : NavigationExtras = {state: {name:p.name, id:p.id}};
-    this.router.navigateByUrl('tabs/game',navigationExtra);
+    const navigationExtra : NavigationExtras = {state: {name:"", id:p.id}};
+    this.router.navigateByUrl('tabs/game/game-list',navigationExtra);
   }
 
   getUser(){
@@ -213,6 +223,8 @@ export class HomePage implements OnInit {
     } else {
 
     }
+    this.getTournaments();
+    this.getGames();
     this.api.getList('settings').then(d=>{
       localStorage.setItem('wz_settings',JSON.stringify(JSON.parse(d[0].config)));
       this.settings=JSON.parse(d[0].config)[0];

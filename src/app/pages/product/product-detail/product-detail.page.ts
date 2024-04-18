@@ -59,6 +59,7 @@ export class ProductDetailPage implements OnInit {
     loop:true
   };
   isLogged = false;
+  is_user = false;
 
   constructor(
     private api: ApiProvider,
@@ -84,13 +85,16 @@ export class ProductDetailPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    if (this.api.checkUser()) {
-      this.user = JSON.parse(localStorage.getItem('user_wz'));
+    if(this.api.checkUser()){
+      this.is_user=true;
+      this.user=JSON.parse(localStorage.getItem('user_wz'));
       this.api.getList('auth/me',{id:this.user.id}).then((a:any)=>{
         this.user = a.data.user;
-        localStorage.setItem('user_wz',JSON.stringify(this.user));
         this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
+        localStorage.setItem('user_wz',JSON.stringify(this.user));
       });
+    } else {
+      this.is_user=false;
     }
   }
 
@@ -198,8 +202,12 @@ export class ProductDetailPage implements OnInit {
   }
 
   goToOrder(){
-    const navigationExtra : NavigationExtras = {state: {name:this.product.name, id:this.product.id}};
-    this.router.navigateByUrl('order',navigationExtra);
+    if(this.is_user){
+      const navigationExtra : NavigationExtras = {state: {name:this.product.name, id:this.product.id}};
+      this.router.navigateByUrl('order',navigationExtra);
+    } else {
+      this.util.doToast("Vous devez être connecté pour pouvoir réserver",3000,'light');
+    }
   }
 
   doRefresh(event) {

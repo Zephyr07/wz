@@ -12,13 +12,25 @@
 <ion-content>
   <div class="menu" style="margin-top:50px">
 
-    <ion-item lines="none" button (click)="goToAccount()">
-      <ion-icon name="person" slot="start"></ion-icon>
+    <ion-item lines="none" button (click)="goToLogin()" *ngIf="!is_user">
+      <ion-icon name="log-in-outline" slot="start"></ion-icon>
+      <ion-label>
+        {{'login'|translate}}
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" button (click)="goToCreateAccount()" *ngIf="!is_user">
+      <ion-icon name="person-add-outline" slot="start"></ion-icon>
+      <ion-label>
+        {{'create_account'|translate}}
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" button (click)="goToAccount()" *ngIf="is_user">
+      <ion-icon name="person-outline" slot="start"></ion-icon>
       <ion-label>
         {{'my_account'|translate}}
       </ion-label>
     </ion-item>
-    <ion-item *ngIf="settings.android.referral=='enable'" lines="none" button (click)="goToReferral()">
+    <ion-item *ngIf="settings.android.referral=='enable' && is_user" lines="none" button (click)="goToReferral()">
       <ion-icon name="share-social-outline" slot="start"></ion-icon>
       <ion-label>
         {{'sponsorship'|translate}}
@@ -35,14 +47,14 @@
     <ion-item lines="none" button (click)="cgu()">
       <ion-icon name="document-text-outline" slot="start"></ion-icon>
       <ion-label>
-        {{'Politique d\'utilisation'|translate}}
+        {{'usage_policy'|translate}}
       </ion-label>
     </ion-item>
 
     <ion-item lines="none" button (click)="cgv()">
       <ion-icon name="document-text-outline" slot="start"></ion-icon>
       <ion-label>
-        {{'Condition générale de vente'|translate}}
+        {{'cgv'|translate}}
       </ion-label>
     </ion-item>
 

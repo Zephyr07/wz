@@ -10,6 +10,7 @@ import { TournamentDetailPage } from './tournament-detail.page';
 import {PipeModule} from "../../../pipe/pipe.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {ModalAddTournamentModule} from "../../../components/modal-add-tournament/modal-add-tournament.module";
+import {ModalTournamentParticipantModule} from "../../../components/modal-tournament-participant/modal-tournament-participant.module";
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import {ModalAddTournamentModule} from "../../../components/modal-add-tournament
     TournamentDetailPageRoutingModule,
     ModalAddTournamentModule,
     TranslateModule,
+    ModalTournamentParticipantModule,
     PipeModule
   ],
   declarations: [TournamentDetailPage]

@@ -118,13 +118,14 @@ export class AppComponent {
         // recuperation de la ville de l'utilisateur
         // verification si l'utilisateur a déjà un compte
         if(this.api.checkCredential()){
-          this.util.showLoading('login');
+          //this.util.showLoading('login');
           // connexion
           const cre = this.util.decryptAESData(JSON.parse(localStorage.getItem('auth_wz')));
           this.auth.login(cre).then((e:any)=>{
-            this.util.hideLoading();
+            localStorage.setItem('is_user','true');
+            //this.util.hideLoading();
             this.is_loading=false;
-            if(isCordovaAvailable()){
+            /*if(isCordovaAvailable()){
               //OneSignal.sendTags({'country_id':e.user.country_id});
             }
             // chargement des données
@@ -134,18 +135,19 @@ export class AppComponent {
               this.navCtrl.navigateRoot(['/tabs']);
             } else {
               this.util.doToast('Contacter le support au +237 673996540',5000, 'warning');
-            }
+            }*/
           },q=>{
-            this.util.hideLoading();
+            //this.util.hideLoading();
             this.auth.logout();
             this.is_loading=false;
-            this.navCtrl.navigateRoot(['/login']);
+            //this.navCtrl.navigateRoot(['/login']);
           })
 
         } else {
+          localStorage.setItem('is_user','false');
           // l'utilisateur n'existe pas
           this.is_loading=false;
-          this.navCtrl.navigateRoot(['/login']);
+          //this.navCtrl.navigateRoot(['/login']);
         }
       }
     });
@@ -196,7 +198,6 @@ export class AppComponent {
         {
           text: 'Annuler',
           role: 'cancel',
-          cssClass: 'danger',
           handler: () => {
             //console.log('Confirm Cancel');
           }

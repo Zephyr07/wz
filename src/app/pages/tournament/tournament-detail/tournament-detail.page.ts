@@ -5,7 +5,8 @@ import {Router} from "@angular/router";
 import {UtilProvider} from "../../../providers/util/util";
 import {TranslateService} from "@ngx-translate/core";
 import {NUMBER_RANGE} from "../../../services/contants";
-import * as _ from "lodash";
+import * as moment from "moment";
+import {ModalTournamentParticipantComponent} from "../../../components/modal-tournament-participant/modal-tournament-participant.component";
 
 @Component({
   selector: 'app-tournament-detail',
@@ -16,6 +17,7 @@ export class TournamentDetailPage implements OnInit {
   @ViewChild('modalRank') modalRank: IonModal;
   id=0;
   number=0;
+  participants=0;
   title="";
   tournament:any={};
   show_pointer=false;
@@ -26,6 +28,7 @@ export class TournamentDetailPage implements OnInit {
   isLoadingRank = true;
   is_phone=false;
   user:any={};
+  is_user=false;
   can_subscribe=false;
   phone:number;
   MIN = NUMBER_RANGE.min;
@@ -62,12 +65,14 @@ export class TournamentDetailPage implements OnInit {
       // @ts-ignore
       this.id= this.router.getCurrentNavigation().extras.state.id;
       this.getTournament(this.id);
+      this.getParticipants(this.id);
       // @ts-ignore
       this.title= this.router.getCurrentNavigation().extras.state.name;
     } else {
       //console.log("pas d'id");
       this.id=9;
       this.getTournament(this.id);
+      this.getParticipants(this.id);
     }
 
     this.translate.get('cancel').subscribe( (res: string) => {
@@ -90,27 +95,15 @@ export class TournamentDetailPage implements OnInit {
   ngOnInit() {
   }
 
-  getTournament(id){
-    this.id=id;
-    const opt = {
-      _includes:"participants"
-    };
-
-    this.api.get('tournaments',id,opt).then(d=>{
-      this.tournament = d;
-      this.isLoading=false;
-    },q=>{
-      this.util.handleError(q);
-    })
-  }
-
-
   ionViewWillEnter(){
     if(this.api.checkUser()){
+      this.is_user=true;
       this.user=JSON.parse(localStorage.getItem('user_wz'));
       this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
       //this.phone=this.user.phone;
       this.checkSubscription();
+    } else {
+      this.is_user=false;
     }
     if(localStorage.getItem('wz_settings')!='undefined'){
       this.settings = JSON.parse(localStorage.getItem('wz_settings'))[0];
@@ -119,15 +112,62 @@ export class TournamentDetailPage implements OnInit {
     }
   }
 
+  getTournament(id){
+    this.id=id;
+    const opt = {
+      _includes:"participants"
+    };
+
+    this.api.get('tournaments',id,opt).then((d:any)=>{
+      d.jour = moment(d.start_at).format('DD');
+      d.mois = moment(d.start_at).format('MMMM');
+      this.tournament = d;
+      this.isLoading=false;
+    },q=>{
+      this.util.handleError(q);
+    })
+  }
+
+  getParticipants(id){
+    const opt = {
+      should_paginate:false,
+      tournament_id:id,
+      '_agg':'count'
+    };
+    this.api.getList('participants',opt).then((d:any)=>{
+      this.participants = d;
+    },q=>{
+      this.util.handleError(q);
+    })
+  }
+
+  async listParticipant(o?:any){
+    o=this.id;
+    const modal = await this.modalController.create({
+      component: ModalTournamentParticipantComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        'objet': o
+      }
+    });
+    return await modal.present();
+
+  }
+
+
   backToPreviousPage(){
     document.getElementById('backButton').click();
   }
 
   async askSchedule(){
+    let price = this.tournament.fees;
+    if(this.is_subscription){
+      price*=0.8;
+    }
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: "Confirmation",
-      subHeader:"Voulez-vous participer ? Cela vous coûtera "+this.tournament.fees+"U",
+      subHeader:"Voulez-vous participer ? Cela vous coûtera "+price+"U",
       buttons: [
         {
           text: 'Annuler',
@@ -162,6 +202,8 @@ export class TournamentDetailPage implements OnInit {
       this.api.post('participants',opt).then(d=>{
         this.util.doToast("Votre inscription au tournoi "+this.tournament.name+" a été enregistrée",3000);
         this.can_subscribe=false;
+        this.modalRank.setCurrentBreakpoint(0);
+        this.doRefresh("");
         this.util.hideLoading();
       },q=>{
         this.util.hideLoading();
@@ -175,6 +217,10 @@ export class TournamentDetailPage implements OnInit {
 
   checkNumber(){
     this.is_phone = this.MIN <= this.phone && this.phone <= this.MAX;
+  }
+
+  openModal(){
+    document.getElementById('open-modal').click();
   }
 
   support(){
@@ -391,9 +437,20 @@ export class TournamentDetailPage implements OnInit {
     await alert.present();
   }
 
+  login(){
+    this.router.navigateByUrl('/login');
+  }
+
+  becomeMember(){
+    this.modalRank.setCurrentBreakpoint(0);
+    this.router.navigateByUrl('/tabs/store');
+  }
+
   doRefresh(event) {
     this.ionViewWillEnter();
     this.getTournament(this.id);
+    this.getParticipants(this.id);
+    this.checkSubscription();
     setTimeout(() => {
       console.log('Async operation has ended');
       event.target.complete();

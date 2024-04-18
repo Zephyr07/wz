@@ -6,110 +6,57 @@
 
 <ion-content>
 
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content
-      pullingIcon="chevron-down-circle-outline"
-      pullingText="{{'pull_down'|translate}}"
-      refreshingSpinner="circles"
-      refreshingText="{{'loading'|translate}}...">
-    </ion-refresher-content>
-  </ion-refresher>
+  <ion-grid>
+
+    <ion-item class="item" lines="none" (click)="goToGame(3)">
+      <ion-thumbnail slot="start" style="border-radius: 20px !important; padding: 5px; background: #fff">
+        <img src="../../../assets/img/wz/vr.png" alt="">
+      </ion-thumbnail>
+      <ion-label>
+        <p class="bold primary" style="font-size: 18px">
+          Réalité virtuelle
+        </p>
+
+      </ion-label>
+    </ion-item>
+
+    <ion-item class="item" lines="none" (click)="goToGame(2)">
+      <ion-thumbnail slot="start" style="border-radius: 20px !important;padding: 5px; background: #fff">
+        <img src="../../../assets/img/wz/ps5.jpg" alt="">
+      </ion-thumbnail>
+      <ion-label>
+        <p class="bold primary" style="font-size: 18px">
+          PS5
+        </p>
+
+      </ion-label>
+    </ion-item>
+
+    <ion-item class="item" lines="none" (click)="goToGame(1)">
+      <ion-thumbnail slot="start" style="border-radius: 20px !important; padding: 5px; background: #fff">
+        <img src="../../../assets/img/wz/ps4.jpg" alt="">
+      </ion-thumbnail>
+      <ion-label>
+        <p class="bold primary" style="font-size: 18px">
+          PS4
+        </p>
+
+      </ion-label>
+    </ion-item>
+
+    <ion-item class="item" lines="none" (click)="goToGame(0)">
+      <ion-thumbnail slot="start" style="border-radius: 20px !important; padding: 5px; background: #fff">
+        <img src="../../../assets/img/wz/wz_blanc.svg" alt="">
+      </ion-thumbnail>
+      <ion-label>
+        <p class="bold primary" style="font-size: 18px">
+          Mini-Jeux WarZone
+        </p>
+
+      </ion-label>
+    </ion-item>
 
 
-  <ion-segment value="ps5" [scrollable]="true">
-    <ion-segment-button value="ps5" (click)="filterGame(2)">
-      <ion-label>PS5</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="ps4" (click)="filterGame(1)">
-      <ion-label>PS4</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="vr" (click)="filterGame(3)">
-      <ion-label>{{'vr'|translate}}</ion-label>
-    </ion-segment-button>
-  </ion-segment>
-
-  <ion-grid class="card-background-page" *ngIf="is_loading">
-
-    <ion-row class="games">
-      <ion-col size="6">
-        <ion-skeleton-text class="radius" animated style="width: 100%; height: 200px"></ion-skeleton-text>
-      </ion-col>
-      <ion-col size="6">
-        <ion-skeleton-text class="radius" animated style="width: 100%; height: 200px"></ion-skeleton-text>
-      </ion-col>
-    </ion-row>
-
-
-    <app-oups-info [text]="'no_game'" *ngIf="!is_loading && games.length<1"></app-oups-info>
   </ion-grid>
-
-  <ion-grid class="card-background-page" *ngIf="!is_loading">
-
-    <ion-row class="games">
-      <ion-col size="6" *ngFor="let s of games" (click)="goTo(s)">
-        <img alt="{{s.name}}" src="{{s.image}}" />
-      </ion-col>
-    </ion-row>
-
-
-    <app-oups-info [text]="'no_game'" *ngIf="!is_loading && games.length<1"></app-oups-info>
-  </ion-grid>
-
-
-
-  <ion-button  style="display: none" id="open-modal" expand="block">Open Sheet Modal</ion-button>
-
-  <ion-modal #modalDetail trigger="open-modal" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
-    <ng-template>
-      <ion-content>
-        <ion-fab vertical="top" horizontal="end" slot="fixed">
-          <ion-fab-button color="light" size="small" (click)="closeModal()">
-            <ion-icon name="close"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-        <ion-grid>
-          <div class="videos" style="height: 200px">
-            <iframe width="100%"
-                    #iframe
-                    height="100%"
-                    id="trailer"
-                    [src]="game.video_url | safe "
-                    frameborder="0"
-                    allowfullscreen></iframe>
-          </div>
-
-          <ion-grid>
-            <ion-row>
-              <ion-col size="3">
-                <img src="{{game.image}}" alt="" style=" border-radius: 10px">
-              </ion-col>
-              <ion-col size="9">
-                <h3 style="margin-top:0 !important;">{{game.name}}</h3>
-                <p size="12" style="margin: 0;">
-                  <ion-badge>{{game.category.name}}</ion-badge>&nbsp;<ion-badge color="dark">+{{game.age}}</ion-badge>
-                  <br>
-                  <ion-badge *ngIf="!game.online" color="light">Local</ion-badge> <ion-badge *ngIf="game.online" color="light">{{'online'|translate}}</ion-badge>&nbsp;
-                  <ion-badge *ngIf="!game.multiplayer" color="light">Solo</ion-badge><ion-badge *ngIf="game.multiplayer" color="light">{{'multiplayer'|translate}}</ion-badge>
-                </p>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col [innerHTML]="game.description">
-
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-
-        </ion-grid>
-
-        <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-          <ion-fab-button color="danger" (click)="schedule()">
-            <ion-icon name="calendar"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-
-      </ion-content>
-    </ng-template>
-  </ion-modal>
 
 </ion-content>

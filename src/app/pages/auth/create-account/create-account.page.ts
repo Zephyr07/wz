@@ -313,6 +313,7 @@ export class CreateAccountPage implements OnInit {
               if(isCordovaAvailable()){
                 //OneSignal.sendTags({'country_id':d.user.country_id});
               }
+              localStorage.setItem('is_user','true');
               this.util.hideLoading();
               this.navCtrl.navigateRoot(['/tabs'])
             }, q=>{
@@ -370,6 +371,7 @@ export class CreateAccountPage implements OnInit {
       }*/
 
       this.auth.register(opt).then((r:any)=>{
+        localStorage.setItem('is_user','true');
         if(isCordovaAvailable()){
           //OneSignal.sendTags({'country_id':this.country_id});
         }

@@ -4,8 +4,8 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    //loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-    loadChildren: () => import('./pages/auth/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    //loadChildren: () => import('./pages/auth/login/login.module').then( m => m.LoginPageModule)
   },
   {
     path: 'tabs',
@@ -86,6 +86,10 @@ const routes: Routes = [
   {
     path: 'referral',
     loadChildren: () => import('./pages/referral/referral.module').then( m => m.ReferralPageModule)
+  },
+  {
+    path: 'triple-choice',
+    loadChildren: () => import('./pages/game/mini-game/triple-choice/triple-choice.module').then( m => m.TripleChoicePageModule)
   }
 ];
 @NgModule({

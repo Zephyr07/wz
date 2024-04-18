@@ -12,7 +12,7 @@ import {ModalCguComponent} from "../../components/modal-cgu/modal-cgu.component"
   styleUrls: ['./menu.page.scss'],
 })
 export class MenuPage implements OnInit {
-
+  is_user=false;
   settings:any={
     android:{
       subscription:false
@@ -36,6 +36,11 @@ export class MenuPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    if(this.api.checkUser()){
+      this.is_user=true;
+    } else {
+      this.is_user=false;
+    }
     // recupération des settings
     if(localStorage.getItem('wz_settings')!='undefined'){
       this.settings = JSON.parse(localStorage.getItem('wz_settings'))[0];
@@ -63,6 +68,16 @@ export class MenuPage implements OnInit {
   goToAccount(){
     //const navigationExtra : NavigationExtras = {state: {film:{'name':f.name, 'id':f.id}}};
     this.router.navigateByUrl('user');
+  }
+
+  goToLogin(){
+    //const navigationExtra : NavigationExtras = {state: {film:{'name':f.name, 'id':f.id}}};
+    this.router.navigateByUrl('login');
+  }
+
+  goToCreateAccount(){
+    //const navigationExtra : NavigationExtras = {state: {film:{'name':f.name, 'id':f.id}}};
+    this.router.navigateByUrl('create-account');
   }
 
   goToReferral(){

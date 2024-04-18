@@ -1,0 +1,113 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'games'|translate}} {{name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="{{'pull_down'|translate}}"
+      refreshingSpinner="circles"
+      refreshingText="{{'loading'|translate}}...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-searchbar animated="true" placeholder="{{'search'|translate}}" [(ngModel)]="search" type="text" (ionInput)="getItems($event)"></ion-searchbar>
+
+  <ion-grid *ngIf="is_loading">
+    <ion-item class="item" lines="none" *ngFor="let i of [1,2,3,5,6]">
+      <ion-thumbnail slot="start" style="text-transform: capitalize; border-radius: 20px !important; color:black">
+        <ion-skeleton-text *ngIf="is_loading" animated style="width: 100%; height: 100%; margin-top:0"></ion-skeleton-text>
+      </ion-thumbnail>
+      <ion-label>
+        <p class="bold primary" style="font-size: 18px">
+          <ion-skeleton-text *ngIf="is_loading" animated style="width: 40%; margin-top:0"></ion-skeleton-text>
+        </p>
+        <ion-skeleton-text *ngIf="is_loading" animated style="width: 85%; margin-top:0"></ion-skeleton-text>
+        <ion-skeleton-text *ngIf="is_loading" animated style="width: 100%; margin-top:0"></ion-skeleton-text>
+        <ion-skeleton-text *ngIf="is_loading" animated style="width: 25%; margin-top:0"></ion-skeleton-text>
+
+      </ion-label>
+    </ion-item>
+  </ion-grid>
+
+
+  <ion-grid style="margin-bottom: 30px">
+    <ion-item class="item" lines="none" *ngFor="let g of games" (click)="goTo(g)">
+      <ion-thumbnail slot="start" style="text-transform: capitalize; border-radius: 20px !important; color:black">
+        <img src="{{g.image}}" alt="">
+      </ion-thumbnail>
+      <ion-label>
+        <p class="bold primary" style="font-size: 18px">
+          {{g.name}}
+        </p>
+        <p style="white-space: normal; color:#000" [innerHTML]="g.description|limitTo:100"></p>
+
+      </ion-label>
+    </ion-item>
+  </ion-grid>
+
+
+
+  <ion-button  style="display: none" id="open-modal" expand="block">Open Sheet Modal</ion-button>
+
+  <ion-modal #modalDetail trigger="open-modal" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
+    <ng-template>
+      <ion-content>
+        <ion-fab vertical="top" horizontal="end" slot="fixed">
+          <ion-fab-button color="light" size="small" (click)="closeModal()">
+            <ion-icon name="close"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+        <ion-grid>
+          <div class="videos" style="height: 200px">
+            <iframe width="100%"
+                    #iframe
+                    height="100%"
+                    id="trailer"
+                    [src]="game.video_url | safe "
+                    frameborder="0"
+                    allowfullscreen></iframe>
+          </div>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col size="3">
+                <img src="{{game.image}}" alt="" style=" border-radius: 10px; height: 100%">
+              </ion-col>
+              <ion-col size="9">
+                <h3 style="margin-top:0 !important;">{{game.name}}</h3>
+                <p size="12" style="margin: 0;">
+                  <ion-badge>{{game.category.name}}</ion-badge>&nbsp;<ion-badge color="dark">+{{game.age}}</ion-badge>
+                  <br>
+                  <ion-badge *ngIf="!game.online" color="light">Local</ion-badge> <ion-badge *ngIf="game.online" color="light">{{'online'|translate}}</ion-badge>&nbsp;
+                  <ion-badge *ngIf="!game.multiplayer" color="light">Solo</ion-badge><ion-badge *ngIf="game.multiplayer" color="light">{{'multiplayer'|translate}}</ion-badge>
+                </p>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col [innerHTML]="game.description">
+
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+        </ion-grid>
+
+        <ion-fab vertical="bottom" horizontal="end" slot="fixed" style="margin-bottom: 20px">
+          <ion-fab-button color="danger" (click)="schedule()">
+            <ion-icon name="calendar"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

@@ -1,5 +1,16 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar *ngIf="is_user!='true'">
+    <ion-item lines="none"  slot="start">
+      <ion-thumbnail>
+        <img alt="WarZone" src="../../../assets/img/wz/wz_noir.svg" />
+      </ion-thumbnail>
+      <ion-label class="label" style="text-transform: capitalize">WarZone
+        <br>
+        <span style="color:var(--ion-color-medium); font-size: 15px;">Salle de Jeux</span>
+      </ion-label>
+    </ion-item>
+  </ion-toolbar>
+  <ion-toolbar *ngIf="is_user=='true'">
     <ion-item lines="none"  slot="start" (click)="goTo('user')">
       <ion-thumbnail>
         <img alt="{{user.person.full_name}}" src="{{user.person.image}}" />
@@ -30,6 +41,49 @@
       refreshingText="{{'loading'|translate}}...">
     </ion-refresher-content>
   </ion-refresher>
+
+
+
+  <ion-grid *ngIf="tombola=='enable'" class="card-background-page">
+
+    <ion-row (click)="goTo('tombola')">
+      <ion-col size="12">
+        <img src="../../../assets/img/wz/tombola.png" style="height: 350px; width: 100%; border-radius: 20px; border-top:3px solid #eee"/>
+
+        <ion-item class="item" lines="none">
+          <ion-label>
+            <p class="bold primary" style="font-size: 18px; text-align: center">
+              MEGA TOMBOLA WARZONE
+            </p>
+            <p style="white-space: normal; color:#000; text-align: center">{{'play_and_win'|translate}}</p>
+
+          </ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid *ngIf="schedule=='enable'">
+    <ion-toolbar class="ion-no-border">
+      <ion-title slot="start">{{'schedule'|translate}}</ion-title>
+    </ion-toolbar>
+
+    <ion-row style="margin-bottom: 15px">
+      <ion-col size="12" (click)="goToSchedule()">
+        <img src="../../../assets/img/wz/booking.png" style="height: 130px; width: 100%; border-radius: 20px 20px 0 0; border-top:3px solid #eee"/>
+
+        <ion-item class="item-cu" lines="none">
+          <ion-label>
+            <p class="bold primary" style="font-size: 18px">
+              {{'schedule_game'|translate}}
+            </p>
+            <p style="white-space: normal">{{'schedule_game_text'|translate}}</p>
+
+          </ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <ion-grid *ngIf="tournaments.length>0">
 
@@ -66,47 +120,6 @@
           </swiper-slide>
 
         </swiper-container>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <ion-grid *ngIf="tombola=='enable'" class="card-background-page">
-
-    <ion-row style="margin-bottom: 15px" (click)="goTo('tombola')">
-      <ion-col size="12">
-        <img src="../../../assets/img/wz/tombola.png" style="height: 350px; width: 100%; border-radius: 20px; border-top:3px solid #eee"/>
-
-        <ion-item class="item" lines="none">
-          <ion-label>
-            <p class="bold primary" style="font-size: 18px; text-align: center">
-              MEGA TOMBOLA WARZONE
-            </p>
-            <p style="white-space: normal; color:#000; text-align: center">{{'play_and_win'|translate}}</p>
-
-          </ion-label>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <ion-grid *ngIf="schedule=='enable'">
-    <ion-toolbar class="ion-no-border">
-      <ion-title slot="start">{{'schedule'|translate}}</ion-title>
-    </ion-toolbar>
-
-    <ion-row style="margin-bottom: 15px">
-      <ion-col size="12" (click)="goToSchedule()">
-        <img src="../../../assets/img/wz/booking.png" style="height: 130px; width: 100%; border-radius: 20px 20px 0 0; border-top:3px solid #eee"/>
-
-        <ion-item class="item-cu" lines="none">
-          <ion-label>
-            <p class="bold primary" style="font-size: 18px">
-              {{'schedule_game'|translate}}
-            </p>
-            <p style="white-space: normal">{{'schedule_game_text'|translate}}</p>
-
-          </ion-label>
-        </ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -200,7 +213,7 @@
   </ion-grid>
 
 
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" style="margin-bottom: 20px">
     <ion-fab-button (click)="goToSchedule()">
       <ion-icon name="calendar"></ion-icon>
     </ion-fab-button>

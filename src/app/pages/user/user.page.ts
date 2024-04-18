@@ -182,8 +182,8 @@ export class UserPage implements OnInit {
 
   logout(){
     this.auth.logout().then((d:any)=>{
-      this.router.navigateByUrl('login');
-      //this.router.navigateByUrl('home');
+      //this.router.navigateByUrl('login');
+      this.router.navigateByUrl('tabs');
     })
   }
 

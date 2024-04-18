@@ -16,7 +16,7 @@ export class SchedulePage implements OnInit {
   MIN = NUMBER_RANGE.min;
   MAX = NUMBER_RANGE.max;
 
-
+  is_subscription = false;
   id=0;
   title="aze";
   categories:any=[];
@@ -32,7 +32,12 @@ export class SchedulePage implements OnInit {
   category_id=0;
   price=2000;
   reduc=0;
-  settings:any={};
+  settings:any={
+    price:{
+      ps:{},
+      vr:{}
+    }
+  };
   min_date = moment().format('YYYY-MM-DDThh:mm:ss');
   max_date= moment().add('day',14).format('YYYY-MM-DDThh:mm:ss');
   isWeekday = (dateString: string) => {
@@ -47,11 +52,12 @@ export class SchedulePage implements OnInit {
   };
 
 
-  constructor(private api: ApiProvider,
-              private router : Router,
-              private util:UtilProvider,
-              public modalController: ModalController,
-              public alertController: AlertController
+  constructor(
+    private api: ApiProvider,
+    private router : Router,
+    private util:UtilProvider,
+    public modalController: ModalController,
+    public alertController: AlertController
   ) {
     if(this.router.getCurrentNavigation().extras.state){
       // @ts-ignore
@@ -79,7 +85,7 @@ export class SchedulePage implements OnInit {
     let user = JSON.parse(localStorage.getItem('user_wz'));
     this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
       this.user = a.data.user;
-      this.user.subscription_status=this.api.checkSubscription(this.user.subscription);
+      this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
       localStorage.setItem('user_wz',JSON.stringify(this.user));
     });
   }
@@ -91,17 +97,18 @@ export class SchedulePage implements OnInit {
 
     this.api.get('games',id,opt).then((d:any)=>{
       this.game = d;
+      this.category_id = d.category_id;
       if(d.category.id==3){
         // vr
         this.price = this.settings.price.vr.h;
-        if(this.user.subscription_status.is_actived){
+        if(this.is_subscription){
           this.price=this.price - this.price*this.settings.price.vr.reduction;
           this.reduc = this.settings.price.vr.reduction;
         }
       } else {
         // ps
         this.price = this.settings.price.ps.h;
-        if(this.user.subscription_status.is_actived){
+        if(this.is_subscription){
           this.price=this.price - this.price*this.settings.price.ps.reduction;
           this.reduc = this.settings.price.ps.reduction;
         }
@@ -130,14 +137,32 @@ export class SchedulePage implements OnInit {
     if(this.category_id==3){
       // vr
       this.price = this.settings.price.vr.h;
-      if(this.user.subscription_status.is_actived){
+      if(this.is_subscription){
         this.price=this.price - this.price*this.settings.price.vr.reduction;
         this.reduc = this.settings.price.vr.reduction;
       }
     } else {
       // ps
       this.price = this.settings.price.ps.h;
-      if(this.user.subscription_status.is_actived){
+      if(this.is_subscription){
+        this.price=this.price - this.price*this.settings.price.ps.reduction;
+        this.reduc = this.settings.price.ps.reduction;
+      }
+    }
+  }
+
+  setPrice(){
+    if(this.category_id==3){
+      // vr
+      this.price = this.settings.price.vr.h;
+      if(this.is_subscription){
+        this.price=this.price - this.price*this.settings.price.vr.reduction;
+        this.reduc = this.settings.price.vr.reduction;
+      }
+    } else {
+      // ps
+      this.price = this.settings.price.ps.h;
+      if(this.is_subscription){
         this.price=this.price - this.price*this.settings.price.ps.reduction;
         this.reduc = this.settings.price.ps.reduction;
       }
