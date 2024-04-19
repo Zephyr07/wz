@@ -1,0 +1,45 @@
+<ion-content [fullscreen]="true">
+  <div class="fond">
+    <ion-row>
+      <ion-col>
+        <img src="../../../../../assets/img/wz/game/mem.png" class="radius" alt="">
+      </ion-col>
+    </ion-row>
+
+    <ion-grid class="ion-text-center">
+      Paires à trouver : <strong>{{count}}</strong> &nbsp; Temps restant : <strong>{{time}}s</strong>
+      <ion-progress-bar [value]="progress" color="medium" style="height: 20px"></ion-progress-bar>
+    </ion-grid>
+    <ion-grid class="game">
+
+      <ion-row>
+        <ion-col size="{{size}}" *ngFor="let p of positions">
+          <img src="../../../../../assets/img/wz/game/memory/{{p.id}}.png" alt="" *ngIf="p.show && !p.find">
+          <img src="../../../../../assets/img/wz/game/memory/tile.png" style="border:2px solid #022747" alt=""
+               (click)="showTile(p)" *ngIf="!p.show && !p.find">
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+
+    <ion-footer style="position:absolute; bottom:0; width: 100%; background: transparent !important;">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <img src="../../../../../assets/img/wz/game/memory/win.png" class="radius" alt="">
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-button expand="block" (click)="close()" color="light">Fermer</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button expand="block" [ngClass]="{'pulsate-bck':time==0}" (click)="play()" color="medium">Rejouer</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-footer>
+  </div>
+</ion-content>
+

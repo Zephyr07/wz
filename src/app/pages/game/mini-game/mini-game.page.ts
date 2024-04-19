@@ -17,8 +17,14 @@ export class MiniGamePage implements OnInit {
   ngOnInit() {
 
   }
-  goToGame(){
 
-    this.router.navigateByUrl('triple-choice')
+
+
+  goToGame(target){
+    if(target=='10'){
+      this.router.navigateByUrl('triple-choice')
+    } else if (target=='memory'){
+      this.router.navigateByUrl('memory-game')
+    }
   }
 }

@@ -90,6 +90,10 @@ const routes: Routes = [
   {
     path: 'triple-choice',
     loadChildren: () => import('./pages/game/mini-game/triple-choice/triple-choice.module').then( m => m.TripleChoicePageModule)
+  },
+  {
+    path: 'memory-game',
+    loadChildren: () => import('./pages/game/mini-game/memory-game/memory-game.module').then( m => m.MemoryGamePageModule)
   }
 ];
 @NgModule({
