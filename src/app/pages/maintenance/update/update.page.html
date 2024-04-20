@@ -1,17 +1,13 @@
 <ion-content fullscreen class="ion-padding" scroll-y="false">
-  <ion-slides>
-    <ion-slide>
-      <div class="slide">
-        <img src="../../../../assets/icon/logo_playce.svg" style="height: 200px; margin-top: 30%"/>
-        <h2 class="danger">{{'update_available'|translate}}</h2>
-        <p>
-          {{'update_text'|translate}}
-        </p>
+  <div class="slide">
+    <img src="../../../../assets/icon/logo_wz.svg" style="height: 200px; margin-top: 30%"/>
+    <h2 class="primary">{{'update_available'|translate}}</h2>
+    <p>
+      {{'update_text'|translate}}
+    </p>
 
-        <ion-button (click)="update()">
-          {{'download'|translate}}
-        </ion-button>
-      </div>
-    </ion-slide>
-  </ion-slides>
+    <ion-button (click)="update()">
+      {{'download'|translate}}
+    </ion-button>
+  </div>
 </ion-content>

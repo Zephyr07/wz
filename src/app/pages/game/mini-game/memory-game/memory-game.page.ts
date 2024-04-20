@@ -3,6 +3,7 @@ import {AlertController, NavController} from "@ionic/angular";
 import {ApiProvider} from "../../../../providers/api/api";
 import * as _ from "lodash";
 import {UtilProvider} from "../../../../providers/util/util";
+import {AdmobProvider} from "../../../../providers/admob/AdmobProvider";
 
 @Component({
   selector: 'app-memory-game',
@@ -14,12 +15,15 @@ export class MemoryGamePage implements OnInit {
   public size=2;
   choice=0;
   is_user=false;
+  is_replay=false;
   is_subscription=false;
   first_choice = 0;
   second_choice = 0;
   count = 18;
-  time=60;
-  progress=60;
+  base=40;
+  time=this.base;
+  progress=this.base;
+  interval:any;
 
   private user:any={};
 
@@ -27,15 +31,17 @@ export class MemoryGamePage implements OnInit {
     private navCtrl : NavController,
     private alertController : AlertController,
     private util : UtilProvider,
+    private admob : AdmobProvider,
     private api : ApiProvider
   ) { }
 
   ngOnInit() {
-    this.play();
+    this.startGame();
+    this.admob.loadInterstitial();
   }
 
   ionViewWillEnter(){
-    /*if(this.api.checkUser()){
+    if(this.api.checkUser()){
       this.is_user=true;
       this.user=JSON.parse(localStorage.getItem('user_wz'));
       this.api.getList('auth/me',{id:this.user.id}).then((a:any)=>{
@@ -45,17 +51,7 @@ export class MemoryGamePage implements OnInit {
       });
     } else {
       this.is_user=false;
-    }*/
-  }
-
-  startGame(){
-    this.first_choice=0;
-    this.second_choice=0;
-    this.time=60;
-    this.progress = this.time;
-    this.count=18;
-    this.positions = this.setTiles(36);
-    this.startTime();
+    }
   }
 
   showTile(p){
@@ -96,6 +92,13 @@ export class MemoryGamePage implements OnInit {
     }
   }
 
+  async replay(){
+    this.is_replay=true;
+    await this.admob.showInterstitial();
+    await this.admob.loadInterstitial();
+    clearInterval(this.interval);
+  }
+
   async play(){
     if(this.is_user){
       if(!this.is_subscription){
@@ -123,7 +126,14 @@ export class MemoryGamePage implements OnInit {
 
         await alert.present();
       } else {
-        this.startGame();
+        this.first_choice=0;
+        this.second_choice=0;
+        this.time=this.base;
+        this.progress = this.time;
+        this.count=18;
+        this.positions = this.setTiles(36);
+        this.startTime();
+        this.is_replay=false;
       }
     } else {
       const alert = await this.alertController.create({
@@ -150,6 +160,33 @@ export class MemoryGamePage implements OnInit {
 
       await alert.present();
     }
+  }
+
+  async startGame(){
+    const alert = await this.alertController.create({
+      header: 'Bienvenu dans "Memory"',
+      subHeader: 'Règles du jeu',
+      message: 'Vous devez trouvez les 16 paires avant le temps imparti pour gagner. Vous gagnez 2s lorsque vous trouvez une paire correct. Trouvez toutes les paires et gagnez 1 heure de jeu gratuit à la salle. Que la chance soit avec vous!',
+      buttons: [
+        {
+          text: 'Fermer',
+          role: 'cancel',
+          handler: () => {
+            this.close();
+          },
+        },
+        {
+          text: 'Jouer',
+          role: 'confirm',
+          handler: () => {
+            console.log('Alert canceled');
+            this.play();
+          },
+        }
+      ],
+    });
+
+    await alert.present();
   }
 
   close(){
@@ -199,6 +236,10 @@ export class MemoryGamePage implements OnInit {
       const j = Math.floor(Math.random() * (i + 1));
       [t[i], t[j]] = [t[j], t[i]];
     }
+    for (let i = t.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [t[i], t[j]] = [t[j], t[i]];
+    }
 
     return t;
   }
@@ -241,6 +282,8 @@ export class MemoryGamePage implements OnInit {
           role: 'cancel',
           handler: () => {
             //this.close();
+            //clearInterval(this.interval);
+            this.is_replay=false;
           },
         }
       ],
@@ -250,11 +293,12 @@ export class MemoryGamePage implements OnInit {
   }
 
   startTime(){
-    let interval = setInterval(() => {
+    clearInterval(this.interval);
+    this.interval = setInterval(() => {
       this.time -=1;
-      this.progress=this.time/60;
+      this.progress=this.time/this.base;
       if (this.time == 0) {
-        clearInterval(interval);
+        clearInterval(this.interval);
         if(this.count>0){
           this.loose();
         }

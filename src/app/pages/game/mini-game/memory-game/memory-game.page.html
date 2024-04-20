@@ -20,6 +20,12 @@
         </ion-col>
       </ion-row>
 
+      <ion-row *ngIf="is_replay">
+        <ion-col>
+          <ion-button expand="block" class="pulsate-bck" (click)="play()" color="medium">Jouer</ion-button>
+        </ion-col>
+      </ion-row>
+
     </ion-grid>
 
     <ion-footer style="position:absolute; bottom:0; width: 100%; background: transparent !important;">
@@ -32,10 +38,10 @@
 
         <ion-row>
           <ion-col>
-            <ion-button expand="block" (click)="close()" color="light">Fermer</ion-button>
+            <ion-button expand="block" (click)="close()" color="tertiary">Fermer</ion-button>
           </ion-col>
-          <ion-col>
-            <ion-button expand="block" [ngClass]="{'pulsate-bck':time==0}" (click)="play()" color="medium">Rejouer</ion-button>
+          <ion-col *ngIf="!is_replay">
+            <ion-button expand="block" [ngClass]="{'pulsate-bck':time==0}" (click)="replay()" color="medium">Rejouer</ion-button>
           </ion-col>
         </ion-row>
       </ion-grid>

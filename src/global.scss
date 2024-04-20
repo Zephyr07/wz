@@ -72,8 +72,8 @@ ion-searchbar{
 }
 
 .pulsate-bck {
-  -webkit-animation: pulsate-bck 0.5s ease-in-out infinite both;
-  animation: pulsate-bck 0.5s ease-in-out infinite both;
+  -webkit-animation: pulsate-bck 1s ease-in-out infinite both;
+  animation: pulsate-bck 01s ease-in-out infinite both;
 }
 @-webkit-keyframes pulsate-bck {
   0% {
