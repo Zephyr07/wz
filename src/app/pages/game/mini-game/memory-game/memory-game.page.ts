@@ -93,6 +93,8 @@ export class MemoryGamePage implements OnInit {
   }
 
   async replay(){
+    this.time=this.base;
+    this.progress = this.base;
     this.is_replay=true;
     await this.admob.showInterstitial();
     await this.admob.loadInterstitial();
@@ -307,4 +309,7 @@ export class MemoryGamePage implements OnInit {
 
   }
 
+  ionViewWillLeave(){
+    clearInterval(this.interval);
+  }
 }

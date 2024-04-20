@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AlertController, ModalController} from "@ionic/angular";
 import {ApiProvider} from "../../providers/api/api";
 import {UtilProvider} from "../../providers/util/util";
+import {AdmobProvider} from "../../providers/admob/AdmobProvider";
 
 @Component({
   selector: 'app-modal-tombola',
@@ -25,6 +26,7 @@ export class ModalTombolaComponent  implements OnInit {
   isLoadingRank=true;
   is_played=false;
   is_win=false;
+  showAdButton=false;
   is_subscription=false;
 
   per_page = 20;
@@ -37,13 +39,20 @@ export class ModalTombolaComponent  implements OnInit {
     private alertController:AlertController,
     private modalController:ModalController,
     private api:ApiProvider,
+    private admob:AdmobProvider,
     private util:UtilProvider
   ) {
 
   }
 
   ngOnInit() {
+    this.admob.prepareRewardVideo().then(d=>{
+      this.showAdButton=true;
+    });
     this.fees = this.tombola.fees;
+    if(this.tombola.free){
+      this.fees=0;
+    }
     if(this.is_subscription){
       this.fees*=0.8;
     }
@@ -58,6 +67,9 @@ export class ModalTombolaComponent  implements OnInit {
         this.unit=this.user.unit;
         this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
         this.fees = this.tombola.fees;
+        if(this.tombola.free){
+          this.fees=0;
+        }
         if(this.is_subscription){
           this.fees*=0.8;
         }
@@ -89,6 +101,7 @@ export class ModalTombolaComponent  implements OnInit {
         }, {
           text: 'Confirmer',
           handler: (data:any) => {
+            this.admob.prepareRewardVideo();
             this.showSchedule();
           }
         }
@@ -100,6 +113,9 @@ export class ModalTombolaComponent  implements OnInit {
 
   showSchedule(){
     if(this.checkResult()){
+      if(this.tombola.free){
+        this.fees=0;
+      }
       let t=this.fees;
 
       if(this.fees==0 || t<=this.user.unit){
@@ -113,11 +129,15 @@ export class ModalTombolaComponent  implements OnInit {
           tombola_id:this.tombola.id,
           user_id:this.user.id,
           price_was:t,
-          is_s:this.is_subscription
+          is_s:this.is_subscription,
+          is_free:false
         };
+
+        opt.is_free = this.tombola.free;
 
         this.api.post('tombola_participants',opt).then((d:any)=>{
           this.is_played=true;
+          this.fees=this.tombola.fees;
           this.result = d.result;
           this.user.unit-=t;
           localStorage.setItem('user_wz',JSON.stringify(this.user));
@@ -148,6 +168,9 @@ export class ModalTombolaComponent  implements OnInit {
 
   setType(){
     this.fees = this.tombola.fees;
+    if(this.tombola.free){
+      this.fees=0;
+    }
     if(this.is_subscription){
       this.fees*=0.8;
     }
@@ -170,6 +193,15 @@ export class ModalTombolaComponent  implements OnInit {
     this.user_result=undefined;
     this.user_result1=undefined;
     this.user_result2=undefined;
+    this.tombola.free=false;
+  }
+
+  replayAd(){
+    this.admob.showRewardVideo().then(async d=>{
+      this.replay();
+      this.tombola.free=true;
+      this.fees=0;
+    })
   }
 
   checkResult(){

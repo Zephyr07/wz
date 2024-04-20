@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {
+  AdLoadInfo,
   AdMob, AdMobRewardItem,
   AdOptions,
   BannerAdOptions,
@@ -7,13 +8,24 @@ import {
   BannerAdSize,
   RewardAdOptions, RewardAdPluginEvents
 } from '@capacitor-community/admob';
+import {Platform} from "@ionic/angular";
 
 
 @Injectable()
 export class AdmobProvider {
+  interstitialId="";
+  rewardId="";
+
   constructor(
-    
+    private platform :Platform
   ) {
+    if(this.platform.is('ios')){
+      this.interstitialId="ca-app-pub-2538027924721849/8871542213";
+      this.rewardId="ca-app-pub-2538027924721849/8935638317";
+    } else {
+      this.interstitialId="ca-app-pub-2538027924721849/2426920344";
+      this.rewardId="ca-app-pub-2538027924721849/6501046662";
+    }
     this.initialize();
   }
 
@@ -65,7 +77,7 @@ export class AdmobProvider {
 
   async loadInterstitial(){
     const opt : AdOptions={
-      adId:'ca-app-pub-2538027924721849/2426920344',
+      adId:this.interstitialId,
       //isTesting:true ca-app-pub-2538027924721849/2426920344 3940256099942544/1033173712
     };
 
@@ -87,7 +99,7 @@ export class AdmobProvider {
   }
 
 
-  async showRewardVideo(){
+  async showRewardVideo2(){
     AdMob.addListener(RewardAdPluginEvents.Rewarded,(reward:AdMobRewardItem)=>{
       //console.log('Reward: ', reward);
     });
@@ -109,6 +121,29 @@ export class AdmobProvider {
       console.log(e);
       console.log(e.message);
     });
+  }
+
+  async prepareRewardVideo(){
+    return new Promise(async (resolve,reject)=>{
+      const options: RewardAdOptions = {
+        adId: this.rewardId,
+        // isTesting: true
+        // npa: true
+        // ssv: {
+        //   userId: "A user ID to send to your SSV"
+        //   customData: JSON.stringify({ ...MyCustomData })
+        //}
+      };
+      await AdMob.prepareRewardVideoAd(options).then(d=>{
+        resolve(d);
+      }, q=>{
+        reject(q);
+      });
+    })
+  }
+
+  async showRewardVideo(){
+    await AdMob.showRewardVideoAd();
   }
   
 }

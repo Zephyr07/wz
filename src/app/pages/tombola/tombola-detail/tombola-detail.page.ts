@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {UtilProvider} from "../../../providers/util/util";
 import {TranslateService} from "@ngx-translate/core";
 import {ModalTombolaComponent} from "../../../components/modal-tombola/modal-tombola.component";
+import {AdmobProvider} from "../../../providers/admob/AdmobProvider";
 
 @Component({
   selector: 'app-tombola-detail',
@@ -24,6 +25,7 @@ export class TombolaDetailPage implements OnInit {
 
   name="";
   texte="";
+  title="";
 
   is_phone=false;
   private user:any={};
@@ -51,11 +53,13 @@ export class TombolaDetailPage implements OnInit {
   PHONE="";
   isLogged = false;
   is_subscription=false;
+  showAdButton=false;
 
   constructor(
     private api: ApiProvider,
     private router : Router,
     private util:UtilProvider,
+    private admob:AdmobProvider,
     public modalController: ModalController,
     public alertController: AlertController,
     private navCtrl:NavController,
@@ -91,6 +95,11 @@ export class TombolaDetailPage implements OnInit {
   }
 
   ngOnInit() {
+    this.admob.prepareRewardVideo().then(d=>{
+      this.showAdButton=true;
+    },q=>{
+
+    })
   }
 
   ionViewWillEnter(){
@@ -211,6 +220,7 @@ export class TombolaDetailPage implements OnInit {
 
   async modalTombola(o?:any){
     o=this.tombola;
+    //o.free=true;
     const modal = await this.modalController.create({
       component: ModalTombolaComponent,
       cssClass: 'my-custom-class',
@@ -219,6 +229,66 @@ export class TombolaDetailPage implements OnInit {
       }
     });
     return await modal.present();
+  }
+
+  async showAd(){
+    this.admob.showRewardVideo().then(async d=>{
+      if(this.is_user){
+        if(this.is_subscription){
+          // set price tombola to 0;
+          this.tombola.free=true;
+          this.modalTombola();
+        } else {
+          const alert = await this.alertController.create({
+            header: 'Vous n\'êtes pas membre de la salle',
+            message: 'Devenez membre pour pouvoir jouer à ce jeu',
+            buttons: [
+              {
+                text: 'Fermer',
+                role: 'cancel',
+                handler: () => {
+                  //this.close();
+                },
+              },
+              {
+                text: 'Devenir membre',
+                role: 'confirm',
+                handler: () => {
+                  console.log('Alert canceled');
+                  this.navCtrl.navigateRoot('/tabs/store');
+                },
+              }
+            ],
+          });
+
+          await alert.present();
+        }
+      } else {
+        const alert = await this.alertController.create({
+          header: 'Vous n\'êtes pas connecté',
+          message: 'Connectez-vous pour pouvoir jouer à ce jeu',
+          buttons: [
+            {
+              text: 'Fermer',
+              role: 'cancel',
+              handler: () => {
+
+              },
+            },
+            {
+              text: 'Se connecter',
+              role: 'confirm',
+              handler: () => {
+                this.navCtrl.navigateRoot('/login');
+              },
+            }
+          ],
+        });
+
+        await alert.present();
+      }
+    });
+
   }
 
   doRefresh(event) {
