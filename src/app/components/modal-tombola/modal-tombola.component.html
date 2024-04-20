@@ -100,5 +100,8 @@
 </ion-footer>
 
 <ion-footer class="ion-text-center" *ngIf="is_played">
-  <ion-button (click)="replay()" color="tertiary">{{'replay'|translate}}</ion-button>
+  <ion-button (click)="replay()" color="primary">{{'replay'|translate}}</ion-button>
+  <ion-button (click)="replayAd()" *ngIf="showAdButton" color="tertiary">{{'replay_free'|translate}} &nbsp;
+    <ion-icon name="film-outline" *ngIf="showAdButton"></ion-icon>
+    <ion-spinner name="crescent" *ngIf="!showAdButton"></ion-spinner></ion-button>
 </ion-footer>

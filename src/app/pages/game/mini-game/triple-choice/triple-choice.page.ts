@@ -18,6 +18,7 @@ export class TripleChoicePage implements OnInit {
   size=6;
   first_game = true;
   is_loose = false;
+  is_win = false;
   is_user = false;
   is_subscription = false;
   private user:any={};
@@ -36,6 +37,7 @@ export class TripleChoicePage implements OnInit {
   }
 
   ionViewWillEnter(){
+
     if(this.api.checkUser()){
       this.is_user=true;
       this.user=JSON.parse(localStorage.getItem('user_wz'));
@@ -67,7 +69,7 @@ export class TripleChoicePage implements OnInit {
           role: 'confirm',
           handler: () => {
             console.log('Alert canceled');
-            this.play();
+            this.play(false);
           },
         }
       ],
@@ -85,8 +87,14 @@ export class TripleChoicePage implements OnInit {
           if(this.level==10){
             // win
             this.win();
+            this.is_win=true;
           } else {
             this.level++;
+            if(this.level==5){
+              this.admob.showInterstitial().then(da=>{
+                this.admob.loadInterstitial()
+              });
+            }
             this.setAnswer();
             this.choice=0;
           }
@@ -100,9 +108,9 @@ export class TripleChoicePage implements OnInit {
   }
 
   setAnswer(){
-    if(this.level <4){
+    if(this.level <5){
       this.answer = Math.floor(Math.random() * 2) + 1;
-    } else if(this.level>4 && this.level<8){
+    } else if(this.level>5 && this.level<9){
       this.answer = Math.floor(Math.random() * 3) + 1;
     } else {
       this.answer = Math.floor(Math.random() * 4) + 1;
@@ -157,7 +165,7 @@ export class TripleChoicePage implements OnInit {
   }
 
 
-  async play(){
+  async play(is_ads){
     if(this.is_user){
       if(!this.is_subscription){
         const alert = await this.alertController.create({
@@ -184,15 +192,15 @@ export class TripleChoicePage implements OnInit {
 
         await alert.present();
       } else {
-        if(!this.first_game){
-          await this.admob.showInterstitial();
-          await this.admob.loadInterstitial();
+        if(is_ads){
+          this.admob.showInterstitial();
+          this.admob.loadInterstitial();
         }
+
         this.level = 1;
         this.choice=99999;
         this.setAnswer();
         this.is_loose=false;
-        this.first_game=false;
       }
     } else {
       const alert = await this.alertController.create({
