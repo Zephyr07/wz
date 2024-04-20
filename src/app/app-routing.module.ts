@@ -24,6 +24,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/maintenance/maintenance/maintenance.module').then( m => m.MaintenancePageModule)
   },
   {
+    path: 'update',
+    loadChildren: () => import('./pages/maintenance/update/update.module').then( m => m.UpdatePageModule)
+  },
+  {
     path: 'create-account',
     loadChildren: () => import('./pages/auth/create-account/create-account.module').then(m => m.CreateAccountPageModule)
   },
@@ -90,6 +94,10 @@ const routes: Routes = [
   {
     path: 'triple-choice',
     loadChildren: () => import('./pages/game/mini-game/triple-choice/triple-choice.module').then( m => m.TripleChoicePageModule)
+  },
+  {
+    path: 'memory-game',
+    loadChildren: () => import('./pages/game/mini-game/memory-game/memory-game.module').then( m => m.MemoryGamePageModule)
   }
 ];
 @NgModule({

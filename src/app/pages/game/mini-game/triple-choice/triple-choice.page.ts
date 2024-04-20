@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {AlertController, NavController} from "@ionic/angular";
 import {ApiProvider} from "../../../../providers/api/api";
 import {UtilProvider} from "../../../../providers/util/util";
+import {AdmobProvider} from "../../../../providers/admob/AdmobProvider";
 
 @Component({
   selector: 'app-triple-choice',
@@ -15,6 +16,7 @@ export class TripleChoicePage implements OnInit {
   answer = 0;
   level=1;
   size=6;
+  first_game = true;
   is_loose = false;
   is_user = false;
   is_subscription = false;
@@ -24,11 +26,13 @@ export class TripleChoicePage implements OnInit {
     private navCtrl:NavController,
     private alertController : AlertController,
     private util : UtilProvider,
+    private admob : AdmobProvider,
     private api : ApiProvider
   ) { }
 
   ngOnInit() {
     this.startGame();
+    this.admob.loadInterstitial();
   }
 
   ionViewWillEnter(){
@@ -153,7 +157,6 @@ export class TripleChoicePage implements OnInit {
   }
 
 
-
   async play(){
     if(this.is_user){
       if(!this.is_subscription){
@@ -181,10 +184,15 @@ export class TripleChoicePage implements OnInit {
 
         await alert.present();
       } else {
+        if(!this.first_game){
+          await this.admob.showInterstitial();
+          await this.admob.loadInterstitial();
+        }
         this.level = 1;
         this.choice=99999;
         this.setAnswer();
         this.is_loose=false;
+        this.first_game=false;
       }
     } else {
       const alert = await this.alertController.create({
@@ -214,6 +222,9 @@ export class TripleChoicePage implements OnInit {
   }
 
   close(){
+    if(this.is_loose){
+      this.admob.showInterstitial();
+    }
     this.navCtrl.navigateRoot('/tabs/game/mini-game');
   }
 

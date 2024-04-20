@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: 'triple-choice',
     loadChildren: () => import('./triple-choice/triple-choice.module').then( m => m.TripleChoicePageModule)
+  },
+  {
+    path: 'memory-game',
+    loadChildren: () => import('./memory-game/memory-game.module').then( m => m.MemoryGamePageModule)
   }
 ];
 

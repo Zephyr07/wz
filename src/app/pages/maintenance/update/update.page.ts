@@ -18,10 +18,10 @@ export class UpdatePage implements OnInit {
   update(){
     if(this.platform.is('ios')){
       // redirection vers app store
-      window.location.href="https://apps.apple.com/us/app/playce-vos-lieux-préférés/id6450055589"
+      window.location.href="https://apps.apple.com/cm/app/warzone-salle-de-jeux/id6478315145"
     } else {
       // redirection vers play store
-      window.location.href="https://play.google.com/store/apps/details?id=com.egofisance.playce"
+      window.location.href="https://play.google.com/store/apps/details?id=com.egofisance.wz"
     }
   }
 
