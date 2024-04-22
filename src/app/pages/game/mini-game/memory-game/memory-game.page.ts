@@ -93,12 +93,12 @@ export class MemoryGamePage implements OnInit {
   }
 
   async replay(){
+    clearInterval(this.interval);
     this.time=this.base;
     this.progress = this.base;
     this.is_replay=true;
     await this.admob.showInterstitial();
     await this.admob.loadInterstitial();
-    clearInterval(this.interval);
   }
 
   async play(){
