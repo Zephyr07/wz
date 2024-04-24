@@ -17,7 +17,7 @@
     </ion-grid>
     <ion-grid class="game">
 
-      <ion-row>
+      <ion-row *ngIf="!is_replay">
         <ion-col size="{{size}}" *ngFor="let p of positions">
           <img src="../../../../../assets/img/wz/game/memory/{{p.id}}.png" alt="" *ngIf="p.show && !p.find">
           <img src="../../../../../assets/img/wz/game/memory/tile.png" style="border:2px solid #022747" alt=""

@@ -55,7 +55,7 @@ export class MemoryGamePage implements OnInit {
   }
 
   showTile(p){
-    if(this.time>0){
+    if(this.time>0 && !this.is_replay){
       p.show=true;
       if(this.first_choice==0){
         this.first_choice = p.id;
@@ -94,11 +94,14 @@ export class MemoryGamePage implements OnInit {
 
   async replay(){
     clearInterval(this.interval);
-    this.time=this.base;
-    this.progress = this.base;
-    this.is_replay=true;
     await this.admob.showInterstitial();
     await this.admob.loadInterstitial();
+    /*this.time=this.base;
+    this.progress = this.base;
+    this.is_replay=true;
+
+    clearInterval(this.interval);*/
+    this.startGame()
   }
 
   async play(){
