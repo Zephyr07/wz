@@ -54,6 +54,7 @@ export class TombolaDetailPage implements OnInit {
   isLogged = false;
   is_subscription=false;
   showAdButton=false;
+  pub='disabled';
 
   constructor(
     private api: ApiProvider,
@@ -117,6 +118,7 @@ export class TombolaDetailPage implements OnInit {
     }
     if(localStorage.getItem('wz_settings')!='undefined'){
       this.settings = JSON.parse(localStorage.getItem('wz_settings'))[0];
+      this.pub=this.settings.pub;
     } else {
 
     }
