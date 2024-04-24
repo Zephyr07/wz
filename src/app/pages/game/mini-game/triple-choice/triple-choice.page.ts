@@ -41,9 +41,11 @@ export class TripleChoicePage implements OnInit {
     if(this.api.checkUser()){
       this.is_user=true;
       this.user=JSON.parse(localStorage.getItem('user_wz'));
+      this.is_subscription= this.user.is_subscription;
       this.api.getList('auth/me',{id:this.user.id}).then((a:any)=>{
         this.user = a.data.user;
         this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
+        this.user.is_subscription=this.is_subscription;
         localStorage.setItem('user_wz',JSON.stringify(this.user));
       });
     } else {
