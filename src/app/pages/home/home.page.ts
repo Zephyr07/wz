@@ -22,6 +22,8 @@ export class HomePage implements OnInit {
   tombola="disable";
 
   is_loading = true;
+  is_loading_games = true;
+  is_loading_tournament = true;
   is_user:any ;
   tournaments:any=[];
   games:any=[];
@@ -98,7 +100,8 @@ export class HomePage implements OnInit {
       this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
         this.user = a.data.user;
         this.user.subscription_status=this.api.checkSubscription(this.user.subscription);
-        this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
+        this.is_subscription = this.user.subscription_status.is_actived;
+        this.user.is_subscription=this.is_subscription;
         localStorage.setItem('user_wz',JSON.stringify(this.user));
 
         //this.getUser();
@@ -149,6 +152,7 @@ export class HomePage implements OnInit {
   }
 
   getTournaments(){
+    this.is_loading_tournament=true;
     //this.util.showLoading("loading");
     const opt = {
       should_paginate:false,
@@ -158,14 +162,17 @@ export class HomePage implements OnInit {
 
     this.api.getList('tournaments',opt).then(d=>{
       this.tournaments =d;
+      this.is_loading_tournament=false;
       //this.util.hideLoading();
     },q=>{
       //this.util.hideLoading();
+      this.is_loading_tournament=false;
       this.util.handleError(q);
     })
   }
 
   getGames(){
+    this.is_loading_games =true;
     //this.util.showLoading("loading");
     const opt = {
       should_paginate:true,
@@ -176,8 +183,10 @@ export class HomePage implements OnInit {
 
     this.api.getList('games',opt).then(d=>{
       this.games =d;
+      this.is_loading_games =false;
       //this.util.hideLoading();
     },q=>{
+      this.is_loading_games =false;
       //this.util.hideLoading();
       this.util.handleError(q);
     })
