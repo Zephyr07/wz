@@ -68,7 +68,7 @@
       <div class="ion-text-center" *ngIf="can_play && is_user">
         <ion-button (click)="modalTombola()">{{'play'|translate}}</ion-button>
       </div>
-      <div class="ion-text-center" *ngIf="is_user">
+      <div class="ion-text-center" *ngIf="is_user && pub=='enable'">
         <ion-button (click)="showAd()" [disabled]="!showAdButton" color="tertiary">{{'play_free'|translate}} &nbsp;
           <ion-icon name="film-outline" *ngIf="showAdButton"></ion-icon>
           <ion-spinner name="crescent" *ngIf="!showAdButton"></ion-spinner>

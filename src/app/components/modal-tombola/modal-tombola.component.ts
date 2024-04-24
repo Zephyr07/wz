@@ -35,6 +35,8 @@ export class ModalTombolaComponent  implements OnInit {
   max_length = 0;
   old_max_length = 0;
 
+  pub="disabled";
+
   constructor(
     private alertController:AlertController,
     private modalController:ModalController,
@@ -55,6 +57,12 @@ export class ModalTombolaComponent  implements OnInit {
     }
     if(this.is_subscription){
       this.fees*=0.8;
+    }
+    if(localStorage.getItem('wz_settings')!='undefined'){
+      let settings = JSON.parse(localStorage.getItem('wz_settings'))[0];
+      this.pub=settings.pub;
+    } else {
+
     }
 
   }
