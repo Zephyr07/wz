@@ -25,6 +25,8 @@ export class MemoryGamePage implements OnInit {
   progress=this.base;
   interval:any;
 
+  pub="disabled";
+
   private user:any={};
 
   constructor(
@@ -53,6 +55,12 @@ export class MemoryGamePage implements OnInit {
       });
     } else {
       this.is_user=false;
+    }
+    if(localStorage.getItem('wz_settings')!='undefined'){
+      let settings = JSON.parse(localStorage.getItem('wz_settings'))[0];
+      this.pub=settings.pub;
+    } else {
+
     }
   }
 
@@ -96,8 +104,10 @@ export class MemoryGamePage implements OnInit {
 
   async replay(){
     clearInterval(this.interval);
-    await this.admob.showInterstitial();
-    await this.admob.loadInterstitial();
+    if(this.pub=='enable'){
+      await this.admob.showInterstitial();
+      await this.admob.loadInterstitial();
+    }
     /*this.time=this.base;
     this.progress = this.base;
     this.is_replay=true;
