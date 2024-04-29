@@ -35,9 +35,9 @@
 
     <ion-footer style="position:absolute; bottom:0; width: 100%; background: transparent !important;">
       <ion-grid>
-        <ion-row>
+        <ion-row *ngIf="taille>700">
           <ion-col>
-            <img src="../../../../../assets/img/wz/game/memory/win.png" class="radius" alt="">
+            <img src="../../../../../assets/img/wz/game/memory/win.png" style="max-height: 9vh;width: 100%;" class="radius" alt="">
           </ion-col>
         </ion-row>
 

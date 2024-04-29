@@ -26,7 +26,6 @@ export class AdmobProvider {
       this.interstitialId="ca-app-pub-2538027924721849/2426920344";
       this.rewardId="ca-app-pub-2538027924721849/6501046662";
     }
-    //this.initialize();
   }
 
   async initialize(){
@@ -41,6 +40,8 @@ export class AdmobProvider {
       testingDevices:[''],
       initializeForTesting:true
     })
+
+    this.loadInterstitial();
   }
 
   async showBanner(position,margin){
@@ -82,7 +83,7 @@ export class AdmobProvider {
     };
 
     await AdMob.prepareInterstitial(opt).then(d=>{
-      //console.log("Prepare");
+      console.log("Prepare pub ok");
     }).catch(e=>{
       console.log(e);
       console.log(e.message);
