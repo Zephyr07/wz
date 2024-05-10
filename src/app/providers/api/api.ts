@@ -309,7 +309,7 @@ export class ApiProvider {
     image.append('id',id);
     this.post(objetClass+'/' + id,image).then(d=>{
       if(!toast){
-        this.util.doToast(text,3000);
+        this.util.doToast(text,5000);
       }
       if(call){
         call();

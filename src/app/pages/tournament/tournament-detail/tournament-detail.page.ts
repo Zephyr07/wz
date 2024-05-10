@@ -7,6 +7,8 @@ import {TranslateService} from "@ngx-translate/core";
 import {NUMBER_RANGE} from "../../../services/contants";
 import * as moment from "moment";
 import {ModalTournamentParticipantComponent} from "../../../components/modal-tournament-participant/modal-tournament-participant.component";
+import {Device} from "@capacitor/device";
+import {Camera, CameraResultType, CameraSource} from "@capacitor/camera";
 
 @Component({
   selector: 'app-tournament-detail',
@@ -31,8 +33,14 @@ export class TournamentDetailPage implements OnInit {
   is_user=false;
   can_subscribe=false;
   phone:number;
+  cod_id:number;
+  cod_name="";
   MIN = NUMBER_RANGE.min;
   MAX = NUMBER_RANGE.max;
+
+  imagesContainer= new FormData();
+  image = "";
+  file_selected=false;
 
   isLoading=true;
   settings:any={
@@ -61,6 +69,11 @@ export class TournamentDetailPage implements OnInit {
     private navCtrl:NavController,
     private translate: TranslateService
   ) {
+    Device.getLanguageCode().then(d=>{
+      this.translate.use(d.value);
+      moment.locale(d.value);
+    })
+
     if(this.router.getCurrentNavigation().extras.state){
       // @ts-ignore
       this.id= this.router.getCurrentNavigation().extras.state.id;
@@ -70,7 +83,7 @@ export class TournamentDetailPage implements OnInit {
       this.title= this.router.getCurrentNavigation().extras.state.name;
     } else {
       //console.log("pas d'id");
-      this.id=9;
+      this.id=1;
       this.getTournament(this.id);
       this.getParticipants(this.id);
     }
@@ -119,8 +132,12 @@ export class TournamentDetailPage implements OnInit {
     };
 
     this.api.get('tournaments',id,opt).then((d:any)=>{
-      d.jour = moment(d.start_at).format('DD');
-      d.mois = moment(d.start_at).format('MMMM');
+      if(d.start_at==d.end_at){
+        d.jour = moment(d.start_at).format('DD');
+      } else {
+        d.jour = moment(d.start_at).format('DD')+" - "+moment(d.end_at).format('DD');
+      }
+      d.mois = moment(d.end_at).format('MMMM');
       this.tournament = d;
       this.isLoading=false;
     },q=>{
@@ -154,53 +171,106 @@ export class TournamentDetailPage implements OnInit {
 
   }
 
+  async selectImage(choix) {
+    let image:any=undefined;
+    if(choix=='take'){
+      image = await Camera.getPhoto({
+        quality: 100,
+        allowEditing: false,
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Camera // Camera, Photos or Prompt!
+      });
+    } else {
+      image = await Camera.getPhoto({
+        quality: 100,
+        allowEditing: false,
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Photos // Camera, Photos or Prompt!
+      });
+    }
+
+    this.image = image.webPath;
+
+    if (image) {
+      const response = await fetch(image.webPath);
+      const blob = await response.blob();
+      this.file_selected=true;
+      this.imagesContainer.append('image', blob, new Date().getTime()+".png");
+    }
+  }
 
   backToPreviousPage(){
     document.getElementById('backButton').click();
   }
 
+  participate(){
+    if(this.tournament.is_cod){
+      // ouverture du modal avec les infos
+    } else {
+      this.askSchedule();
+    }
+  }
+
   async askSchedule(){
+    if(this.tournament.is_cod && !this.file_selected){
+      this.util.doToast("Image absente",3000, 'light')
+    } else {
+      let price = this.tournament.fees;
+      if(this.is_subscription){
+        price*=0.8;
+      }
+      const alert = await this.alertController.create({
+        cssClass: 'my-custom-class',
+        header: "Confirmation",
+        subHeader:"Voulez-vous participer ? Cela vous coûtera "+price+"U",
+        buttons: [
+          {
+            text: 'Annuler',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => {
+              //console.log('Confirm Cancel');
+            }
+          }, {
+            text: 'Confirmer',
+            handler: (data:any) => {
+              this.showSchedule();
+            }
+          }
+        ]
+      });
+
+      await alert.present();
+    }
+
+  }
+
+  showSchedule(){
     let price = this.tournament.fees;
     if(this.is_subscription){
       price*=0.8;
     }
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: "Confirmation",
-      subHeader:"Voulez-vous participer ? Cela vous coûtera "+price+"U",
-      buttons: [
-        {
-          text: 'Annuler',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            //console.log('Confirm Cancel');
-          }
-        }, {
-          text: 'Confirmer',
-          handler: (data:any) => {
-            this.showSchedule();
-          }
-        }
-      ]
-    });
-
-    await alert.present();
-  }
-
-  showSchedule(){
-    if(this.tournament.fees==0 || this.tournament.fees<this.user.unit){
+    if(price==0 || price<this.user.unit){
       this.util.showLoading("payment");
 
       const opt ={
         type:'tournament',
         tournament_id:this.tournament.id,
+        cod_id:this.cod_id,
+        cod_name:this.cod_name,
         user_id:this.user.id,
-        price_was:this.tournament.fees
+        is_s:this.is_subscription,
+        price_was:price
       };
 
       this.api.post('participants',opt).then(d=>{
-        this.util.doToast("Votre inscription au tournoi "+this.tournament.name+" a été enregistrée",3000);
+        if(this.tournament.is_cod && this.file_selected){
+          // enregistrement de l'iamge
+          let te = "Votre inscription au tournoi "+this.tournament.name+" a été enregistrée. Nous procédons à la vérifications de vos informations";
+          this.api.updateImage(this.imagesContainer,'participants',d,te);
+        } else {
+          this.util.doToast("Votre inscription au tournoi "+this.tournament.name+" a été enregistrée",3000);
+        }
         this.can_subscribe=false;
         this.modalRank.setCurrentBreakpoint(0);
         this.doRefresh("");
@@ -447,6 +517,7 @@ export class TournamentDetailPage implements OnInit {
   }
 
   doRefresh(event) {
+    this.texte="";
     this.ionViewWillEnter();
     this.getTournament(this.id);
     this.getParticipants(this.id);
