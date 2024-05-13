@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.egofisance.wz',
+  appId: 'com.warzone237.warzone',
   appName: 'WarZone',
   webDir: 'www',
   /*server: {

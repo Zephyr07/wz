@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {
   AdLoadInfo,
-  AdMob, AdMobRewardItem,
+  AdMob, AdmobConsentStatus, AdMobRewardItem,
   AdOptions,
   BannerAdOptions,
   BannerAdPosition,
@@ -30,17 +30,36 @@ export class AdmobProvider {
   }
 
   async initialize(){
+    await AdMob.initialize();
 
-    const {status} = await AdMob.trackingAuthorizationStatus();
-    if(status === 'notDetermined'){
-      console.log("Display information before ads load first time")
+    const [trackingInfo, consentInfo] = await Promise.all([
+      AdMob.trackingAuthorizationStatus(),
+      AdMob.requestConsentInfo(),
+    ]);
+
+    if (trackingInfo.status === 'notDetermined') {
+      /**
+       * If you want to explain TrackingAuthorization before showing the iOS dialog,
+       * you can show the modal here.
+       * ex)
+       * const modal = await this.modalCtrl.create({
+       *   component: RequestTrackingPage,
+       * });
+       * await modal.present();
+       * await modal.onDidDismiss();  // Wait for close modal
+       **/
+
+      await AdMob.requestTrackingAuthorization();
     }
 
-    AdMob.initialize({
-      requestTrackingAuthorization:true,
-      testingDevices:[''],
-      initializeForTesting:true
-    })
+    const authorizationStatus = await AdMob.trackingAuthorizationStatus();
+    if (
+      authorizationStatus.status === 'authorized' &&
+      consentInfo.isConsentFormAvailable &&
+      consentInfo.status === AdmobConsentStatus.REQUIRED
+    ) {
+      await AdMob.showConsentForm();
+    }
   }
 
   async showBanner(position,margin){
