@@ -42,7 +42,7 @@ export class TournamentPage implements OnInit {
     const opt = {
       should_paginate:false,
       _sort:'start_at',
-      _sortDir:'desc',
+      _sortDir:'asc',
       "end_at-get":moment().add(-1,'days').format('YYYY-MM-DD'),
     };
 
@@ -64,7 +64,7 @@ export class TournamentPage implements OnInit {
 
   goTo(p){
     const navigationExtra : NavigationExtras = {state: {name:p.name, id:p.id}};
-    this.router.navigateByUrl('tournament/tournament-detail',navigationExtra);
+    this.router.navigateByUrl('tabs/tournament/tournament-detail',navigationExtra);
   }
 
   getItems(ev: any) {

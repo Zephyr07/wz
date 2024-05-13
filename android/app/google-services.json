@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "472124460397",
+    "project_id": "warzone-4d006",
+    "storage_bucket": "warzone-4d006.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472124460397:android:f93a494079abe1da755e64",
+        "android_client_info": {
+          "package_name": "com.egofisance.wz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCP2w9RzCKquoKjRTHO88cnVeY3cof6jnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472124460397:android:70bb53afff5929ee755e64",
+        "android_client_info": {
+          "package_name": "com.warzone237.warzone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCP2w9RzCKquoKjRTHO88cnVeY3cof6jnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

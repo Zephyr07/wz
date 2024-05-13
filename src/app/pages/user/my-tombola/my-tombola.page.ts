@@ -43,6 +43,7 @@ export class MyTombolaPage implements OnInit {
       _sort:'created_at',
       _sortDir:'desc',
       user_id:id,
+      status:'won',
       _includes:'tombola'
     };
 

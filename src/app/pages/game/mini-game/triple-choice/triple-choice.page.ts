@@ -169,7 +169,7 @@ export class TripleChoicePage implements OnInit {
 
   async play(is_ads){
     if(this.is_user){
-      if(!this.is_subscription){
+      /*if(!this.is_subscription){
         const alert = await this.alertController.create({
           header: 'Vous n\'êtes pas membre de la salle',
           message: 'Devenez membre pour pouvoir jouer à ce jeu',
@@ -203,7 +203,16 @@ export class TripleChoicePage implements OnInit {
         this.choice=99999;
         this.setAnswer();
         this.is_loose=false;
+      }*/
+      if(is_ads){
+        this.admob.showInterstitial();
+        this.admob.loadInterstitial();
       }
+
+      this.level = 1;
+      this.choice=99999;
+      this.setAnswer();
+      this.is_loose=false;
     } else {
       const alert = await this.alertController.create({
         header: 'Vous n\'êtes pas connecté',
