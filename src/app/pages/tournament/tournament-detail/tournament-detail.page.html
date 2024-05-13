@@ -42,7 +42,7 @@
             <br>
             <span style="text-transform: capitalize">{{tournament.mois}}</span>
           </ion-col>
-          <ion-col>
+          <ion-col *ngIf="!is_event">
             <span>
               <ion-icon name="trophy-outline"></ion-icon>
             </span>
@@ -65,12 +65,12 @@
         <ion-card-title *ngIf="!isLoading" style="font-size:25px;font-weight: bold">
           <span style="color:#000 !important;" *ngIf="tournament.price_type=='cash'">{{'tournament'|translate}}</span> {{tournament.name}}
           <br>
-          <span style="font-size: 20px; font-weight: normal">{{'fees'|translate}} :
+          <span style="font-size: 20px; font-weight: normal" *ngIf="!is_event">{{'fees'|translate}} :
             <span class="bold primary" *ngIf="!is_subscription">{{tournament.fees|priceFormat}} U</span>
             <span class="bold primary" *ngIf="is_subscription">{{tournament.fees*0.8|priceFormat}} U</span>
           </span>
-          <br>
-          <span style="font-size: 15px; font-weight: normal">{{'status'|translate}} :
+          <br *ngIf="!is_event">
+          <span style="font-size: 15px; font-weight: normal" *ngIf="!is_event">{{'status'|translate}} :
             <span class="bold primary" *ngIf="tournament.min_participant>participants">{{'pending_participant'|translate}}</span>
             <span class="bold primary" *ngIf="tournament.min_participant<=participants">{{'confirmed'|translate}}</span>
           </span>

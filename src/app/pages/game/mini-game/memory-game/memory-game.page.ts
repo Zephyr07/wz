@@ -20,7 +20,7 @@ export class MemoryGamePage implements OnInit {
   first_choice = 0;
   second_choice = 0;
   count = 18;
-  base=40;
+  base=30;
   time=this.base;
   progress=this.base;
   interval:any;
@@ -118,7 +118,7 @@ export class MemoryGamePage implements OnInit {
 
   async play(){
     if(this.is_user){
-      if(!this.is_subscription){
+      /*if(!this.is_subscription){
         const alert = await this.alertController.create({
           header: 'Vous n\'êtes pas membre de la salle',
           message: 'Devenez membre pour pouvoir jouer à ce jeu',
@@ -151,7 +151,15 @@ export class MemoryGamePage implements OnInit {
         this.positions = this.setTiles(36);
         this.startTime();
         this.is_replay=false;
-      }
+      }*/
+      this.first_choice=0;
+      this.second_choice=0;
+      this.time=this.base;
+      this.progress = this.time;
+      this.count=18;
+      this.positions = this.setTiles(36);
+      this.startTime();
+      this.is_replay=false;
     } else {
       const alert = await this.alertController.create({
         header: 'Vous n\'êtes pas connecté',

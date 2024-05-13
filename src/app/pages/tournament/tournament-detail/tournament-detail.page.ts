@@ -31,6 +31,7 @@ export class TournamentDetailPage implements OnInit {
   is_phone=false;
   user:any={};
   is_user=false;
+  is_event=false;
   can_subscribe=false;
   phone:number;
   cod_id:number;
