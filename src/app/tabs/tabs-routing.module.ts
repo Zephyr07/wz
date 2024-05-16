@@ -24,6 +24,10 @@ const routes: Routes = [
         loadChildren: () => import('../pages/tournament/tournament.module').then(m => m.TournamentPageModule)
       },
       {
+        path: 'schedule',
+        loadChildren: () => import('../pages/schedule/schedule.module').then(m => m.SchedulePageModule)
+      },
+      {
         path: 'tombola',
         loadChildren: () => import('../pages/tombola/tombola.module').then(m => m.TombolaPageModule)
       },

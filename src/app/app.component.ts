@@ -16,6 +16,7 @@ import {environment} from "../environments/environment";
 // import function to register Swiper custom elements
 import { register } from 'swiper/element/bundle';
 import {ONE_SIGNAL_CONF} from "./services/contants";
+import {AdmobProvider} from "./providers/admob/AdmobProvider";
 // register Swiper custom elements
 register();
 
@@ -31,6 +32,7 @@ export class AppComponent {
   constructor(
     private util:UtilProvider,
     private api: ApiProvider,
+    private admob:AdmobProvider,
     private auth:AuthProvider,
     private notif: NotificationProvider,
     private alertController: AlertController,
@@ -80,6 +82,8 @@ export class AppComponent {
     },q=>{
 
     });
+
+    this.admob.initialize();
   }
 
   async splash(){
@@ -90,6 +94,7 @@ export class AppComponent {
       autoHide: true,
     });
   }
+
 
   init(){
     //recupération des settings
@@ -103,7 +108,10 @@ export class AppComponent {
         // mise à jour obligatoire à faire
         this.navCtrl.navigateRoot(['/update']);
       } else {
-        let version = JSON.parse(d[0].config)[0].version;
+        let version = JSON.parse(d[0].config)[0].android.version;
+        if(this.platform.is('ios')){
+          version = JSON.parse(d[0].config)[0].ios.version;
+        }
         localStorage.setItem('wz_settings',JSON.stringify(JSON.parse(d[0].config)));
         if(environment.code != version){
           // mise à jour disponible
@@ -123,6 +131,7 @@ export class AppComponent {
           const cre = this.util.decryptAESData(JSON.parse(localStorage.getItem('auth_wz')));
           this.auth.login(cre).then((e:any)=>{
             localStorage.setItem('is_user','true');
+            //this.navCtrl.navigateRoot(['/tabs']);
             //this.util.hideLoading();
             this.is_loading=false;
             /*if(isCordovaAvailable()){
@@ -150,6 +159,8 @@ export class AppComponent {
           //this.navCtrl.navigateRoot(['/login']);
         }
       }
+    },q=>{
+      alert("azeaze");
     });
     if(isCordovaAvailable()){
       this.OneSignalInit();

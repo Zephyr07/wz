@@ -15,18 +15,21 @@ import {Platform} from "@ionic/angular";
 export class AdmobProvider {
   interstitialId="";
   rewardId="";
+  bannerId="";
 
   constructor(
-    private platform :Platform
+    private platform :Platform,
   ) {
     if(this.platform.is('ios')){
       this.interstitialId="ca-app-pub-2538027924721849/8871542213";
       this.rewardId="ca-app-pub-2538027924721849/8935638317";
+      this.bannerId="ca-app-pub-2538027924721849/4851312242";
     } else {
       this.interstitialId="ca-app-pub-2538027924721849/2426920344";
       this.rewardId="ca-app-pub-2538027924721849/6501046662";
+      this.bannerId="ca-app-pub-2538027924721849/4445411732";
     }
-    this.initialize();
+    //this.initialize();
   }
 
   async initialize(){
@@ -71,7 +74,7 @@ export class AdmobProvider {
     const adIds = 'ca-app-pub-2538027924721849/4445411732';
     const adId = 'ca-app-pub-3940256099942544/6300978111';
     const options : BannerAdOptions = {
-      adId,
+      adId:this.bannerId,
       adSize:BannerAdSize.BANNER,
       position,
       margin,

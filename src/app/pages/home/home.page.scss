@@ -1,3 +1,7 @@
+.coin{
+  content: url('../../../assets/icon/coin.svg') !important;
+}
+
 .label{
   font-size: 18px;
   margin: 10px;
@@ -52,14 +56,23 @@ swiper-container{
   border-radius: 10px;
   margin: 5px;
 
+  &.one-slide{
+    swiper-slide{
+      height: 25vh!important;
+    }
+    img{
+      height: 25vh !important;
+    }
+  }
+
   swiper-slide{
-    height: 25vh!important;
+    height: 170px!important;
     border-radius: 20px;
     color:transparent;
   }
   img{
     width:100% !important;
-    height: 25vh !important;
+    height: 170px !important;
     border-radius: 10px;
   }
 }
@@ -68,4 +81,9 @@ swiper-container{
   margin-top:-5px;
   --background: #00c3ff0a !important;
   --border-radius: 0 0 20px 20px !important;
+}
+
+ion-badge{
+  border-radius: 12px;
+  padding: 3px 6px;
 }

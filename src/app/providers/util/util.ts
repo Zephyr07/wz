@@ -165,15 +165,15 @@ export class UtilProvider {
       for(let i in q.data.errors){
         message+=""+q.data.errors[i][0]+", ";
       }
-      this.doToast(message,5000, 'warning');
+      this.doToast(message,5000, 'light');
     } else if (q.error) {
-      this.doToast(q.error,3000, 'warning');
+      this.doToast(q.error,3000, 'light');
     } else {
       //alert(JSON.stringify(q.data));
       if(q.data.error && q.data.error.message){
         this.doToast(JSON.stringify(q.data.error.message)+ '\n Erreurs ' + q.data.error.status_code,5000);
       } else {
-        this.doToast(JSON.stringify(q.data.message)+ '\n Erreur ',5000 , 'warning');
+        this.doToast(JSON.stringify(q.data.message)+ '\n Erreur ',5000 , 'light');
       }
       //this.hideLoading();
     }

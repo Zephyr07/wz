@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiProvider} from "../../providers/api/api";
 import {Router} from "@angular/router";
 import {UtilProvider} from "../../providers/util/util";
-import {AlertController, ModalController} from "@ionic/angular";
+import {AlertController, IonModal, ModalController} from "@ionic/angular";
 import * as _ from "lodash";
 import * as moment from "moment";
 import {NUMBER_RANGE} from "../../services/contants";
@@ -15,23 +15,31 @@ import {NUMBER_RANGE} from "../../services/contants";
 export class SchedulePage implements OnInit {
   MIN = NUMBER_RANGE.min;
   MAX = NUMBER_RANGE.max;
+  @ViewChild('modalDetailS') modal: IonModal;
 
+  discount_promo=0;
+  discount=0;
   is_subscription = false;
   id=0;
+  unit=0;
+  promo_code="";
   title="aze";
+  choix='heure';
   categories:any=[];
   games:any=[];
   old_games:any=[];
-  user:any={};
+  private user:any={};
+  offer:any={};
   game:any={};
   duration=0;
   start_at:any;
   phone:any;
   player_number=0;
-  game_id=0;
-  category_id=0;
+  category_id="";
   price=2000;
   reduc=0;
+  offer_jour:any[] =[];
+  offer_mois:any[]=[];
   settings:any={
     price:{
       ps:{},
@@ -51,6 +59,7 @@ export class SchedulePage implements OnInit {
     return utcDay !== 1 ;
   };
 
+  is_tuesday=false;
 
   constructor(
     private api: ApiProvider,
@@ -59,128 +68,90 @@ export class SchedulePage implements OnInit {
     public modalController: ModalController,
     public alertController: AlertController
   ) {
-    if(this.router.getCurrentNavigation().extras.state){
-      // @ts-ignore
-      this.id = this.router.getCurrentNavigation().extras.state.id;
-      this.game_id = this.id;
-      this.getGame(this.game_id);
-            // @ts-ignore
-      this.title= this.router.getCurrentNavigation().extras.state.name;
-    } else {
-      //console.log("pas d'id");
-      // pas de jeu, alors chargement de tous le jeux
-      this.id=0;
-      this.game_id=0;
-      this.getCategories();
-      this.getGames();
-    }
+
   }
 
   ngOnInit() {
-
+    this.getOffers();
+    this.getSettings();
   }
 
-  ionViewWillEnter() {
-    this.settings = JSON.parse(localStorage.getItem("wz_settings"))[0];
-    let user = JSON.parse(localStorage.getItem('user_wz'));
-    this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
-      this.user = a.data.user;
-      this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
-      localStorage.setItem('user_wz',JSON.stringify(this.user));
+  getSettings(){
+    this.api.getList('settings').then(d=>{
+      this.settings=JSON.parse(d[0].config)[0];
+      localStorage.setItem('wz_settings',JSON.stringify(this.settings));
     });
   }
 
-  getGame(id){
+  ionViewWillEnter() {
+    this.api.getList('day',{}).then(d=>{
+      this.is_tuesday = d == 2;
+    });
+
+    if(this.api.checkUser()){
+      let user = JSON.parse(localStorage.getItem('user_wz'));
+      this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
+        this.user = a.data.user;
+        this.unit=this.user.unit;
+        this.is_subscription = this.api.checkSubscription(this.user.subscription).is_actived;
+        localStorage.setItem('user_wz',JSON.stringify(this.user));
+      });
+    } else {
+      // no user
+    }
+
+  }
+
+  checkPromoCode(){
     const opt = {
-      _includes:'category',
+      code : this.promo_code,
+      'end_at-get':moment().format("YYYY-MM-DD"),
+      should_paginate: false
     };
 
-    this.api.get('games',id,opt).then((d:any)=>{
-      this.game = d;
-      this.category_id = d.category_id;
-      if(d.category.id==3){
+    this.api.getList('promo_codes',opt).then((d:any)=>{
+      if(d.length>0){
+        this.discount_promo = d[0].discount;
+        console.log(d[0]);
+        this.setPrice();
+      } else {
+        this.util.doToast('Code promo non valide',3000,'light');
+      }
+    })
+  }
+
+  setPrice(){
+    if(this.discount_promo!=0){
+      if(this.category_id=='vr'){
+        // vr
+        this.price = this.settings.price.vr.h;
+      } else {
+        // ps
+        this.price = this.settings.price.ps.h;
+      }
+      this.discount = this.price*(1-this.discount_promo);
+    } else {
+      if(this.category_id=='vr'){
         // vr
         this.price = this.settings.price.vr.h;
         if(this.is_subscription){
-          this.price=this.price - this.price*this.settings.price.vr.reduction;
+          this.discount=this.settings.price.vr.hr;
           this.reduc = this.settings.price.vr.reduction;
+        } else {
+          this.discount = this.price;
         }
       } else {
         // ps
         this.price = this.settings.price.ps.h;
         if(this.is_subscription){
-          this.price=this.price - this.price*this.settings.price.ps.reduction;
+          this.discount=this.settings.price.ps.hr;
           this.reduc = this.settings.price.ps.reduction;
+        } else {
+          this.discount = this.price;
         }
       }
-    })
-  }
-
-  getGames(){
-    const opt = {
-      should_paginate:false,
-      _sort:'name',
-      _sortDir:'asc',
-      _includes:'category'
-    };
-
-    this.api.getList('games',opt).then((d:any)=>{
-      this.old_games = d;
-    },q=>{
-      this.util.handleError(q);
-    })
-  }
-
-  setGames(){
-    this.category_id = parseInt(String(this.category_id));
-    this.games = _.filter(this.old_games,{category_id:this.category_id});
-    if(this.category_id==3){
-      // vr
-      this.price = this.settings.price.vr.h;
-      if(this.is_subscription){
-        this.price=this.price - this.price*this.settings.price.vr.reduction;
-        this.reduc = this.settings.price.vr.reduction;
-      }
-    } else {
-      // ps
-      this.price = this.settings.price.ps.h;
-      if(this.is_subscription){
-        this.price=this.price - this.price*this.settings.price.ps.reduction;
-        this.reduc = this.settings.price.ps.reduction;
-      }
     }
-  }
 
-  setPrice(){
-    if(this.category_id==3){
-      // vr
-      this.price = this.settings.price.vr.h;
-      if(this.is_subscription){
-        this.price=this.price - this.price*this.settings.price.vr.reduction;
-        this.reduc = this.settings.price.vr.reduction;
-      }
-    } else {
-      // ps
-      this.price = this.settings.price.ps.h;
-      if(this.is_subscription){
-        this.price=this.price - this.price*this.settings.price.ps.reduction;
-        this.reduc = this.settings.price.ps.reduction;
-      }
-    }
-  }
-
-  getCategories(){
-    const opt = {
-      should_paginate:false,
-      _sort:'name',
-      _sortDir:'asc',
-    };
-
-    this.api.getList('categories',opt).then((d:any)=>{
-      this.categories = d;
-    },q=>{
-      this.util.handleError(q);
-    })
   }
 
   booking(){
@@ -188,20 +159,20 @@ export class SchedulePage implements OnInit {
     // creation du paiement en type account
     const opt = {
       category_id:this.category_id,
-      game_id:this.game_id,
       date:this.start_at,
       duration:this.duration,
       player_number:this.player_number,
       user_id:this.user.id,
-      reduc:this.reduc
+      reduc:this.reduc,
+      promo_code:this.promo_code
     };
     this.api.post('schedules',opt).then(async (d:any) => {
       this.util.hideLoading();
       this.util.doToast("Reservation enregistrée",3000);
-      this.category_id=0;
-      this.game_id=0;
+      this.category_id="";
       this.user.unit-=this.duration*this.player_number*this.price;
       this.duration=0;
+      this.promo_code="";
       this.player_number=0;
       this.start_at = undefined;
     },q=>{
@@ -211,8 +182,84 @@ export class SchedulePage implements OnInit {
 
   }
 
+  getOffers(){
+    const opt = {
+      status:'enable',
+      should_paginate:false
+    };
+
+    this.api.getList('offers',opt).then((d:any)=>{
+      this.offer_jour = _.filter(d,{type:'jour'});
+      this.offer_mois = _.filter(d,{type:'mois'});
+    },q=>{
+      this.util.handleError(q);
+    })
+  }
+
+  async offerDay(o){
+    let duration = 24;
+    if(o.type!='jour'){
+      duration=720
+    }
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: "Reservation pour '"+o.name+"'",
+      subHeader:"Cette reservation vous coûtera "+o.price+" U. Confirmez-vous ?",
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            //console.log('Confirm Cancel');
+            this.closeModal();
+          }
+        }, {
+          text: 'Confirmer',
+          handler: (data:any) => {
+            this.util.showLoading('initiation_payment');
+            // creation du paiement en type account
+            const opt = {
+              date:this.start_at,
+              duration,
+              player_number:o.player_number,
+              user_id:this.user.id,
+              price_was:o.price,
+              offer_id:o.id,
+              reduc:0
+            };
+            this.api.post('schedules',opt).then(async (d:any) => {
+              this.util.hideLoading();
+              this.util.doToast("Reservation enregistrée",3000);
+              this.category_id="";
+              this.user.unit-=o.price;
+              this.duration=0;
+              this.player_number=0;
+              this.start_at = undefined;
+            },q=>{
+              this.util.hideLoading();
+              this.util.handleError(q);
+            });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  openOffer(o){
+    document.getElementById('open-modal').click();
+    this.offer = o;
+  }
+
+  closeModal(){
+    this.modal.setCurrentBreakpoint(0);
+  }
+
   doRefresh(event) {
-    this.getGames();
+    this.ionViewWillEnter();
+    this.getOffers();
     setTimeout(() => {
       console.log('Async operation has ended');
       event.target.complete();

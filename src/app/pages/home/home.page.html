@@ -10,26 +10,31 @@
       </ion-label>
     </ion-item>
   </ion-toolbar>
-  <ion-toolbar *ngIf="is_user=='true'">
-    <ion-item lines="none"  slot="start" (click)="goTo('user')">
-      <ion-thumbnail>
-        <img alt="{{user.person.full_name}}" src="{{user.person.image}}" />
-      </ion-thumbnail>
-      <ion-label class="label" style="text-transform: capitalize">{{user.sponsor_code}}
-        <br *ngIf="is_subscription">
-        <span *ngIf="is_subscription" style="color:var(--ion-color-medium); font-size: 15px;">{{'member'|translate}}</span>
-      </ion-label>
-    </ion-item>
 
-    <ion-buttons slot="end" (click)="goToMyPoints()">
-      <div>
-        <span style="color: var(--ion-color-primary); font-weight: bold">{{user.unit|priceFormat}} <ion-icon name="aperture-outline"></ion-icon></span>
-        <br *ngIf="user.hour>0">
-        <span *ngIf="user.hour>0" style="color: var(--ion-color-warning); font-weight: bold">
-          {{user.hour|priceFormat}} <ion-icon name="time-outline"></ion-icon></span>
+  <ion-row *ngIf="is_user=='true'">
+    <ion-col size="9">
+      <ion-toolbar (click)="goTo('user')">
+        <ion-item lines="none"  slot="start">
+          <ion-thumbnail style="width: 50px; height: 50px">
+            <img alt="{{full_name}}" src="{{image}}" />
+          </ion-thumbnail>
+          <ion-label class="label" style="text-transform: capitalize; font-size: 15px">{{sponsor_code}}
+            <br *ngIf="is_subscription">
+            <span *ngIf="is_subscription" style="color:var(--ion-color-medium); font-size: 13px;">{{'member'|translate}} {{pack.name}}</span>
+          </ion-label>
+        </ion-item>
+      </ion-toolbar>
+    </ion-col>
+    <ion-col size="3" class="ion-text-right" style="margin-top: 13px;" (click)="goToMyPoints()">
+      <div style="font-weight: bold; font-size: 15px">
+        {{unit|priceFormat}} <ion-icon  name="cash-outline"></ion-icon>
       </div>
-    </ion-buttons>
-  </ion-toolbar>
+      <div *ngIf="hour>0" style="color: var(--ion-color-primary); font-weight: bold; font-size: 13px">
+        {{hour|priceFormat}} <ion-icon name="time-outline"></ion-icon>
+      </div>
+    </ion-col>
+  </ion-row>
+
 </ion-header>
 
 <ion-content>
@@ -43,20 +48,52 @@
     </ion-refresher-content>
   </ion-refresher>
 
+  <ion-grid>
 
+    <ion-row class="offer-tab">
+      <ion-col size="4">
+        <div class="bounce-top" (click)="goToSchedule()">
+          Offres &nbsp;<ion-badge *ngIf="offer_count>0">{{offer_count}}</ion-badge>
+        </div>
+      </ion-col>
+      <ion-col size="4">
+        <div class="bounce-top" (click)="goTo('tournament')">
+          Tournois &nbsp;<ion-badge *ngIf="tournament_count>0">{{tournament_count}}</ion-badge>
+        </div>
+      </ion-col>
+      <ion-col size="4">
+        <div class="bounce-top" >
+          Tombolas &nbsp;<ion-badge *ngIf="tombola_count>0">{{tombola_count}}</ion-badge>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <ion-grid *ngIf="tombola=='enable'" class="card-background-page">
 
     <ion-row (click)="goTo('tombola')">
-      <ion-col size="12">
-        <img src="../../../assets/img/wz/tombola.png" style="height: 350px; width: 100%; border-radius: 20px; border-top:3px solid #eee"/>
+      <ion-col size="6">
+        <img src="../../../assets/img/wz/tombola.png" style="height: 170px; width: 100%; border-radius: 10px; border-top:3px solid #eee"/>
 
         <ion-item class="item" lines="none">
           <ion-label>
-            <p class="bold primary" style="font-size: 18px; text-align: center">
-              MEGA TOMBOLA WARZONE
+            <p class="bold primary tracking-in-expand" style="font-size: 15px; text-align: center">
+              MEGA TOMBOLA
             </p>
-            <p style="white-space: normal; color:#000; text-align: center">{{'play_and_win'|translate}}</p>
+            <p style="white-space: normal; color:#000; text-align: center">{{'1 mois de jeu gratuit'|translate}}</p>
+
+          </ion-label>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6">
+        <img src="../../../assets/img/wz/mardi_duo.png" style="height: 170px; width: 100%; border-radius: 10px; border-top:3px solid #eee"/>
+
+        <ion-item class="item" lines="none">
+          <ion-label>
+            <p class="bold primary tracking-in-expand" style="font-size: 15px; text-align: center">
+              MARDI DUO
+            </p>
+            <p style="white-space: normal; color:#000; text-align: center">{{'1h achetée, 1h offerte'|translate}}</p>
 
           </ion-label>
         </ion-item>
@@ -94,7 +131,7 @@
   <ion-grid *ngIf="tournaments.length>0">
 
     <ion-toolbar class="ion-no-border" (click)="goTo('tournament')">
-      <ion-title slot="start">{{'tournament'|translate}}<span *ngIf="tournaments.length>1">s</span></ion-title>
+      <ion-title slot="start">{{'tournament_event'|translate}}</ion-title>
 
       <ion-buttons slot="end">
         <ion-button (click)="goTo('tournament')"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
@@ -107,7 +144,6 @@
                           [spaceBetween]="10"
                           [slidesPerView]="2.3"
                           [speed]="1000"
-                          [loop]="true"
                           [autoplay]="{enable:true,delay:7000}" #swiperComponent>
           <swiper-slide *ngFor="let t of tournaments" (click)="goToTournament(t)">
             <img src="{{t.image}}" alt="{{t.name}}">
@@ -119,8 +155,7 @@
                           [spaceBetween]="10"
                           [slidesPerView]="1"
                           [speed]="1000"
-                          [loop]="true"
-                          [autoplay]="{enable:true,delay:7000}" #swiperComponent>
+                          [autoplay]="{enable:true,delay:7000}" #swiperComponent class="one-slide">
           <swiper-slide *ngFor="let t of tournaments" (click)="goToTournament(t)" style="height: 45vh !important;">
             <img src="{{t.image}}" alt="{{t.name}}" style="height: 45vh !important;">
           </swiper-slide>
@@ -165,7 +200,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-grid class="card-background-pages">
+  <ion-grid class="card-background-pages" *ngIf="otaku=='enable'">
     <ion-toolbar class="ion-no-border">
       <ion-title (click)="goTo('product')" slot="start">{{'La boutique OTAKUGET+'|translate}}</ion-title>
       <ion-buttons slot="end">

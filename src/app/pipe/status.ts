@@ -13,6 +13,8 @@ export class StatutPipe implements PipeTransform{
       return 'Solvable';
     } else if (value === 'insolvent') {
       return 'Créance';
+    } else if (value === 'used') {
+      return 'Utilisé';
     } else if (value === 'pending_delivery') {
       return 'En attente de livraison';
     } else if (value === 'pending_confirmation') {

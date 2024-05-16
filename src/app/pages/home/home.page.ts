@@ -19,6 +19,7 @@ export class HomePage implements OnInit {
 
 
   schedule="disable";
+  otaku="disable";
   tombola="disable";
 
   is_loading = true;
@@ -28,9 +29,16 @@ export class HomePage implements OnInit {
   tournaments:any=[];
   games:any=[];
 
-  user:any={
+  private user:any={
     person:{},
   };
+
+  full_name="";
+  image="";
+  unit="";
+  hour=0;
+  sponsor_code="";
+  pack:any={};
 
   is_subscription = false;
   per_page = 20;
@@ -48,6 +56,10 @@ export class HomePage implements OnInit {
   };
   settings:any={};
   version = environment.version;
+
+  tournament_count:any = 0;
+  offer_count:any = 0;
+  tombola_count:any = 0;
 
   UPGRADE_PACK_TITLE="";
   UPGRADE_PACK_TEXT="";
@@ -87,9 +99,10 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.settings=JSON.parse(localStorage.getItem("wz_settings"))[0];
+    this.getSettings();
     this.getTournaments();
     this.getGames();
+    this.getTombola();
   }
 
 
@@ -99,21 +112,36 @@ export class HomePage implements OnInit {
       let user = JSON.parse(localStorage.getItem('user_wz'));
       this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
         this.user = a.data.user;
-        this.user.subscription_status=this.api.checkSubscription(this.user.subscription);
-        this.is_subscription = this.user.subscription_status.is_actived;
-        this.user.is_subscription=this.is_subscription;
+        this.full_name= a.data.user.person.full_name;
+        this.image= a.data.user.person.image;
+        this.unit= a.data.user.unit;
+        this.hour= a.data.user.hour;
+        this.sponsor_code= a.data.user.sponsor_code;
+        if(this.user.subscription){
+          this.pack= a.data.user.subscription.pack;
+          this.user.subscription_status=this.api.checkSubscription(this.user.subscription);
+          this.is_subscription = this.user.subscription_status.is_actived;
+          this.user.is_subscription=this.is_subscription;
+        }
+
         localStorage.setItem('user_wz',JSON.stringify(this.user));
+
 
         //this.getUser();
       });
     }
 
-    //this.getTournaments();
-    this.settings=JSON.parse(localStorage.getItem("wz_settings"))[0];
-    this.schedule = this.settings.schedule;
-    this.tombola = this.settings.tombola;
   }
 
+  getSettings(){
+    this.api.getList('settings').then(d=>{
+      this.settings=JSON.parse(d[0].config)[0];
+      this.schedule = this.settings.schedule;
+      this.otaku = this.settings.otaku;
+      this.tombola = this.settings.tombola;
+      localStorage.setItem('wz_settings',JSON.stringify(this.settings));
+    });
+  }
 
   goToTest(){
     //this.router.navigateByUrl('test');
@@ -160,13 +188,38 @@ export class HomePage implements OnInit {
 
     };
 
-    this.api.getList('tournaments',opt).then(d=>{
+    this.api.getList('tournaments',opt).then((d:any)=>{
       this.tournaments =d;
+      this.tournament_count = d.length;
       this.is_loading_tournament=false;
       //this.util.hideLoading();
     },q=>{
       //this.util.hideLoading();
       this.is_loading_tournament=false;
+      this.util.handleError(q);
+    })
+  }
+
+  getTombola(){
+    //this.util.showLoading("loading");
+    const opt = {
+      should_paginate:false,
+      _agg:'count',
+      status:'enable'
+
+    };
+
+    this.api.getList('tombolas',opt).then(d=>{
+      this.tombola_count = d;
+    },q=>{
+      //this.util.hideLoading();
+      this.util.handleError(q);
+    })
+
+    this.api.getList('offers',opt).then(d=>{
+      this.offer_count = d;
+    },q=>{
+      //this.util.hideLoading();
       this.util.handleError(q);
     })
   }
@@ -232,12 +285,7 @@ export class HomePage implements OnInit {
     } else {
 
     }
-    this.getTournaments();
-    this.getGames();
-    this.api.getList('settings').then(d=>{
-      localStorage.setItem('wz_settings',JSON.stringify(JSON.parse(d[0].config)));
-      this.settings=JSON.parse(d[0].config)[0];
-    });
+    this.ngOnInit();
     setTimeout(() => {
       console.log('Async operation has ended');
       event.target.complete();
