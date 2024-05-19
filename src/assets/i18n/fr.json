@@ -588,5 +588,9 @@
   "your_answers":"Vos réponses",
   "mini_game":"Mini jeux WarZone",
   "tournament_event":"Tournois & Evènements",
-  "promo_code":"Code promo"
+  "promo_code":"Code promo",
+  "participate_event":"Participer à l'évènement?",
+  "offer":"Offre",
+  "my_fidelity":"Mes points fidelités",
+  "monthly_subscription":"Abonnements mensuels"
 }

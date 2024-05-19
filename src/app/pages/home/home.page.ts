@@ -171,7 +171,7 @@ export class HomePage implements OnInit {
       }
     } else if(url=='contact'){
       document.getElementById('contact').click();
-    } else if(url=='tombola'){
+    } else if(url=='tombolas'){
       const navigationExtra : NavigationExtras = {state: {name:"1 mois de jeu à gagner", id:1}};
       this.router.navigateByUrl('tombola/tombola-detail',navigationExtra);
     } else {
@@ -216,7 +216,10 @@ export class HomePage implements OnInit {
       this.util.handleError(q);
     })
 
-    this.api.getList('offers',opt).then(d=>{
+    this.api.getList('offers',opt).then((d:any)=>{
+      if(d>0){
+        d--;
+      }
       this.offer_count = d;
     },q=>{
       //this.util.hideLoading();

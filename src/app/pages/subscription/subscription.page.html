@@ -1,0 +1,42 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'monthly_subscription'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Tirer vers le bas pour actualiser"
+      refreshingSpinner="circles"
+      refreshingText="{{'loading'|translate}}...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+
+  <ion-grid>
+
+    <ion-row class="offer-tab">
+      <ion-col size="3" *ngFor="let o of packs">
+        <div [ngClass]="{'active':choix==o.code}" (click)="choix=o.code" style="text-transform: capitalize">
+          {{o.code}}
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-row *ngFor="let o of packs" >
+      <ion-col (click)="checkPack(o)" *ngIf="choix==o.code">
+        <img src="{{o.image}}" alt="{{o.name}}" style="border-radius: 10px; height: 340px; width: 100%">
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+</ion-content>
+

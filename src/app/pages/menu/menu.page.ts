@@ -29,7 +29,6 @@ export class MenuPage implements OnInit {
     private api:ApiProvider,
     private modalController : ModalController
   ) {
-
   }
 
   ngOnInit() {
@@ -43,7 +42,7 @@ export class MenuPage implements OnInit {
     }
     // recupération des settings
     if(localStorage.getItem('wz_settings')!='undefined'){
-      this.settings = JSON.parse(localStorage.getItem('wz_settings'))[0];
+      this.settings = JSON.parse(localStorage.getItem('wz_settings'));
     } else {
 
     }

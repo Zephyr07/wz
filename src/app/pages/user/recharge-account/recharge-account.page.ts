@@ -71,7 +71,7 @@ export class RechargeAccountPage implements OnInit {
   ionViewWillEnter() {
     // recupération des settings
     if(localStorage.getItem('wz_settings')!='undefined'){
-      this.settings = JSON.parse(localStorage.getItem('wz_settings'))[0];
+      this.settings = JSON.parse(localStorage.getItem('wz_settings'));
     } else {
 
     }

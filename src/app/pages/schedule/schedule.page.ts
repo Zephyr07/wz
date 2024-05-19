@@ -38,6 +38,7 @@ export class SchedulePage implements OnInit {
   category_id="";
   price=2000;
   reduc=0;
+  offer_heure:any[] =[];
   offer_jour:any[] =[];
   offer_mois:any[]=[];
   settings:any={
@@ -112,7 +113,6 @@ export class SchedulePage implements OnInit {
     this.api.getList('promo_codes',opt).then((d:any)=>{
       if(d.length>0){
         this.discount_promo = d[0].discount;
-        console.log(d[0]);
         this.setPrice();
       } else {
         this.util.doToast('Code promo non valide',3000,'light');
@@ -164,6 +164,7 @@ export class SchedulePage implements OnInit {
       player_number:this.player_number,
       user_id:this.user.id,
       reduc:this.reduc,
+      offer_id:this.offer_heure[0].id,
       promo_code:this.promo_code
     };
     this.api.post('schedules',opt).then(async (d:any) => {
@@ -189,6 +190,7 @@ export class SchedulePage implements OnInit {
     };
 
     this.api.getList('offers',opt).then((d:any)=>{
+      this.offer_heure = _.filter(d,{type:'heure'});
       this.offer_jour = _.filter(d,{type:'jour'});
       this.offer_mois = _.filter(d,{type:'mois'});
     },q=>{
@@ -249,7 +251,7 @@ export class SchedulePage implements OnInit {
   }
 
   openOffer(o){
-    document.getElementById('open-modal').click();
+    document.getElementById('open-modalS').click();
     this.offer = o;
   }
 

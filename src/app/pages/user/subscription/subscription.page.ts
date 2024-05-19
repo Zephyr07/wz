@@ -71,7 +71,7 @@ export class SubscriptionPage implements OnInit {
     }, 500);
   }
   goToSubscription(){
-    this.router.navigateByUrl('/tabs/store');
+    this.router.navigateByUrl('/subscription');
   }
 
 

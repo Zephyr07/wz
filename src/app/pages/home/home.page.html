@@ -62,7 +62,7 @@
         </div>
       </ion-col>
       <ion-col size="4">
-        <div class="bounce-top" >
+        <div class="bounce-top" (click)="goTo('tombola')">
           Tombolas &nbsp;<ion-badge *ngIf="tombola_count>0">{{tombola_count}}</ion-badge>
         </div>
       </ion-col>
@@ -71,8 +71,8 @@
 
   <ion-grid *ngIf="tombola=='enable'" class="card-background-page">
 
-    <ion-row (click)="goTo('tombola')">
-      <ion-col size="6">
+    <ion-row>
+      <ion-col size="6" (click)="goTo('tombolas')">
         <img src="../../../assets/img/wz/tombola.png" style="height: 170px; width: 100%; border-radius: 10px; border-top:3px solid #eee"/>
 
         <ion-item class="item" lines="none">
@@ -85,7 +85,7 @@
           </ion-label>
         </ion-item>
       </ion-col>
-      <ion-col size="6">
+      <ion-col size="6"(click)="goToSchedule()">
         <img src="../../../assets/img/wz/mardi_duo.png" style="height: 170px; width: 100%; border-radius: 10px; border-top:3px solid #eee"/>
 
         <ion-item class="item" lines="none">
@@ -275,7 +275,7 @@
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end" style="margin-bottom: 20px">
     <ion-fab-button (click)="goToSchedule()">
-      <ion-icon name="calendar"></ion-icon>
+      <ion-icon class="pulsate-bck" name="calendar"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 

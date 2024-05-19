@@ -763,3 +763,20 @@ ion-skeleton-text{
   }
 }
 
+.info-tournament{
+  margin-bottom: 10px;
+  ion-col{
+    text-align: center;
+    padding: 0;
+
+    ion-icon{
+      font-size: 20px;
+    }
+
+    .big{
+      font-size: 25px;
+      font-weight: bold;
+      color:var(--ion-color-primary);
+    }
+  }
+}

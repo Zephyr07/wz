@@ -112,7 +112,7 @@ export class AppComponent {
         if(this.platform.is('ios')){
           version = JSON.parse(d[0].config)[0].ios.version;
         }
-        localStorage.setItem('wz_settings',JSON.stringify(JSON.parse(d[0].config)));
+        localStorage.setItem('wz_settings',JSON.stringify(JSON.parse(d[0].config)[0]));
         if(environment.code != version){
           // mise à jour disponible
           if(this.platform.is('ios')){
@@ -160,7 +160,7 @@ export class AppComponent {
         }
       }
     },q=>{
-      alert("azeaze");
+      //alert("azeaze");
     });
     if(isCordovaAvailable()){
       this.OneSignalInit();

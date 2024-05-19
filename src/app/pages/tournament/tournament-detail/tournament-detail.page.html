@@ -63,7 +63,7 @@
         </ion-row>
 
         <ion-card-title *ngIf="!isLoading" style="font-size:25px;font-weight: bold">
-          <span style="color:#000 !important;" *ngIf="tournament.price_type=='cash'">{{'tournament'|translate}}</span> {{tournament.name}}
+          {{tournament.name}}
           <br>
           <span style="font-size: 20px; font-weight: normal" *ngIf="!is_event">{{'fees'|translate}} :
             <span class="bold primary" *ngIf="!is_subscription">{{tournament.fees|priceFormat}} U</span>
@@ -89,7 +89,7 @@
             <ion-col size="12" style="text-align: center; text-transform: uppercase; font-weight: bold; color:var(--ion-color-primary)">
               {{texte}}
               <br>
-              <span style="color:#000">{{'your_number'|translate}} <strong>"{{number}}"</strong></span>
+              <span style="color:#000" *ngIf="!is_event">{{'your_number'|translate}} <strong>"{{number}}"</strong></span>
             </ion-col>
           </ion-row>
         </ion-card-content>
@@ -120,8 +120,11 @@
   <ion-modal #modalRank trigger="open-modal" [initialBreakpoint]="0.75" [breakpoints]="[0,0.5,0.75, 1]">
     <ng-template>
       <ion-content>
-        <ion-toolbar>
+        <ion-toolbar *ngIf="!is_event">
           <ion-title>{{'participate_tournament'|translate}}</ion-title>
+        </ion-toolbar>
+        <ion-toolbar *ngIf="is_event">
+          <ion-title>{{'participate_event'|translate}}</ion-title>
         </ion-toolbar>
         <ion-grid style="margin-top: 10px;">
           <ion-row class="info-tournament">
@@ -134,7 +137,7 @@
               <br>
               <span style="text-transform: capitalize">{{tournament.mois}}</span>
             </ion-col>
-            <ion-col>
+            <ion-col *ngIf="!is_event">
             <span>
               <ion-icon name="trophy-outline"></ion-icon>
             </span>
@@ -186,7 +189,7 @@
         </ion-grid>
 
         <ion-grid>
-          <ion-row *ngIf="!is_subscription">
+          <ion-row *ngIf="!is_subscription && !is_event">
             <ion-col size="8">
               {{'reduce_member_text'|translate}}
             </ion-col>
@@ -196,12 +199,17 @@
           </ion-row>
 
 
-          <ion-row>
+          <ion-row *ngIf="!is_event">
             <ion-col size="12" *ngIf="!is_subscription">
               <ion-button expand="block" (click)="askSchedule()">{{'participate'|translate}} - {{tournament.fees|priceFormat}} U</ion-button>
             </ion-col>
             <ion-col size="12" *ngIf="is_subscription">
               <ion-button expand="block" (click)="askSchedule()">{{'participate'|translate}} - {{tournament.fees*0.8|priceFormat}} U <span style="text-decoration: line-through"> ({{tournament.fees|priceFormat}}U)</span></ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="is_event">
+            <ion-col size="12">
+              <ion-button expand="block" (click)="askSchedule()">{{'participate'|translate}}</ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>

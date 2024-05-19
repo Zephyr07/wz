@@ -588,6 +588,9 @@
   "your_answers":"Your answers",
   "mini_game":"WarZone mini games",
   "tournament_event":"Tournaments & Events",
-  "promo_code":"Promo code"
+  "promo_code":"Promo code",
+  "participate_event":"Participate in this event ?",
+  "offer":"Offer",
+  "monthly_subscription":"Monthly subscriptions"
 
 }
