@@ -26,7 +26,7 @@ export class AdmobProvider {
       this.interstitialId="ca-app-pub-2538027924721849/2426920344";
       this.rewardId="ca-app-pub-2538027924721849/6501046662";
     }
-    this.initialize();
+    //this.initialize();
   }
 
   async initialize(){
@@ -47,7 +47,7 @@ export class AdmobProvider {
        * });
        * await modal.present();
        * await modal.onDidDismiss();  // Wait for close modal
-       **/
+       *
 
       await AdMob.requestTrackingAuthorization();
     }
@@ -59,6 +59,8 @@ export class AdmobProvider {
       consentInfo.status === AdmobConsentStatus.REQUIRED
     ) {
       await AdMob.showConsentForm();
+    } else {
+      alert("ef")**/
     }
   }
 
