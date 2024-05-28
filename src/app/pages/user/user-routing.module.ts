@@ -43,6 +43,10 @@ const routes: Routes = [
   {
     path: 'my-tombola',
     loadChildren: () => import('./my-tombola/my-tombola.module').then( m => m.MyTombolaPageModule)
+  },
+  {
+    path: 'fidelity',
+    loadChildren: () => import('./fidelity/fidelity.module').then( m => m.FidelityPageModule)
   }
 
 ];

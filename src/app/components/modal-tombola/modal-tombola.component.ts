@@ -59,7 +59,7 @@ export class ModalTombolaComponent  implements OnInit {
       this.fees*=0.8;
     }
     if(localStorage.getItem('wz_settings')!='undefined'){
-      let settings = JSON.parse(localStorage.getItem('wz_settings'))[0];
+      let settings = JSON.parse(localStorage.getItem('wz_settings'));
       this.pub=settings.pub;
     } else {
 

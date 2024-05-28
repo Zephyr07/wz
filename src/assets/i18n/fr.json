@@ -506,8 +506,8 @@
   "schedule_game_text":"Réserver une seance de jeux pour vous, votre famille ou pour un proche",
   "events":"Evènements",
   "prices":"Tarifs",
-  "player_number":"Nombre de joueur",
-  "game_hour":"Nombre d'heure de jeu",
+  "player_number":"Nbre de joueur",
+  "game_hour":"Nbre d'heure",
   "date_time":"Date et heure",
   "amount_paid":"Montant à payer",
   "balance_account":"Solde de votre compte",
@@ -587,5 +587,10 @@
   "win_text_2":"Vous avez gagnez",
   "your_answers":"Vos réponses",
   "mini_game":"Mini jeux WarZone",
-  "tournament_event":"Tournois & Evènements"
+  "tournament_event":"Tournois & Evènements",
+  "promo_code":"Code promo",
+  "participate_event":"Participer à l'évènement?",
+  "offer":"Offre",
+  "my_fidelity":"Mes points fidelités",
+  "monthly_subscription":"Abonnements mensuels"
 }

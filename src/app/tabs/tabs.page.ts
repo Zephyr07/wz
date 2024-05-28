@@ -17,8 +17,8 @@ export class TabsPage {
     private router:Router,
     private util:UtilProvider
   ) {
-    this.getTournaments();
-    this.getTombola();
+    //this.getTournaments();
+    //this.getTombola();
   }
 
   getTournaments(){

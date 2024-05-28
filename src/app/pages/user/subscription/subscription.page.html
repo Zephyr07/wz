@@ -25,10 +25,7 @@
         <div class="subtexts" style="margin-top: 10px;">
           <ion-row>
             <ion-col>
-              <img src="../../../../assets/img/packs/1.png" class="radius" *ngIf="subscription.pack.id==1" alt="">
-              <img src="../../../../assets/img/packs/2.png" class="radius" *ngIf="subscription.pack.id==2" alt="">
-              <img src="../../../../assets/img/packs/3.png" class="radius" *ngIf="subscription.pack.id==3" alt="">
-              <img src="../../../../assets/img/packs/4.png" class="radius" *ngIf="subscription.pack.id==4" alt="">
+              <img src="{{subscription.pack.image}}" class="radius" alt="" style="height: 340px; width: 100%">
             </ion-col>
           </ion-row>
           <ion-row>

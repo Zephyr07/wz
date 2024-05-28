@@ -20,13 +20,14 @@
 
     <ion-card *ngFor="let m of schedules" class="radius">
       <ion-card-header>
-        <ion-card-title class="black">{{m.game.name}}</ion-card-title>
+        <ion-card-title class="black">{{m.offer.name}}</ion-card-title>
         <ion-card-subtitle>{{'schedule_at'|translate}} <span class="primary">{{m.date|dateFormat:2}}</span></ion-card-subtitle>
       </ion-card-header>
 
       <ion-card-content>
-        {{'player_number'|translate}} : <span class="bold primary">{{m.player_number}}</span> <br>
-        {{'game_hour'|translate}} : <span class="bold primary">{{m.duration}}</span>
+        {{'player_number'|translate}} : <span class="bold primary">{{m.player_number}}</span> &nbsp;
+        {{'game_hour'|translate}} : <span class="bold primary">{{m.duration}}</span><br>
+        {{'status'|translate}} : <span class="bold primary">{{m.status|status}}</span>
       </ion-card-content>
     </ion-card>
     <app-oups-info [text]="'no_schedule'" *ngIf="!is_loading && schedules.length<1"></app-oups-info>

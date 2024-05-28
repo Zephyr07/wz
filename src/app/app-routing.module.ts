@@ -98,6 +98,10 @@ const routes: Routes = [
   {
     path: 'memory-game',
     loadChildren: () => import('./pages/game/mini-game/memory-game/memory-game.module').then( m => m.MemoryGamePageModule)
+  },
+  {
+    path: 'subscription',
+    loadChildren: () => import('./pages/subscription/subscription.module').then( m => m.SubscriptionPageModule)
   }
 ];
 @NgModule({

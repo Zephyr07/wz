@@ -120,7 +120,7 @@ export class TournamentDetailPage implements OnInit {
       this.is_user=false;
     }
     if(localStorage.getItem('wz_settings')!='undefined'){
-      this.settings = JSON.parse(localStorage.getItem('wz_settings'))[0];
+      this.settings = JSON.parse(localStorage.getItem('wz_settings'));
     } else {
 
     }
@@ -141,6 +141,7 @@ export class TournamentDetailPage implements OnInit {
       d.mois = moment(d.end_at).format('MMMM');
       this.tournament = d;
       this.isLoading=false;
+      this.is_event=d.is_event;
     },q=>{
       this.util.handleError(q);
     })
@@ -315,7 +316,10 @@ export class TournamentDetailPage implements OnInit {
         this.number=d[0].id;
         // l'utilisateur a déjà effectué une reservation
         this.can_subscribe = false;
-        this.texte = "Vous participez déjà a ce tournoi";
+        this.texte = "Vous participez déjà à ce tournoi";
+        if(this.is_event){
+          this.texte="Vous participez déjà à cet évènement"
+        }
       } else {
         this.can_subscribe=true;
       }

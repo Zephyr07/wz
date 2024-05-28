@@ -6,6 +6,7 @@ import {ModalEditUserComponent} from "../../components/modal-edit-user/modal-edi
 import {UtilProvider} from "../../providers/util/util";
 import {AuthProvider} from "../../providers/auth/auth";
 import {TranslateService} from "@ngx-translate/core";
+import {AdmobProvider} from "../../providers/admob/AdmobProvider";
 
 @Component({
   selector: 'app-user',
@@ -38,12 +39,14 @@ export class UserPage implements OnInit {
   DELETE="";
   CONFIRM_DELETE_TEXT="";
   country:any={};
+  is_subscription=false;
 
   constructor(
     private router:Router,
     private util:UtilProvider,
     private api:ApiProvider,
     private auth:AuthProvider,
+    private admob :AdmobProvider,
     private alertController :AlertController,
     private modalController:ModalController,
     private translate:TranslateService
@@ -81,9 +84,11 @@ export class UserPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.admob.showBanner("b",0);
+
     // recupération des settings
     if(localStorage.getItem('wz_settings')!='undefined'){
-      this.settings = JSON.parse(localStorage.getItem('wz_settings'))[0];
+      this.settings = JSON.parse(localStorage.getItem('wz_settings'));
     } else {
 
     }
@@ -94,6 +99,7 @@ export class UserPage implements OnInit {
         this.user = a.data.user;
         localStorage.setItem('user_wz',JSON.stringify(this.user));
         this.subscription_status=this.api.checkSubscription(this.user.subscription);
+        this.is_subscription = this.subscription_status.is_actived;
         this.getPerson(this.user.id);
       });
     } else {
@@ -101,6 +107,9 @@ export class UserPage implements OnInit {
     }
   }
 
+  ionViewWillLeave(){
+    this.admob.hideBanner();
+  }
   goToRechargeAccount(){
     //const navigationExtra : NavigationExtras = {state: {film:{'name':f.name, 'id':f.id}}};
     this.router.navigateByUrl('recharge-account');
@@ -145,8 +154,13 @@ export class UserPage implements OnInit {
     if(this.user.subscription){
       this.router.navigateByUrl('user/subscription');
     } else {
-      this.router.navigateByUrl('tabs/store');
+      this.router.navigateByUrl('subscription');
     }
+  }
+
+  goToFidelity(){
+    //const navigationExtra : NavigationExtras = {state: {film:{'name':f.name, 'id':f.id}}};
+    this.router.navigateByUrl('user/fidelity');
   }
 
   goToRecharge(){

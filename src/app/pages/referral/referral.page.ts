@@ -57,7 +57,7 @@ export class ReferralPage implements OnInit {
       this.getReferralCount(this.user.sponsor_code);
     }
     if(localStorage.getItem('wz_settings')!='undefined'){
-      this.settings = JSON.parse(localStorage.getItem('wz_settings'))[0];
+      this.settings = JSON.parse(localStorage.getItem('wz_settings'));
     } else {
 
     }

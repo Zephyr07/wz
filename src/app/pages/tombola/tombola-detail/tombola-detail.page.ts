@@ -117,7 +117,7 @@ export class TombolaDetailPage implements OnInit {
       //this.phone=this.user.phone;
     }
     if(localStorage.getItem('wz_settings')!='undefined'){
-      this.settings = JSON.parse(localStorage.getItem('wz_settings'))[0];
+      this.settings = JSON.parse(localStorage.getItem('wz_settings'));
       this.pub=this.settings.pub;
     } else {
 

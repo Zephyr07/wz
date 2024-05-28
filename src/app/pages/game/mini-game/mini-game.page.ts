@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {NavigationExtras, Router} from "@angular/router";
+import {AdmobProvider} from "../../../providers/admob/AdmobProvider";
 
 @Component({
   selector: 'app-mini-game',
@@ -9,7 +10,8 @@ import {NavigationExtras, Router} from "@angular/router";
 export class MiniGamePage implements OnInit {
 
   constructor(
-    private router:Router
+    private router:Router,
+    private admob:AdmobProvider
   ) {
 
   }
@@ -18,6 +20,13 @@ export class MiniGamePage implements OnInit {
 
   }
 
+  ionViewWillEnter(){
+    this.admob.showBanner('bottom',0);
+  }
+
+  ionViewWillLeave(){
+    this.admob.hideBanner();
+  }
 
 
   goToGame(target){

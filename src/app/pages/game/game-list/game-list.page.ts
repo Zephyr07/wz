@@ -4,6 +4,7 @@ import {ApiProvider} from "../../../providers/api/api";
 import {UtilProvider} from "../../../providers/util/util";
 import {NavigationExtras, Router} from "@angular/router";
 import * as _ from "lodash";
+import {AdmobProvider} from "../../../providers/admob/AdmobProvider";
 
 @Component({
   selector: 'app-game-list',
@@ -29,7 +30,8 @@ export class GameListPage implements OnInit {
     private api:ApiProvider,
     private util:UtilProvider,
     private modalController:ModalController,
-    private router:Router
+    private router:Router,
+    private admob:AdmobProvider
   ) {
     if(this.router.getCurrentNavigation().extras.state){
       // @ts-ignore
@@ -55,7 +57,12 @@ export class GameListPage implements OnInit {
 
   }
 
+  ionViewWillLeave(){
+    this.admob.hideBanner();
+  }
+
   ionViewWillEnter(){
+    this.admob.showBanner('bottom',0);
     if(this.api.checkUser()){
       this.user = JSON.parse(localStorage.getItem('user_wz'));
       this.is_user=true;

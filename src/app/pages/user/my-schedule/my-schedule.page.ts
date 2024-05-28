@@ -40,12 +40,17 @@ export class MySchedulePage implements OnInit {
       _sortDir:'asc',
       user_id:id,
       status:"paid",
-      _includes:'game'
+      _includes:'offer'
     };
     this.api.getList('schedules',opt).then((d:any)=>{
-      this.is_loading=false;
+      d.forEach(v=>{
+        if(!v.offer){
+          v.offer={name:'Offre horaire'};
+        }
+      })
       this.old_schedules=d;
       this.schedules=d;
+      this.is_loading=false;
     })
   }
   getItems(ev: any) {

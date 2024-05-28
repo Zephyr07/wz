@@ -59,7 +59,7 @@ export class MemoryGamePage implements OnInit {
       this.is_user=false;
     }
     if(localStorage.getItem('wz_settings')!='undefined'){
-      let settings = JSON.parse(localStorage.getItem('wz_settings'))[0];
+      let settings = JSON.parse(localStorage.getItem('wz_settings'));
       this.pub=settings.pub;
     } else {
 

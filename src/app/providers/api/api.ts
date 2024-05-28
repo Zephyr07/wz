@@ -350,7 +350,16 @@ export class ApiProvider {
     return response.json(); // parses JSON response into native JavaScript objects
   }
 
-
+  getSettings(){
+    return new Promise((resolve, reject) => {
+      this.getList('settings').then(d=>{
+        localStorage.setItem('wz_settings',JSON.stringify(JSON.parse(d[0].config)[0]));
+        resolve(JSON.parse(d[0].config)[0]);
+      }, q=>{
+        reject(q);
+      });
+    })
+  }
 
   async askLanguage() {
     let is_log=false;

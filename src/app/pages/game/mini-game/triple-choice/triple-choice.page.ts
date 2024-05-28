@@ -38,6 +38,8 @@ export class TripleChoicePage implements OnInit {
 
   ionViewWillEnter(){
 
+    this.admob.showBanner('top',0);
+
     if(this.api.checkUser()){
       this.is_user=true;
       this.user=JSON.parse(localStorage.getItem('user_wz'));
@@ -51,6 +53,10 @@ export class TripleChoicePage implements OnInit {
     } else {
       this.is_user=false;
     }
+  }
+
+  ionViewWillLeave(){
+    this.admob.hideBanner();
   }
 
   async startGame(){
