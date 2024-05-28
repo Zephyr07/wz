@@ -60,6 +60,7 @@ export class SchedulePage implements OnInit {
     return utcDay !== 1 ;
   };
 
+  is_user:boolean;
   is_tuesday=false;
 
   constructor(
@@ -90,6 +91,7 @@ export class SchedulePage implements OnInit {
     });
 
     if(this.api.checkUser()){
+      this.is_user=true;
       let user = JSON.parse(localStorage.getItem('user_wz'));
       this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
         this.user = a.data.user;
@@ -99,6 +101,7 @@ export class SchedulePage implements OnInit {
       });
     } else {
       // no user
+      this.is_user=false;
     }
 
   }
@@ -150,6 +153,11 @@ export class SchedulePage implements OnInit {
           this.discount = this.price;
         }
       }
+
+      if(this.discount==undefined){
+        this.discount=this.price;
+      }
+
     }
 
   }

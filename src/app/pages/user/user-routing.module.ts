@@ -47,7 +47,7 @@ const routes: Routes = [
   {
     path: 'fidelity',
     loadChildren: () => import('./fidelity/fidelity.module').then( m => m.FidelityPageModule)
-  }
+  },
 
 ];
 

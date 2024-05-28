@@ -12,7 +12,6 @@ import {UtilProvider} from "./providers/util/util";
 import {AuthProvider} from "./providers/auth/auth";
 import {RouteProvider} from "./providers/util/route";
 import {NotificationProvider} from "./providers/notification/notification";
-import {OneSignal} from "@awesome-cordova-plugins/onesignal/ngx";
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
@@ -55,7 +54,6 @@ export function createTranslateLoader(http: HttpClient) {
     AuthProvider,
     AdmobProvider,
     RouteProvider,
-    OneSignal,
     NotificationProvider,
   ],
   bootstrap: [

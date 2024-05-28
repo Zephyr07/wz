@@ -91,7 +91,7 @@
         </ion-select>
       </ion-col>
       <ion-col size="6">
-        <ion-input type="text" (ionChange)="checkPromoCode()" [(ngModel)]="promo_code" placeholder="{{'promo_code'|translate}}"></ion-input>
+        <ion-input type="text" label="{{'promo_code'|translate}}" labelPlacement="floating"  (ionChange)="checkPromoCode()" [(ngModel)]="promo_code" placeholder="{{'promo_code'|translate}}"></ion-input>
       </ion-col>
     </ion-row>
 
@@ -153,10 +153,15 @@
       <ion-col size="12">
         <ion-button expand="block" (click)="booking()" *ngIf="unit >=duration*player_number*discount && duration>0 && player_number>0 ">{{'schedule'|translate}}</ion-button>
       </ion-col>
-      <ion-col size="12" *ngIf="unit<duration*player_number*discount"
+      <ion-col size="12" *ngIf="unit<duration*player_number*discount && is_user"
                style="text-transform: uppercase; color:var(--ion-color-warning); text-align: center; font-weight: bold">
         {{'insufficient_balance'|translate}}
       </ion-col>
+      <ion-row *ngIf="!is_user">
+        <ion-col style="text-transform: uppercase; color:var(--ion-color-tertiary); text-align: center; font-weight: bold">
+          Connectez-vous pour valider votre choix
+        </ion-col>
+      </ion-row>
     </ion-row>
 
     <ion-row *ngIf="is_tuesday">
@@ -243,9 +248,14 @@
                 <ion-button expand="block" (click)="offerDay(offer)" >{{'schedule'|translate}}</ion-button>
               </ion-col>
             </ion-row>
-            <ion-row *ngIf="unit<offer.price">
-              <ion-col>
+            <ion-row *ngIf="unit<offer.price && is_user">
+              <ion-col style="text-transform: uppercase; color:var(--ion-color-warning); text-align: center; font-weight: bold">
                 {{'insufficient_balance'|translate}}
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="!is_user">
+              <ion-col style="text-transform: uppercase; color:var(--ion-color-tertiary); text-align: center; font-weight: bold">
+                Connectez-vous pour valider votre choix
               </ion-col>
             </ion-row>
           </ion-grid>

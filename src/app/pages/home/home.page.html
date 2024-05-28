@@ -11,9 +11,9 @@
     </ion-item>
   </ion-toolbar>
 
-  <ion-row *ngIf="is_user=='true'">
-    <ion-col size="9">
-      <ion-toolbar (click)="goTo('user')">
+  <ion-row *ngIf="is_user=='true'"  style="margin-top:50px">
+    <ion-col size="9" class="ion-text-left">
+      <div (click)="goTo('user')">
         <ion-item lines="none"  slot="start">
           <ion-thumbnail style="width: 50px; height: 50px">
             <img alt="{{full_name}}" src="{{image}}" />
@@ -23,7 +23,7 @@
             <span *ngIf="is_subscription" style="color:var(--ion-color-medium); font-size: 13px;">{{'member'|translate}} {{pack.name}}</span>
           </ion-label>
         </ion-item>
-      </ion-toolbar>
+      </div>
     </ion-col>
     <ion-col size="3" class="ion-text-right" style="margin-top: 13px;" (click)="goToMyPoints()">
       <div style="font-weight: bold; font-size: 15px">
@@ -140,18 +140,8 @@
 
     <ion-row>
       <ion-col>
-        <swiper-container *ngIf="tournaments.length>1"
-                          [spaceBetween]="10"
-                          [slidesPerView]="2.3"
-                          [speed]="1000"
-                          [autoplay]="{enable:true,delay:7000}" #swiperComponent>
-          <swiper-slide *ngFor="let t of tournaments" (click)="goToTournament(t)">
-            <img src="{{t.image}}" alt="{{t.name}}">
-          </swiper-slide>
 
-        </swiper-container>
-
-        <swiper-container *ngIf="tournaments.length==1"
+        <swiper-container
                           [spaceBetween]="10"
                           [slidesPerView]="1"
                           [speed]="1000"
