@@ -39,7 +39,7 @@ export class AdmobProvider {
     //this.initialize();
     this.api.getSettings().then((d:any)=>{
       this.pub = d.pub == 'enable';
-      if(d.is_testing_ad){
+      if(d.is_testing_ad=='true'){
         this.interstitialId="ca-app-pub-3940256099942544/1033173712";
         this.rewardId="ca-app-pub-3940256099942544/5224354917";
         this.bannerId="ca-app-pub-3940256099942544/6300978111";
@@ -73,6 +73,7 @@ export class AdmobProvider {
       AdMob.requestConsentInfo(),
     ]);
 
+
     if (trackingInfo.status === 'notDetermined') {
       /**
        * If you want to explain TrackingAuthorization before showing the iOS dialog,
@@ -99,6 +100,8 @@ export class AdmobProvider {
   }
 
   async showBanner(position,margin){
+    alert(this.bannerId);
+    alert(this.is_testing==true);
     if(this.pub){
       if(position=='top'){
         position = BannerAdPosition.TOP_CENTER

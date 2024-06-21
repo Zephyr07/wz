@@ -46,7 +46,7 @@
           <ion-icon class="big" name="aperture-outline"></ion-icon>
           </span>
           <br>
-          <span>{{'my_points'|translate}}</span>
+          <span class="info-title">{{'my_points'|translate}}</span>
         </div>
       </ion-col>
       <ion-col size="4" (click)="goToMyTournament()">
@@ -55,7 +55,7 @@
           <ion-icon class="big" name="trophy-outline"></ion-icon>
           </span>
           <br>
-          <span>{{'my_tournaments'|translate}}</span>
+          <span class="info-title">{{'my_tournaments'|translate}}</span>
         </div>
       </ion-col>
       <ion-col size="4" (click)="goToMyTombola()">
@@ -64,7 +64,7 @@
           <ion-icon class="big" name="dice-outline"></ion-icon>
           </span>
           <br>
-          <span>{{'my_tombolas'|translate}}</span>
+          <span class="info-title">{{'my_tombolas'|translate}}</span>
         </div>
       </ion-col>
       <ion-col *ngIf="settings.fidelity=='enable'" size="4" (click)="goToFidelity()">
@@ -73,7 +73,7 @@
           <ion-icon class="big" name="ticket-outline"></ion-icon>
           </span>
           <br>
-          <span>{{'my_fidelity'|translate}}</span>
+          <span class="info-title">{{'my_fidelity'|translate}}</span>
         </div>
       </ion-col>
       <ion-col size="4" (click)="goToMyOrder()">
@@ -82,7 +82,7 @@
           <ion-icon class="big" name="cart-outline"></ion-icon>
           </span>
           <br>
-          <span>{{'my_orders'|translate}}</span>
+          <span class="info-title">{{'my_orders'|translate}}</span>
         </div>
       </ion-col>
       <ion-col size="4" (click)="goToMySchedule()">
@@ -91,7 +91,7 @@
           <ion-icon class="big" name="calendar-outline"></ion-icon>
           </span>
           <br>
-          <span>{{'my_reservations'|translate}}</span>
+          <span class="info-title">{{'my_reservations'|translate}}</span>
         </div>
       </ion-col>
       <ion-col *ngIf="settings.ios.subscription=='enable'" size="4" (click)="goToSubscription()">
@@ -100,7 +100,7 @@
           <ion-icon class="big" name="diamond-outline"></ion-icon>
           </span>
           <br>
-          <span>{{'my_subscription'|translate}}</span>
+          <span class="info-title">{{'my_subscription'|translate}}</span>
         </div>
       </ion-col>
       <ion-col size="4" (click)="presentAlert()">
@@ -109,7 +109,7 @@
           <ion-icon class="big" name="key-outline"></ion-icon>
           </span>
           <br>
-          <span>{{'change_password'|translate}}</span>
+          <span class="info-title">{{'change_password'|translate}}</span>
         </div>
       </ion-col>
       <ion-col size="4" (click)="deleteUser()">
@@ -118,7 +118,7 @@
           <ion-icon class="big" name="trash-outline"></ion-icon>
           </span>
           <br>
-          <span>{{'delete_account'|translate}}</span>
+          <span class="info-title">{{'delete_account'|translate}}</span>
         </div>
       </ion-col>
       <ion-col size="4" (click)="logout()">
@@ -127,7 +127,7 @@
           <ion-icon class="big" name="log-out-outline"></ion-icon>
           </span>
           <br>
-          <span>{{'logout'|translate}}</span>
+          <span class="info-title">{{'logout'|translate}}</span>
         </div>
       </ion-col>
     </ion-row>
