@@ -1,10 +1,15 @@
-<ion-content [fullscreen]="true">
-  <div class="fond">
+<ion-header>
+  <ion-toolbar>
     <ion-row>
       <ion-col>
         <img src="../../../../../assets/img/wz/game/mem.png" class="radius" alt="">
       </ion-col>
     </ion-row>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <div class="fond">
+
 
     <ion-grid class="ion-text-center">
       Paires à trouver : <strong>{{count}}</strong> &nbsp; Temps restant : <strong>{{time}}s</strong>
@@ -12,7 +17,7 @@
     </ion-grid>
     <ion-grid class="game">
 
-      <ion-row *ngIf="!is_replay">
+      <ion-row>
         <ion-col size="{{size}}" *ngFor="let p of positions">
           <img src="../../../../../assets/img/wz/game/memory/{{p.id}}.png" alt="" *ngIf="p.show && !p.find">
           <img src="../../../../../assets/img/wz/game/memory/tile.png" style="border:2px solid #022747" alt=""
@@ -30,9 +35,9 @@
 
     <ion-footer style="position:absolute; bottom:0; width: 100%; background: transparent !important;">
       <ion-grid>
-        <ion-row>
+        <ion-row *ngIf="taille>700">
           <ion-col>
-            <img src="../../../../../assets/img/wz/game/memory/win.png" class="radius" alt="">
+            <img src="../../../../../assets/img/wz/game/memory/win.png" style="max-height: 9vh;width: 100%;" class="radius" alt="">
           </ion-col>
         </ion-row>
 

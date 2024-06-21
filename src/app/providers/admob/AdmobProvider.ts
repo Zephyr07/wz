@@ -141,9 +141,17 @@ export class AdmobProvider {
   }
 
   async loadInterstitial(){
-    if(this.pub){
+    const opt : AdOptions={
+      adId:this.interstitialId,
+      //isTesting:true ca-app-pub-2538027924721849/2426920344 3940256099942544/1033173712
+    };
 
-    }
+    await AdMob.prepareInterstitial(opt).then(d=>{
+      console.log("Prepare pub ok");
+    }).catch(e=>{
+      console.log(e);
+      console.log(e.message);
+    });
   }
 
   async showInterstitial(){

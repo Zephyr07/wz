@@ -40,6 +40,8 @@ export class AppComponent {
     private platform: Platform,
     private navCtrl:NavController,
   ){
+    // initialisation admob
+    this.admob.initialize();
     //this.is_loading=!this.api.checkCredential();
     this.splash();
     // this language will be used as a fallback when a translation isn't found in the current language
@@ -176,20 +178,24 @@ export class AppComponent {
   OneSignalInit(){
     //alert("eaz");
     // Uncomment to set OneSignal device logging to VERBOSE
-    OneSignal.setLogLevel(6, 0);
+    OneSignal.Debug.setLogLevel(6);
 
     // NOTE: Update the setAppId value below with your OneSignal AppId.
-    OneSignal.setAppId(ONE_SIGNAL_CONF.app_id);
-    OneSignal.setNotificationOpenedHandler(function(jsonData) {
+    OneSignal.initialize(ONE_SIGNAL_CONF.app_id);
+    /*OneSignal.setNotificationOpenedHandler(function(jsonData) {
       console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
-    });
+    });*/
+    OneSignal.Notifications.addEventListener('click', async (e) => {
+      let clickData = await e.notification;
+      console.log("Notification Clicked : " + clickData);
+    })
 
 
     // iOS - Prompts the user for notification permissions.
     //    * Since this shows a generic native prompt, we recommend instead using an In-App Message to prompt for notification permission (See step 6) to better communicate to your users what notifications they will get.
-    OneSignal.promptForPushNotificationsWithUserResponse(function(accepted) {
-      console.log("User accepted notifications: " + accepted);
-    });
+    OneSignal.Notifications.requestPermission(true).then((success: Boolean) => {
+      console.log("Notification permission granted " + success);
+    })
   }
 
   getNetworkStatus(){

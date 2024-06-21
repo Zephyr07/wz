@@ -43,7 +43,7 @@ export class AuthProvider {
           this.setLanguage(data.user);
           let tmp = this.util.encryptAESData(credentials);
           localStorage.setItem('auth_wz',JSON.stringify(tmp));
-          this.save_token(data.user);
+          //this.save_token(data.user);
           /*angular.forEach(data.userRole, function (value) {
             AclService.attachRole(value)
           });

@@ -4,7 +4,8 @@ import * as CryptoJS from 'crypto-js';
 export const API_ENDPOINT = 'https://wzs.warzone237.com/public/api/';
 export const ONE_SIGNAL_CONF = {
   "sender_id": '472124460397',
-  "app_id": 'b036b1eb-0b10-432e-9e9e-e4166babee18'
+  "app_id": 'b036b1eb-0b10-432e-9e9e-e4166babee18',
+  "app_id_old": 'c8aba0f5-7ef5-40f1-9047-ef15f7ab4b1b'
 };
 
 export const MOIS = [

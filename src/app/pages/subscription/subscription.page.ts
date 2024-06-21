@@ -110,20 +110,24 @@ export class SubscriptionPage implements OnInit {
   }
 
   checkPack(pack){
-    if(this.is_subscription){
-      if(pack.price<=this.user_pack.price){
-        // l'utilisateur doit attendre la fin de son abonnement pour pouvoir souscire à un autre pack
-        this.util.doToast("Vous ne pouvez pas acheter ce pack tant que votre abonnement n'est pas terminé",5000,'light')
+    if(this.settings.subscription=='false'){
+      this.util.doToast("Rendez-vous dans la salle de jeu pour acheter votre abonnement",4000);
+    } else {
+      if(this.is_subscription){
+        if(pack.price<=this.user_pack.price){
+          // l'utilisateur doit attendre la fin de son abonnement pour pouvoir souscire à un autre pack
+          this.util.doToast("Vous ne pouvez pas acheter ce pack tant que votre abonnement n'est pas terminé",5000,'light')
+        } else {
+          this.buyPack(pack);
+        }
       } else {
         this.buyPack(pack);
       }
-    } else {
-      this.buyPack(pack);
     }
+
   }
 
   async buyPack(pack:any){
-
 
     let titre = "Devenir membre";
     let text = "Vous allez devenir membre "+pack.name+". Coût : "+pack.price+" U";

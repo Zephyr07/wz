@@ -24,9 +24,9 @@ export class MemoryGamePage implements OnInit {
   time=this.base;
   progress=this.base;
   interval:any;
+  taille=0;
 
   pub="disabled";
-
   private user:any={};
 
   constructor(
@@ -35,7 +35,9 @@ export class MemoryGamePage implements OnInit {
     private util : UtilProvider,
     private admob : AdmobProvider,
     private api : ApiProvider
-  ) { }
+  ) {
+    this.taille=window.innerHeight
+  }
 
   ngOnInit() {
     this.startGame();

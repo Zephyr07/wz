@@ -159,7 +159,7 @@ export class HomePage implements OnInit {
   goTo(url){
     if(url=='product'){
       this.router.navigateByUrl(url);
-    } else if(url=='user' || url=='tournament'){
+    } else if(url=='user'){
       if(this.api.checkUser()){
         this.router.navigateByUrl(url);
       } else {
@@ -167,7 +167,7 @@ export class HomePage implements OnInit {
           this.util.doToast("Vous devez vous connecter pour continuer",3000,'light');
         }
         //this.util.showModal("Vous n'êtes pas connecté",'Connectez-vous pour continuer','Me connecter','login');
-        //this.router.navigateByUrl("login");
+        this.router.navigateByUrl("login");
       }
     } else if(url=='contact'){
       document.getElementById('contact').click();
@@ -258,7 +258,7 @@ export class HomePage implements OnInit {
       // reserver une seance de jeu
       this.router.navigateByUrl('schedule');
     } else {
-      this.util.doToast("Vous devez vous connecter pour continuer",3000,'light');
+      this.util.doToast("Vous devez être connecté pour continuer",3000,'light');
     }
   }
 
