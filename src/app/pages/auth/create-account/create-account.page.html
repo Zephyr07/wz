@@ -1,4 +1,4 @@
-<ion-header class="ion-no-border">
+<ion-header class="ion-no-border" *ngIf="step==0">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/" color='primary' id="backButton"></ion-back-button>
@@ -27,7 +27,7 @@
   </ion-fab>
 
   <ion-fab  vertical="top" horizontal="start" style="margin-top:25px" slot="fixed" *ngIf="step>0">
-    <ion-fab-button color="danger" size="small" (click)="previous()">
+    <ion-fab-button size="small" (click)="previous()">
       <ion-icon name="arrow-back-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>

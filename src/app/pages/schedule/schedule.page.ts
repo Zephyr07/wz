@@ -75,7 +75,6 @@ export class SchedulePage implements OnInit {
 
   ngOnInit() {
     this.getOffers();
-    this.getSettings();
   }
 
   getSettings(){
@@ -86,6 +85,7 @@ export class SchedulePage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.getSettings();
     this.api.getList('day',{}).then(d=>{
       this.is_tuesday = d == 2;
     });

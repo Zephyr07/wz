@@ -68,9 +68,12 @@ export class AdmobProvider {
   async initialize(){
     await AdMob.initialize();
 
+
     const [trackingInfo, consentInfo] = await Promise.all([
       AdMob.trackingAuthorizationStatus(),
+      AdMob.resetConsentInfo(),
       AdMob.requestConsentInfo(),
+      AdMob.showConsentForm(),
     ]);
 
 
@@ -100,8 +103,6 @@ export class AdmobProvider {
   }
 
   async showBanner(position,margin){
-    alert(this.bannerId);
-    alert(this.is_testing==true);
     if(this.pub){
       if(position=='top'){
         position = BannerAdPosition.TOP_CENTER

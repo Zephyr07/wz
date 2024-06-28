@@ -146,8 +146,8 @@
                           [slidesPerView]="1"
                           [speed]="1000"
                           [autoplay]="{enable:true,delay:7000}" #swiperComponent class="one-slide">
-          <swiper-slide *ngFor="let t of tournaments" (click)="goToTournament(t)" style="height: 45vh !important;">
-            <img src="{{t.image}}" alt="{{t.name}}" style="height: 45vh !important;">
+          <swiper-slide *ngFor="let t of tournaments" (click)="goToTournament(t)" style="height: 40vh !important;">
+            <img src="{{t.image}}" alt="{{t.name}}" style="height: 40vh !important;">
           </swiper-slide>
 
         </swiper-container>
