@@ -15,6 +15,7 @@ import {NotificationProvider} from "./providers/notification/notification";
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
+import {AdmobProvider} from "./providers/admob/AdmobProvider";
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -51,6 +52,7 @@ export function createTranslateLoader(http: HttpClient) {
     ApiProvider,
     UtilProvider,
     AuthProvider,
+    AdmobProvider,
     RouteProvider,
     NotificationProvider,
   ],

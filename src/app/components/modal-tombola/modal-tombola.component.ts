@@ -109,7 +109,10 @@ export class ModalTombolaComponent  implements OnInit {
         }, {
           text: 'Confirmer',
           handler: (data:any) => {
-            this.admob.prepareRewardVideo();
+            let settings = JSON.parse(localStorage.getItem('wz_settings'));
+            if(settings.pub=='enable'){
+              this.admob.prepareRewardVideo();
+            }
             this.showSchedule();
           }
         }
@@ -205,11 +208,15 @@ export class ModalTombolaComponent  implements OnInit {
   }
 
   replayAd(){
-    this.admob.showRewardVideo().then(async d=>{
-      this.replay();
-      this.tombola.free=true;
-      this.fees=0;
-    })
+    let settings = JSON.parse(localStorage.getItem('wz_settings'));
+    if(settings.pub=='enable'){
+      this.admob.showRewardVideo().then(async d=>{
+        this.replay();
+        this.tombola.free=true;
+        this.fees=0;
+      })
+    }
+
   }
 
   checkResult(){

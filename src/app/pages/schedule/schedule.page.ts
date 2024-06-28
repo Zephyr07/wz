@@ -118,6 +118,7 @@ export class SchedulePage implements OnInit {
         this.discount_promo = d[0].discount;
         this.setPrice();
       } else {
+        this.discount_promo=0;
         this.util.doToast('Code promo non valide',3000,'light');
       }
     })

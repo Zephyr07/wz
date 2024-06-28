@@ -27,11 +27,13 @@ export class TripleChoicePage implements OnInit {
     private navCtrl:NavController,
     private alertController : AlertController,
     private util : UtilProvider,
+    private admob : AdmobProvider,
     private api : ApiProvider
   ) { }
 
   ngOnInit() {
     this.startGame();
+    this.admob.loadInterstitial();
   }
 
   ionViewWillEnter(){

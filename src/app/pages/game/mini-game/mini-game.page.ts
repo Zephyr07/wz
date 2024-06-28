@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {NavigationExtras, Router} from "@angular/router";
+import {AdmobProvider} from "../../../providers/admob/AdmobProvider";
 
 @Component({
   selector: 'app-mini-game',
@@ -9,7 +10,8 @@ import {NavigationExtras, Router} from "@angular/router";
 export class MiniGamePage implements OnInit {
 
   constructor(
-    private router:Router
+    private router:Router,
+    private admob:AdmobProvider
   ) {
 
   }
@@ -17,6 +19,21 @@ export class MiniGamePage implements OnInit {
   ngOnInit() {
 
   }
+
+  ionViewWillEnter(){
+    let settings = JSON.parse(localStorage.getItem('wz_settings'));
+    if(settings.pub=='enable'){
+      this.admob.showBanner('bottom',0);
+    }
+  }
+
+  ionViewWillLeave(){
+    let settings = JSON.parse(localStorage.getItem('wz_settings'));
+    if(settings.pub=='enable'){
+      this.admob.hideBanner();
+    }
+  }
+
 
   goToGame(target){
     if(target=='10'){

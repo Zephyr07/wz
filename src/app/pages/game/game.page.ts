@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationExtras, Router} from "@angular/router";
+import {AdmobProvider} from "../../providers/admob/AdmobProvider";
 
 @Component({
   selector: 'app-game',
@@ -10,6 +11,7 @@ export class GamePage implements OnInit {
 
   constructor(
     private router:Router,
+    private admob:AdmobProvider
   ) {
 
   }
@@ -17,6 +19,22 @@ export class GamePage implements OnInit {
   ngOnInit() {
 
   }
+
+  ionViewWillEnter(){
+    let settings = JSON.parse(localStorage.getItem('wz_settings'));
+    if(settings.pub=='enable'){
+      this.admob.showBanner('bottom',30);
+    }
+
+  }
+
+  ionViewWillLeave(){
+    let settings = JSON.parse(localStorage.getItem('wz_settings'));
+    if(settings.pub=='enable'){
+      this.admob.hideBanner();
+    }
+  }
+
 
   goToGame(category_id){
     let name = "PS5";

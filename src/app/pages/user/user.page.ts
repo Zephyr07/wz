@@ -84,11 +84,14 @@ export class UserPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.admob.showBanner("b",0);
+
 
     // recupération des settings
     if(localStorage.getItem('wz_settings')!='undefined'){
       this.settings = JSON.parse(localStorage.getItem('wz_settings'));
+      if(this.settings.pub=='enable'){
+        this.admob.showBanner("b",0);
+      }
     } else {
 
     }
@@ -108,8 +111,11 @@ export class UserPage implements OnInit {
   }
 
   ionViewWillLeave(){
-    this.admob.hideBanner();
+    if(this.settings.pub=='enable'){
+      this.admob.hideBanner();
+    }
   }
+
   goToRechargeAccount(){
     //const navigationExtra : NavigationExtras = {state: {film:{'name':f.name, 'id':f.id}}};
     this.router.navigateByUrl('recharge-account');

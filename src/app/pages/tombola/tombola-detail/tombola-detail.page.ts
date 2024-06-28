@@ -96,11 +96,8 @@ export class TombolaDetailPage implements OnInit {
   }
 
   ngOnInit() {
-    this.admob.prepareRewardVideo().then(d=>{
-      this.showAdButton=true;
-    },q=>{
 
-    })
+
   }
 
   ionViewWillEnter(){
@@ -119,6 +116,13 @@ export class TombolaDetailPage implements OnInit {
     if(localStorage.getItem('wz_settings')!='undefined'){
       this.settings = JSON.parse(localStorage.getItem('wz_settings'));
       this.pub=this.settings.pub;
+      if(this.pub=='enable'){
+        this.admob.prepareRewardVideo().then(d=>{
+          this.showAdButton=true;
+        },q=>{
+
+        })
+      }
     } else {
 
     }

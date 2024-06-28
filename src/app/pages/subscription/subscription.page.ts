@@ -74,7 +74,11 @@ export class SubscriptionPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.admbob.showBanner('bottom',0);
+    let settings = JSON.parse(localStorage.getItem('wz_settings'));
+    if(settings.pub=='enable'){
+      this.admbob.showBanner('bottom',0);
+    }
+
 
     if(this.api.checkUser()){
       let user = JSON.parse(localStorage.getItem('user_wz'));
@@ -92,7 +96,10 @@ export class SubscriptionPage implements OnInit {
   }
 
   ionViewWillLeave(){
-    this.admbob.hideBanner();
+    let settings = JSON.parse(localStorage.getItem('wz_settings'));
+    if(settings.pub=='enable'){
+      this.admbob.hideBanner();
+    }
   }
 
   getPacks(){
