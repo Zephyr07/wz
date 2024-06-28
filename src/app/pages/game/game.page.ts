@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationExtras, Router} from "@angular/router";
-import {AdmobProvider} from "../../providers/admob/AdmobProvider";
 
 @Component({
   selector: 'app-game',
@@ -11,7 +10,6 @@ export class GamePage implements OnInit {
 
   constructor(
     private router:Router,
-    private admob:AdmobProvider
   ) {
 
   }
@@ -19,15 +17,6 @@ export class GamePage implements OnInit {
   ngOnInit() {
 
   }
-
-  ionViewWillEnter(){
-    this.admob.showBanner('bottom',0);
-  }
-
-  ionViewWillLeave(){
-    this.admob.hideBanner();
-  }
-
 
   goToGame(category_id){
     let name = "PS5";

@@ -16,7 +16,6 @@ import {environment} from "../environments/environment";
 // import function to register Swiper custom elements
 import { register } from 'swiper/element/bundle';
 import {ONE_SIGNAL_CONF} from "./services/contants";
-import {AdmobProvider} from "./providers/admob/AdmobProvider";
 // register Swiper custom elements
 register();
 
@@ -32,7 +31,6 @@ export class AppComponent {
   constructor(
     private util:UtilProvider,
     private api: ApiProvider,
-    private admob:AdmobProvider,
     private auth:AuthProvider,
     private notif: NotificationProvider,
     private alertController: AlertController,
@@ -40,8 +38,6 @@ export class AppComponent {
     private platform: Platform,
     private navCtrl:NavController,
   ){
-    // initialisation admob
-    //this.admob.initialize();
     //this.is_loading=!this.api.checkCredential();
     this.splash();
     // this language will be used as a fallback when a translation isn't found in the current language
@@ -114,7 +110,6 @@ export class AppComponent {
         if(this.platform.is('ios')){
           version = JSON.parse(d[0].config)[0].ios.version;
         }
-        this.admob.initialize();
         localStorage.setItem('wz_settings',JSON.stringify(JSON.parse(d[0].config)[0]));
         if(environment.code != version){
           // mise à jour disponible
