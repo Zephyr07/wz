@@ -32,7 +32,7 @@
   <ion-grid>
     <ion-row *ngFor="let o of packs" >
       <ion-col (click)="checkPack(o)" *ngIf="choix==o.code">
-        <img src="{{o.image}}" alt="{{o.name}}" style="border-radius: 10px; height: 340px; width: 100%">
+        <img src="{{o.image}}" alt="{{o.name}}" style="border-radius: 10px; height: 300px; width: 100%">
       </ion-col>
     </ion-row>
   </ion-grid>

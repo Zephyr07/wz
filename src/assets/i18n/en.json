@@ -591,6 +591,8 @@
   "promo_code":"Promo code",
   "participate_event":"Participate in this event ?",
   "offer":"Offer",
-  "monthly_subscription":"Monthly subscriptions"
+  "monthly_subscription":"Monthly subscriptions",
+  "reset_password":"Forgot your password",
+  "reset_password_text":"Enter the phone number used when registering"
 
 }

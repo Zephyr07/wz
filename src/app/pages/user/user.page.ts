@@ -250,7 +250,7 @@ export class UserPage implements OnInit {
                 this.auth.delete(opt).then((d:any)=>{
                   this.util.hideLoading();
                   this.util.doToast("account_delete",5000);
-                  this.router.navigateByUrl('login');
+                  this.router.navigateByUrl('tabs');
                 })
               } else {
                 this.util.hideLoading();

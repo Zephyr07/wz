@@ -592,5 +592,7 @@
   "participate_event":"Participer à l'évènement?",
   "offer":"Offre",
   "my_fidelity":"Mes points fidelités",
-  "monthly_subscription":"Abonnements mensuels"
+  "monthly_subscription":"Abonnements mensuels",
+  "reset_password":"Mot de passe oublié",
+  "reset_password_text":"Entrer le numéro de téléphone utilisé lors de votre inscription"
 }
