@@ -27,7 +27,7 @@ export class AdmobProvider {
     private platform :Platform,
     private api : ApiProvider
   ) {
-    
+
     this.initialize();
 
   }
