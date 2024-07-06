@@ -76,7 +76,7 @@ export class SubscriptionPage implements OnInit {
   ionViewWillEnter() {
     let settings = JSON.parse(localStorage.getItem('wz_settings'));
     if(settings.pub=='enable'){
-      this.admbob.showBanner('bottom',0);
+      this.admbob.showBanner('bottom',70);
     }
 
 

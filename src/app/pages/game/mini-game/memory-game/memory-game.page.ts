@@ -41,7 +41,6 @@ export class MemoryGamePage implements OnInit {
 
   ngOnInit() {
     this.startGame();
-    this.admob.loadInterstitial();
   }
 
   ionViewWillEnter(){
@@ -64,6 +63,7 @@ export class MemoryGamePage implements OnInit {
     } else {
 
     }
+    this.admob.loadInterstitial();
   }
 
   showTile(p){

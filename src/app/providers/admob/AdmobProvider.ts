@@ -27,15 +27,7 @@ export class AdmobProvider {
     private platform :Platform,
     private api : ApiProvider
   ) {
-    if(this.platform.is('ios')){
-      this.interstitialId="ca-app-pub-2538027924721849/8871542213";
-      this.rewardId="ca-app-pub-2538027924721849/8935638317";
-      this.bannerId="ca-app-pub-2538027924721849/4851312242";
-    } else {
-      this.interstitialId="ca-app-pub-2538027924721849/2426920344";
-      this.rewardId="ca-app-pub-2538027924721849/6501046662";
-      this.bannerId="ca-app-pub-2538027924721849/4445411732";
-    }
+    
     this.initialize();
 
   }
@@ -87,13 +79,11 @@ export class AdmobProvider {
       } else {
         position = BannerAdPosition.BOTTOM_CENTER
       }
-      const adIds = 'ca-app-pub-2538027924721849/4445411732';
-      const adId = 'ca-app-pub-3940256099942544/6300978111';
       const options : BannerAdOptions = {
         adId:this.bannerId,
         adSize:BannerAdSize.BANNER,
         position,
-        margin:70,
+        margin,
         isTesting:this.is_testing
       };
 
@@ -125,6 +115,7 @@ export class AdmobProvider {
   async loadInterstitial(){
     const opt : AdOptions={
       adId:this.interstitialId,
+      isTesting:this.is_testing
       //isTesting:true ca-app-pub-2538027924721849/2426920344 3940256099942544/1033173712
     };
 
@@ -175,7 +166,6 @@ export class AdmobProvider {
   }
 
   async prepareRewardVideo2(){
-    alert(this.rewardId);
     return new Promise(async (resolve,reject)=>{
       if(this.pub){
         const options: RewardAdOptions = {
@@ -230,6 +220,7 @@ export class AdmobProvider {
       this.pub = d.pub == 'enable';
       if(this.pub){
         if(d.is_testing_ad=='true'){
+          this.is_testing=true;
           this.interstitialId="ca-app-pub-3940256099942544/1033173712";
           this.rewardId="ca-app-pub-3940256099942544/5224354917";
           this.bannerId="ca-app-pub-3940256099942544/6300978111";

@@ -16,6 +16,7 @@ import {environment} from "../environments/environment";
 // import function to register Swiper custom elements
 import { register } from 'swiper/element/bundle';
 import {ONE_SIGNAL_CONF} from "./services/contants";
+import {AdmobProvider} from "./providers/admob/AdmobProvider";
 // register Swiper custom elements
 register();
 
@@ -32,6 +33,7 @@ export class AppComponent {
     private util:UtilProvider,
     private api: ApiProvider,
     private auth:AuthProvider,
+    private admob:AdmobProvider,
     private notif: NotificationProvider,
     private alertController: AlertController,
     private translate: TranslateService,
@@ -39,7 +41,7 @@ export class AppComponent {
     private navCtrl:NavController,
   ){
     // initialisation admob
-    //this.admob.initialize();
+    this.admob.initialize();
     //this.is_loading=!this.api.checkCredential();
     this.splash();
     // this language will be used as a fallback when a translation isn't found in the current language

@@ -294,7 +294,7 @@ export class TombolaDetailPage implements OnInit {
         await alert.present();
       }
     },q=>{
-      alert('pub non dispo')
+      this.util.doToast("Publicité non disponible",2000);
     });
 
   }

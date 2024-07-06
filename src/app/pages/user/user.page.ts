@@ -6,7 +6,6 @@ import {ModalEditUserComponent} from "../../components/modal-edit-user/modal-edi
 import {UtilProvider} from "../../providers/util/util";
 import {AuthProvider} from "../../providers/auth/auth";
 import {TranslateService} from "@ngx-translate/core";
-import {AdmobProvider} from "../../providers/admob/AdmobProvider";
 
 @Component({
   selector: 'app-user',
@@ -46,7 +45,6 @@ export class UserPage implements OnInit {
     private util:UtilProvider,
     private api:ApiProvider,
     private auth:AuthProvider,
-    private admob :AdmobProvider,
     private alertController :AlertController,
     private modalController:ModalController,
     private translate:TranslateService
@@ -89,9 +87,6 @@ export class UserPage implements OnInit {
     // recupération des settings
     if(localStorage.getItem('wz_settings')!='undefined'){
       this.settings = JSON.parse(localStorage.getItem('wz_settings'));
-      if(this.settings.pub=='enable'){
-        this.admob.showBanner("b",0);
-      }
     } else {
 
     }
@@ -107,12 +102,6 @@ export class UserPage implements OnInit {
       });
     } else {
       this.router.navigate(['/login']);
-    }
-  }
-
-  ionViewWillLeave(){
-    if(this.settings.pub=='enable'){
-      this.admob.hideBanner();
     }
   }
 

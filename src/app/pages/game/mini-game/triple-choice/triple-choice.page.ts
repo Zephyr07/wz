@@ -33,11 +33,11 @@ export class TripleChoicePage implements OnInit {
 
   ngOnInit() {
     this.startGame();
-    this.admob.loadInterstitial();
   }
 
   ionViewWillEnter(){
 
+    this.admob.loadInterstitial();
     this.admob.showBanner('top',0);
 
     if(this.api.checkUser()){

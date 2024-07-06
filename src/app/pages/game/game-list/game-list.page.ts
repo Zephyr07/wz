@@ -67,7 +67,7 @@ export class GameListPage implements OnInit {
   ionViewWillEnter(){
     let settings = JSON.parse(localStorage.getItem('wz_settings'));
     if(settings.pub=='enable'){
-      this.admob.showBanner('bottom',0);
+      this.admob.showBanner('bottom',70);
     }
     if(this.api.checkUser()){
       this.user = JSON.parse(localStorage.getItem('user_wz'));

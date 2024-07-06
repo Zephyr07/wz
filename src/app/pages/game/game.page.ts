@@ -23,7 +23,7 @@ export class GamePage implements OnInit {
   ionViewWillEnter(){
     let settings = JSON.parse(localStorage.getItem('wz_settings'));
     if(settings.pub=='enable'){
-      this.admob.showBanner('bottom',30);
+      this.admob.showBanner('bottom',70);
     }
 
   }
