@@ -74,6 +74,10 @@ export class HomePage implements OnInit {
     if (this.api.checkUser()) {
       let user = JSON.parse(localStorage.getItem('user_lv'));
       this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
+        console.log(a);
+        if(a.data.user.status=='pending_activation'){
+          this.logout();
+        }
         this.user = a.data.user;
         this.uid=this.user.uid;
         const l = JSON.parse(this.user.settings)[0].language;
@@ -82,7 +86,7 @@ export class HomePage implements OnInit {
         moment.locale(l);
         localStorage.setItem('user_lv',JSON.stringify(this.user));
       },q=>{
-        this.router.navigate(['/login']);
+        this.logout();
         this.util.handleError(q);
       });
     } else {

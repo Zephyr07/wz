@@ -37,12 +37,12 @@ export class ProblemAddPage implements OnInit {
         this.user = a.data.user;
         localStorage.setItem('user_lv',JSON.stringify(this.user));
       },q=>{
-        this.util.doToast('Vous devez être connecté pour poser votre problème',2000,'warning');
+        this.util.doToast('Vous devez être connecté pour poser votre problème',2000,'tertiary');
         this.router.navigate(['/login']);
         this.util.handleError(q);
       });
     } else {
-      this.util.doToast('Vous devez être connecté pour poser votre problème',2000,'warning');
+      this.util.doToast('Vous devez être connecté pour poser votre problème',2000,'tertiary');
       this.router.navigate(['/login']);
     }
 
@@ -60,7 +60,7 @@ export class ProblemAddPage implements OnInit {
 
       this.api.post('questions',opt).then(d=>{
         this.util.hideLoading();
-        this.util.doToast('Votre problème a été soumis pour validation',3000,'warning');
+        this.util.doToast('Votre problème a été soumis pour validation',3000,'tertiary');
         this.description="";
         this.title="";
         this.admob.showInterstitial();

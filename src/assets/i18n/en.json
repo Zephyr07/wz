@@ -622,5 +622,7 @@
   "no_answer":"No answer",
   "quit_app":"Log out of confidens",
   "delete_account_text":"Permanently delete your account",
-  "resend_code":"Resend code"
+  "resend_code":"Resend code",
+  "like":"like",
+  "new_comment":"New comment"
 }

@@ -4,14 +4,20 @@
   font-weight: bold;
   font-size: 12px;
   margin-top: 2px;
+  text-shadow: 0px 0px 2px black;
 }
 
 ion-textarea{
-  --background: #02274763;
+  border: 2px solid #5A7D57;
+  border-radius:10px;
   --padding-bottom: 0 !important;
   --padding-top: 5px !important;
   --padding-start: 10px;
   --border-radius: 10px !important;
+}
+
+.ion-valid.sc-ion-textarea-md-h{
+  --highlight-color : transparent;
 }
 
 

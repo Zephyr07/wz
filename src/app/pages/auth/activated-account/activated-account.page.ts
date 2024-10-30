@@ -32,7 +32,7 @@ export class ActivatedAccountPage implements OnInit {
 
   active() {
     if(this.code<100000 || this.code >999999){
-      this.util.doToast('Erreur sur le code d\'activation',3000,'warning');
+      this.util.doToast('Erreur sur le code d\'activation',3000,'tertiary');
     } else {
       this.util.showLoading('Activation');
       const opt ={
@@ -40,13 +40,13 @@ export class ActivatedAccountPage implements OnInit {
         user_id:this.user.id
       };
       this.auth.activate(opt).then(d=>{
-        this.util.doToast("Compte activé, vous pouvez vous connecter",2000,'warning');
+        this.util.doToast("Compte activé, vous pouvez vous connecter",2000,'tertiary');
         this.util.hideLoading();
         this.navCtrl.navigateRoot(['/login']);
 
       }, q=>{
         this.util.hideLoading();
-        this.util.doToast('Erreur sur le code d\'activation',3000,'warning');
+        this.util.doToast('Erreur sur le code d\'activation',3000,'tertiary');
         this.util.handleError(q);
       })
     }
@@ -54,12 +54,13 @@ export class ActivatedAccountPage implements OnInit {
   }
 
   backToPreviousPage(){
+    this.auth.logout();
     document.getElementById('backButton').click();
   }
 
   sendOTPCode(){
     this.api.post('send_otp',{email:this.email}).then((d:any)=>{
-      this.util.doToast(d.data,3000,'warning');
+      this.util.doToast(d.data,3000,'tertiary');
     },q=>{
       this.util.handleError(q);
     })

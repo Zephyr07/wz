@@ -609,7 +609,7 @@
   "problem":"Problème",
   "all":"Tout",
   "what_to_talk":"De quoi voulez-vous parler? ",
-  "ask_problem_text":"Soyez assuré(e) que votre anonymat est respecté, et laissez la communauté vous apporter son soutien en partageant ses propres expériences.",
+  "ask_problem_text":"Partagez votre problème en toute confidentialité et anonymat. Notre communauté se fera un plaisir de vous repondre",
   "my_problem":"Mon problème",
   "my_problems":"Mes problèmes",
   "the_problem":"Le problème",
@@ -622,5 +622,7 @@
   "no_answer":"Aucune reponse",
   "quit_app":"Se déconnecter de confidens",
   "delete_account_text":"Supprimer définitivement votre compte",
-  "resend_code":"Renvoyer le code"
+  "resend_code":"Renvoyer le code",
+  "like":"j'aime",
+  "new_comment":"Nouveau commentaire"
 }

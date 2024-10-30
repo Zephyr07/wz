@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar color="warning">
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-back-button defaultHref="/" color="light"></ion-back-button>
     </ion-buttons>
     <ion-title>{{'personal_info'|translate}}</ion-title>
   </ion-toolbar>
@@ -32,12 +32,12 @@
 
     <ion-row>
       <ion-col class="ion-no-padding">
-        <ion-button expand="block" color="warning" shape="round" (click)="editUser()" >{{'edit_my_info'|translate}}</ion-button>
+        <ion-button expand="block" color="secondary" shape="round" (click)="editUser()" >{{'edit_my_info'|translate}}</ion-button>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col class="ion-no-padding">
-        <ion-button expand="block" color="warning" shape="round" (click)="presentAlert()" >{{'change_password'|translate}}</ion-button>
+        <ion-button expand="block" color="secondary" shape="round" (click)="presentAlert()" >{{'change_password'|translate}}</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -46,6 +46,6 @@
 
 
 </ion-content>
-<ion-footer class="ion-text-center" style="background: var(--ion-color-primary) !important; text-align: center; font-size:12px; color:var(--ion-color-warning)">
+<ion-footer class="ion-text-center" style="background: var(--ion-color-primary) !important; text-align: center; font-size:12px; color:#fff">
   {{user.uid}}
 </ion-footer>

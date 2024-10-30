@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar color="warning">
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-back-button defaultHref="/" style="color: #fff;"></ion-back-button>
     </ion-buttons>
     <ion-title>{{'problem'|translate}}s</ion-title>
   </ion-toolbar>
@@ -60,7 +60,7 @@
               {{p.title|limitTo:100}}
             </ion-text>
             <br>
-            <ion-note>{{p.reponses|priceFormat}}  {{'answer'|translate}}<span *ngIf="p.reponses>1">s</span> <strong class="success" *ngIf="isOwner">| {{p.status|status|translate}}</strong></ion-note>
+            <ion-note color="tertiary">{{p.reponses|priceFormat}}  {{'answer'|translate}}<span *ngIf="p.reponses>1">s</span> <strong class="success" *ngIf="isOwner">| {{p.status|status|translate}}</strong></ion-note>
           </ion-label>
         </ion-item>
       </ion-list>
@@ -71,7 +71,7 @@
   </ion-grid>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button color="warning" (click)="newProblem()">
+    <ion-fab-button color="secondary" (click)="newProblem()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

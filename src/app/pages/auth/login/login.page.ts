@@ -66,7 +66,7 @@ export class LoginPage implements OnInit {
         } else if(d.user.status=='enable') {
           this.navCtrl.navigateRoot(['/home']);
         } else {
-          this.util.doToast('Votre compte est désactivé. Contacter le support au +237 673996540',5000, 'warning');
+          this.util.doToast('Votre compte est désactivé. Contacter le support au +237 673996540',5000, 'tertiary');
         }
 
       }, q=>{

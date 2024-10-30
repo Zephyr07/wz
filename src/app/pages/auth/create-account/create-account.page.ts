@@ -57,7 +57,7 @@ export class CreateAccountPage implements OnInit {
         }
         this.util.hideLoading();
         localStorage.setItem('user_lv',JSON.stringify(d.user));
-        this.util.doToast('Compte créé',3000,'warning');
+        this.util.doToast('Compte créé',3000,'tertiary');
         this.navCtrl.navigateRoot(['/activated-account']);
 
       }, q=>{

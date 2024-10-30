@@ -247,11 +247,88 @@ ion-searchbar{
 }
 
 
+@font-face {
+  font-family: "Lato bold";
+  src: url("/assets/font/Lato-Bold.ttf");
+}
+@font-face {
+  font-family: "Lato re";
+  src: url("/assets/font/Lato-Regular.ttf");
+}
+
+.lato-thin {
+  font-family: "Lato", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.lato-light {
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.lato-regular {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.lato-bold {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.lato-black {
+  font-family: "Lato", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.lato-thin-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.lato-light-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.lato-regular-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.lato-bold-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.lato-black-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
+*{
+  font-family: 'Lato', 'Lato re';
+}
+
 .divider{
   margin: 10px;
   height: 1px;
   width: calc(100% - 20px);
   background: #eee;
+}
+
+h3{
+  font-weight: bold;
 }
 
 .title{
@@ -661,10 +738,6 @@ ion-textarea{
   }
 }
 
-ion-title{
-  color:#000;
-}
-
 .ios{
   ion-title{
     padding: 0;
@@ -828,9 +901,6 @@ app-modal-loading{
   pointer-events: none; /* Désactive les clics sur la div */
 }
 
-ion-note{
-  color:#666 !important;
-}
 ion-button{
   margin-top: 0;
 }
@@ -849,11 +919,65 @@ ion-button{
       background: white;
       height: 45px;
       align-content: center;
+      box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
 
       &.active{
-        background: var(--ion-color-warning);
-        color: var(--ion-color-primary);
+        background: var(--ion-color-secondary);
+        color: #fff;
       }
     }
   }
+}
+
+ion-note{
+  text-transform: lowercase;
+  color: #868686;
+  font-size: 12px;
+}
+
+ion-card-title{
+  font-weight: bold;
+}
+
+.encoche{
+  background: #fff;
+  padding: 7px 5px;
+  border-radius: 20px;
+  text-align: center;
+  color: var(--ion-color-secondary);
+  margin-bottom: 0;
+
+  ion-col{
+    padding: 0;
+  }
+
+  ion-icon{
+    font-size: 20px;
+    padding: 5px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+
+    &.active{
+      background: var(--ion-color-medium);
+    }
+  }
+}
+
+.ion-col-55{
+  flex: 0 0 calc(calc(5.5 / var(--ion-grid-columns, 12)) * 100%) !important;
+  width: calc(calc(5.5 / var(--ion-grid-columns, 12)) * 100%) !important;
+  max-width: calc(calc(5.5 / var(--ion-grid-columns, 12)) * 100%) !important;
+}
+
+.ion-col-325{
+  flex: 0 0 calc(calc(3.25 / var(--ion-grid-columns, 12)) * 100%) !important;
+  width: calc(calc(3.25 / var(--ion-grid-columns, 12)) * 100%) !important;
+  max-width: calc(calc(3.25 / var(--ion-grid-columns, 12)) * 100%) !important;
+}
+
+.ion-col-35{
+  flex: 0 0 calc(calc(3.5 / var(--ion-grid-columns, 12)) * 100%) !important;
+  width: calc(calc(3.5 / var(--ion-grid-columns, 12)) * 100%) !important;
+  max-width: calc(calc(3.5 / var(--ion-grid-columns, 12)) * 100%) !important;
 }

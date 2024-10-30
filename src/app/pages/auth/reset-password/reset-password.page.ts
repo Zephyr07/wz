@@ -29,7 +29,7 @@ export class ResetPasswordPage implements OnInit {
         window.location.href="https://api.whatsapp.com/send?email=237673996540&text=Bonjour+je+souhaite+réinitialiser+mon+mot+de+passe+svp.+Compte Love : "+this.email
       } else {
         // utilisateur inexistant
-        this.util.doToast('Utilisateur inexistant, merci de creer votre compte',5000,'warning');
+        this.util.doToast('Utilisateur inexistant, merci de creer votre compte',5000,'tertiary');
       }
     })
   }

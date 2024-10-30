@@ -12,6 +12,7 @@ import {IonModal} from "@ionic/angular";
 })
 export class ProblemDetailPage implements OnInit {
   @ViewChild('modalDetail') modal: IonModal;
+  @ViewChild('modalNewComment') modalComment: IonModal;
   private screenHeight: number = window.innerHeight;
   description="";
   user:any={};
@@ -115,16 +116,18 @@ export class ProblemDetailPage implements OnInit {
           question_id:this.id
         };
         this.api.post('answers',opt).then((d:any)=>{
-          this.util.doToast('Merci pour votre partage, votre expérience est en cours de validation',5000,'warning');
+          this.util.doToast('Merci pour votre partage, votre expérience est en cours de validation',5000,'tertiary');
           this.description="";
           this.problem.answers.push(d);
+          this.modalComment.setCurrentBreakpoint(0);
         },q=>{
           this.util.handleError(q);
         })
       }
     } else {
       this.modal.setCurrentBreakpoint(0);
-      this.util.doToast('Vous devez être connecté pour partager votre expérience',3000,'warning');
+      this.modalComment.setCurrentBreakpoint(0);
+      this.util.doToast('Vous devez être connecté pour partager votre expérience',3000,'tertiary');
       this.router.navigate(['/login']);
     }
 
@@ -177,7 +180,7 @@ export class ProblemDetailPage implements OnInit {
         })
       }
     } else {
-      this.util.doToast('Vous devez être connecté pour realiser cette action',3000,'warning');
+      this.util.doToast('Vous devez être connecté pour realiser cette action',3000,'tertiary');
       this.router.navigate(['/login']);
     }
 
@@ -208,5 +211,9 @@ export class ProblemDetailPage implements OnInit {
       this.is_loading=false;
       this.util.handleError(q);
     })
+  }
+
+  newComment(){
+
   }
 }

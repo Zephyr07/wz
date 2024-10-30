@@ -1,20 +1,20 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary">
-    <div class="ion-text-center" style="color:#FDB614; font-size: 12px">
+    <div class="ion-text-center" style="color:#fff; font-size: 12px">
       {{uid}}
     </div>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
   <ion-fab slot="fixed" vertical="bottom" horizontal="center">
-    <ion-fab-button color="warning">
+    <ion-fab-button color="secondary">
       <ion-icon name="menu"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button color="warning" (click)="goToUrl('user')">
+      <ion-fab-button color="secondary" (click)="goToUrl('user')">
         <ion-icon name="person"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button color="warning" (click)="goToUrl('support')">
+      <ion-fab-button color="secondary" (click)="goToUrl('support')">
         <ion-icon name="chatbubbles"></ion-icon>
       </ion-fab-button>
       <ion-fab-button color="medium" (click)="logout()">
@@ -36,19 +36,20 @@
     <ion-card class="radius">
       <ion-card-header class="ion-text-center">
         <div class="ion-text-center">
-          <img src="../../../assets/icon/confidens_white.png" style="width: 100px">
+          <img src="../../../assets/icon/confidens_new.PNG" style="width: 100px">
         </div>
-        <ion-card-title class="primary">{{'welcome_on'|translate}} <strong style="color:var(--ion-color-warning)" (click)="goToTest()">confidens</strong> !!! </ion-card-title>
+        <ion-card-title class="">{{'welcome_on'|translate}} <strong style="color:var(--ion-color-primary)" (click)="goToTest()">confidens</strong> !!! </ion-card-title>
+        <div class="black" style="text-align: center; font-style: italic">
+          {{'welcome_text'|translate}}
+        </div>
       </ion-card-header>
 
-      <ion-card-content class="black" style="text-align: center; font-weight: bold">
-        {{'welcome_text'|translate}}
-      </ion-card-content>
+
     </ion-card>
   </ion-grid>
 
   <ion-grid class="ion-text-center">
-    <ion-button shape="round" color="warning" (click)="newProblem()">{{'ask_my_problem'|translate}}</ion-button>
+    <ion-button shape="round" color="secondary" (click)="newProblem()">{{'ask_my_problem'|translate}}</ion-button>
   </ion-grid>
 
   <ion-grid style="margin-bottom: 60px;">
@@ -61,8 +62,8 @@
     <ion-card class="radius" *ngIf="!is_loading">
       <ion-list *ngIf="problems.length>0">
         <ion-list-header>
-          <ion-label class="sous-titre">{{'recent_problem'|translate}}</ion-label>
-          <ion-button (click)="goToProblem()">{{'see_all'|translate}}</ion-button>
+          <ion-label class="sous-titre" style="margin-top: 0;">{{'recent_problem'|translate}}</ion-label>
+          <ion-button (click)="goToProblem()" shape="round"  size="small">{{'see_all'|translate}}</ion-button>
         </ion-list-header>
         <ion-item *ngFor="let p of problems" lines="none" (click)="goToDetailProblem(p)">
           <ion-label>
@@ -70,7 +71,7 @@
               {{p.title|limitTo:100}}
             </ion-text>
             <br>
-            <ion-note>{{p.reponses|priceFormat}} {{'answer'|translate}}<span *ngIf="p.reponses>1">s</span> </ion-note>
+            <ion-note color="tertiary">{{p.reponses|priceFormat}} {{'answer'|translate}}<span *ngIf="p.reponses>1">s</span> </ion-note>
           </ion-label>
         </ion-item>
       </ion-list>

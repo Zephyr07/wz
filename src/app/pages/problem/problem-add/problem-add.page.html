@@ -1,9 +1,9 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar color="warning">
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-back-button defaultHref="/" style="color: #fff;"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{'ask_my_problem'|translate}}</ion-title>
+
   </ion-toolbar>
 </ion-header>
 
@@ -14,9 +14,13 @@
       <ion-card-title class="primary">{{'what_to_talk'|translate}}</ion-card-title>
     </ion-card-header>
 
-    <ion-card-content class="black">
+    <ion-card-content class="black" style="font-size: 12px;">
       {{'ask_problem_text'|translate}}
+    </ion-card-content>
+  </ion-card>
 
+  <ion-card class="radius">
+    <ion-card-content>
       <ion-textarea type="text"
                     style="margin-top: 5px; min-height: 40px"
                     [(ngModel)]="title" labelPlacement="stacked"
@@ -26,8 +30,13 @@
                     maxlength="180"
                     [counterFormatter]="customCounterFormatter"
       ></ion-textarea>
+    </ion-card-content>
+  </ion-card>
 
-        <ion-textarea type="text"
+  <ion-card class="radius">
+    <ion-card-content>
+
+      <ion-textarea type="text"
                     style="min-height: 150px"
                     [(ngModel)]="description" labelPlacement="stacked"
                     placeholder="{{'my_problem'|translate}}"
@@ -36,7 +45,10 @@
                     maxlength="4000"
                     [counterFormatter]="customCounterFormatter"
       ></ion-textarea>
-      <ion-button expand="block" color="warning" (click)="save()" >{{'save'|translate}}</ion-button>
+
+      <ion-button expand="block" color="secondary" shape="round" (click)="save()"
+        style="margin-top: 5px;"
+      >{{'save'|translate}}</ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>
