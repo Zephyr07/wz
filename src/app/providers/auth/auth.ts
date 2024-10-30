@@ -200,6 +200,23 @@ d
 
   }
 
+  saveOneSignalId(credentials:{user_id:number,onesignal_id:string}) {
+    return new Promise((resolve, reject) => {
+      let crypt = this.util.encryptAESData(credentials);
+      this.api.post('auth/save_onesignal',crypt,true)
+        .then((response) => {
+          const data = this.util.decryptAESData(JSON.stringify(response));
+
+          resolve(data);
+        }, function(error) {
+          // //console.log(error);
+
+          reject(error);
+        });
+    });
+
+  }
+
   update_info(credentials: {
     id: number, phone?: string, email?: string,
     password: string, point?:number, device_tokens?: string[]

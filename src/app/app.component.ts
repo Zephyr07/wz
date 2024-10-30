@@ -40,12 +40,13 @@ export class AppComponent {
     private platform: Platform,
     private navCtrl:NavController,
   ){
-    // initialisation admob
-    this.admob.initialize();
+
     //this.is_loading=!this.api.checkCredential();
     this.splash();
 
     if(isCordovaAvailable()){
+      // initialisation admob
+      this.admob.initialize();
       this.OneSignalInit();
       this.notif.init();
       this.notif.navigationEvent.subscribe(
