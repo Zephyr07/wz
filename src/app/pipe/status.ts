@@ -45,7 +45,9 @@ export class StatutPipe implements PipeTransform{
       return 'Validé';
     } else if (value === 'pending') {
       return 'En attente';
-    } else if (value === 'enable' || value === 'actived' || value === 'active') {
+    } else if (value === 'enable') {
+      return 'Approuvé';
+    } else if (value === 'actived' || value === 'active') {
       return 'Activé';
     } else if (value === 'disable') {
       return 'Désactivé';

@@ -126,21 +126,30 @@ export class UtilProvider {
   async showLoading(text) {
     this.translate.get(text).subscribe(async (res: string) => {
       this.load = await this.loadingController.create({
-        cssClass: 'my-custom-class',
+        //cssClass: 'my-custom-class',
         message: res
       });
       await this.load.present();
+
+      setTimeout(()=>{
+        if(this.load){
+          this.load.dismiss();
+        }
+      },10000);
     }, q=>{
       //console.log(q);
     })
   }
 
   async hideLoading(){
-    this.load.dismiss();
-    const { role, data } = await this.load.onDidDismiss();
+    if(this.load){
+      this.load.dismiss();
+      const { role, data } = await this.load.onDidDismiss();
+    }
   }
 
   handleError(q, next?){
+    console.log(JSON.stringify(q),q);
     if(q.response){
       q=q.response;
     }
@@ -148,35 +157,53 @@ export class UtilProvider {
       // crypté
       q.data = this.decryptAESData(JSON.stringify(q.data));
     }
-    if (q.data.status_code === 401) {
-      if(q.data.errors.message[0]=="These credentials do not match our records."){
-        this.doToast('bad_credential',3000,'danger');
+    if(q.data){
+      if(q.data.status==700){
+        this.doToast('Vous avez été déconnecté en raison d\'un connexion sur un autre téléphone',5000);
+        this.navCtrl.navigateRoot('login');
       } else {
-        this.doToast('Vous n\'êtes pas connecté',3000);
+        if (q.data.status_code === 401) {
+          if(q.data.errors.message[0]=="These credentials do not match our records."){
+            this.doToast('bad_credential',3000,'danger');
+          } else {
+            this.doToast('Vous n\'êtes pas connecté',3000);
+          }
+          /*if(next){
+            this.presentToastWithOptions(next);
+          }*/
+        } else if (q.data.status_code === 500) {
+          const x = q.data.message.split('SQLSTATE[23000]');
+          if(x.length>1){
+            this.doToast('Une données avec les mêmes informations existe déjà',5000,'light');
+          } else {
+            this.doToast(q.data.message,5000,'light');
+          }
+        } else if(q.status === 401){
+          this.doToast('bad_credential',3000);
+        } else if (q.status === 422) {
+          let message = "";
+          for(let i in q.data.errors){
+            message+=""+q.data.errors[i][0]+", ";
+          }
+          this.doToast(message,5000, 'light');
+        } else if (q.error) {
+          this.doToast(q.error,3000, 'light');
+        } else {
+          //alert(JSON.stringify(q.data));
+          if(q.data.error && q.data.error.message){
+            this.doToast(JSON.stringify(q.data.error.message)+ '\n Erreurs ' + q.data.error.status_code,5000);
+          } else if(q.data.message){
+            this.doToast(JSON.stringify(q.data.message)+ '\n Erreur ',5000 , 'light');
+          } else {
+            this.doToast(JSON.stringify(q),3000);
+          }
+          //this.hideLoading();
+        }
       }
-      localStorage.setItem('user_taxi_driver',undefined);
-      /*if(next){
-        this.presentToastWithOptions(next);
-      }*/
-    } else if(q.status === 401){
-      this.doToast('bad_credential',3000);
-    } else if (q.status === 422) {
-      let message = "";
-      for(let i in q.data.errors){
-        message+=""+q.data.errors[i][0]+", ";
-      }
-      this.doToast(message,5000, 'light');
-    } else if (q.error) {
-      this.doToast(q.error,3000, 'light');
     } else {
-      //alert(JSON.stringify(q.data));
-      if(q.data.error && q.data.error.message){
-        this.doToast(JSON.stringify(q.data.error.message)+ '\n Erreurs ' + q.data.error.status_code,5000);
-      } else {
-        this.doToast(JSON.stringify(q.data.message)+ '\n Erreur ',5000 , 'light');
-      }
-      //this.hideLoading();
+      this.doToast(JSON.stringify(q),3000,'warning');
     }
+
   }
 
   async presentToastWithOptions(text,next,time?,button_text?) {
@@ -303,17 +330,6 @@ export class UtilProvider {
 
     const { role } = await alert.onDidDismiss();
     //console.log('onDidDismiss resolved with role', role);
-  }
-
-  handleData(c,state){
-    localStorage.setItem('recent_place',JSON.stringify(c));
-    this.navCtrl.navigateRoot(['/tabs']);
-    if(state){
-      console.log("recent places loaded");
-    } else {
-      console.log("recent places loaded without GPS");
-    }
-    return false;
   }
 
   rad(x) {
@@ -465,8 +481,7 @@ export class UtilProvider {
   });
 
   about_dev(){
-    this.doToast("Cette application a été developpée par EGOFISANCE S.A.R.L | " +
-      "\n Chef de projet : Edward NANDA - edward.nanda@egofisance.com",
-      5000,'primary','middle');
+    this.doToast("Cette application a été developpée par Edward NANDA - contact@edwardnanda.com",
+      5000,'warning','middle');
   }
 }

@@ -36,13 +36,13 @@ export class AuthProvider {
     //this.permissionsService.flushPermissions();
     return new Promise((resolve, reject) => {
       let crypt = this.util.encryptAESData(credentials);
-      this.api.post('auth/signin',{value:crypt})
+      this.api.post('auth/signin',crypt,true)
         .then( (response:any) => {
           const data = this.util.decryptAESData(JSON.stringify(response));
           this.storeSession(data);
           this.setLanguage(data.user);
           let tmp = this.util.encryptAESData(credentials);
-          localStorage.setItem('auth_wz',JSON.stringify(tmp));
+          localStorage.setItem('auth_lv',JSON.stringify(tmp));
           //this.save_token(data.user);
           /*angular.forEach(data.userRole, function (value) {
             AclService.attachRole(value)
@@ -76,11 +76,11 @@ d
     //this.permissionsService.flushPermissions();
     return new Promise((resolve, reject) => {
       let crypt = this.util.encryptAESData(credentials);
-      this.api.post('auth/activate',{value:crypt})
+      this.api.post('auth/activate',crypt,true)
         .then( (response) => {
           const data = this.util.decryptAESData(JSON.stringify(response));
           this.storeSession(data);
-          localStorage.setItem('auth_wz',JSON.stringify(credentials));
+          localStorage.setItem('auth_lv',JSON.stringify(credentials));
           /*angular.forEach(data.userRole, function (value) {
             AclService.attachRole(value)
           });
@@ -112,7 +112,7 @@ d
     //this.permissionsService.flushPermissions();
     return new Promise((resolve, reject) => {
       let crypt = this.util.encryptAESData(credentials);
-      this.api.post('auth/delete',{value:crypt})
+      this.api.post('auth/delete',crypt,true)
         .then( (response) => {
           this.logout();
           /*angular.forEach(data.userRole, function (value) {
@@ -142,11 +142,11 @@ d
     });
 
   }
-  register(credentials: {full_name: string, phone: number, email: string, password: string, password_confirmation:string, country_id?:number,
+  register(credentials: {full_name?: string, phone?: number, gender?: string, email: string, password: string, password_confirmation:string, country_id?:number,
     settings?:any, external_id?:string}) {
     return new Promise((resolve, reject) => {
       let crypt = this.util.encryptAESData(credentials);
-      this.api.post('auth/signup',{value:crypt})
+      this.api.post('auth/signup',crypt,true)
         .then( (response) => {
           const data = this.util.decryptAESData(JSON.stringify(response));
           /*localStorage.setItem(this.token_key, data.token);
@@ -154,7 +154,7 @@ d
           this.storeSession(data);
           this.setLanguage(data.user);
           let tmp = this.util.encryptAESData({email:credentials.phone,password:credentials.password});
-          localStorage.setItem('auth_wz',JSON.stringify(tmp));
+          localStorage.setItem('auth_lv',JSON.stringify(tmp));
 
           resolve(data);
         }, (error) =>{
@@ -210,7 +210,7 @@ d
         .then((response) => {
           const data = this.util.decryptAESData(JSON.stringify(response));
           //localStorage.setItem(this.token_key, JSON.stringify(data.token));
-          localStorage.setItem('user_wz', JSON.stringify(data.user));
+          localStorage.setItem('user_lv', JSON.stringify(data.user));
 
           resolve(data);
         }, function(error) {
@@ -245,8 +245,9 @@ d
     return   new Promise((resolve, reject) => {
       localStorage.removeItem(this.token_key);
       http.defaults.headers['Authorization'] = "Bearer ";
-      localStorage.removeItem('user_wz');
-      localStorage.removeItem('auth_wz');
+      localStorage.removeItem('user_lv');
+      localStorage.removeItem('auth_lv');
+      localStorage.removeItem('lv_settings');
       localStorage.setItem('is_user','false');
       ////console.log(localStorage.getItem('user'));
       resolve(true);
@@ -258,7 +259,7 @@ d
   getContext() {
     return   new Promise((resolve, reject) => {
       if (this.isLogged()) {
-        resolve(localStorage.getItem('user_wz'));
+        resolve(localStorage.getItem('user_lv'));
 
       } else {
         reject('not logged');
@@ -285,7 +286,7 @@ d
     data.user.subscription_status=this.api.checkSubscription(data.user.subscription);
     http.defaults.headers['Authorization'] = "Bearer "+data.token;
     localStorage.setItem(this.token_key, data.token);
-    localStorage.setItem('user_wz', JSON.stringify(data.user));
+    localStorage.setItem('user_lv', JSON.stringify(data.user));
     /*_.forEach(data.roles, (value) => {
       this.permissionsService.addPermission(value);
     });

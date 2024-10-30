@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.warzone237.warzone',
-  appName: 'WarZone',
+  appId: 'com.zayan.confidens',
+  appName: 'Confidens',
   webDir: 'www',
   /*server: {
     androidScheme: 'https'

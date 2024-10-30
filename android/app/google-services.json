@@ -1,40 +1,21 @@
 {
   "project_info": {
-    "project_number": "472124460397",
-    "project_id": "warzone-4d006",
-    "storage_bucket": "warzone-4d006.appspot.com"
+    "project_number": "284311961200",
+    "project_id": "confidens-ab34e",
+    "storage_bucket": "confidens-ab34e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:472124460397:android:f93a494079abe1da755e64",
+        "mobilesdk_app_id": "1:284311961200:android:7ba6debf2a05c1a514feb5",
         "android_client_info": {
-          "package_name": "com.egofisance.wz"
+          "package_name": "com.zayan.confidens"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCP2w9RzCKquoKjRTHO88cnVeY3cof6jnM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:472124460397:android:70bb53afff5929ee755e64",
-        "android_client_info": {
-          "package_name": "com.warzone237.warzone"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCP2w9RzCKquoKjRTHO88cnVeY3cof6jnM"
+          "current_key": "AIzaSyDJgibeGQAN9cDUko9001GsszZNT807TDU"
         }
       ],
       "services": {

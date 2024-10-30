@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {UtilProvider} from "../../../providers/util/util";
 import {AuthProvider} from "../../../providers/auth/auth";
 import {NavController} from "@ionic/angular";
+import {ApiProvider} from "../../../providers/api/api";
 
 @Component({
   selector: 'app-activated-account',
@@ -16,6 +17,7 @@ export class ActivatedAccountPage implements OnInit {
 
   constructor(
     private util:UtilProvider,
+    private api:ApiProvider,
     private auth:AuthProvider,
     private navCtrl:NavController
   ) { }
@@ -24,7 +26,7 @@ export class ActivatedAccountPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.user = JSON.parse(localStorage.getItem('user_wz'));
+    this.user = JSON.parse(localStorage.getItem('user_lv'));
     this.email = this.user.email;
   }
 
@@ -38,7 +40,7 @@ export class ActivatedAccountPage implements OnInit {
         user_id:this.user.id
       };
       this.auth.activate(opt).then(d=>{
-        this.util.doToast("Compte activé, vous pouvez vous connecter",2000);
+        this.util.doToast("Compte activé, vous pouvez vous connecter",2000,'warning');
         this.util.hideLoading();
         this.navCtrl.navigateRoot(['/login']);
 
@@ -53,6 +55,18 @@ export class ActivatedAccountPage implements OnInit {
 
   backToPreviousPage(){
     document.getElementById('backButton').click();
+  }
+
+  sendOTPCode(){
+    this.api.post('send_otp',{email:this.email}).then((d:any)=>{
+      this.util.doToast(d.data,3000,'warning');
+    },q=>{
+      this.util.handleError(q);
+    })
+  }
+
+  contactUs(){
+    document.location.href="mailto:myconfidens@gmail.com"
   }
 
 }

@@ -1,15 +1,16 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/" color='primary' id="backButton"></ion-back-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
 <ion-content class="auth">
   <div class="custom-backgrounds">
+    <ion-buttons slot="start" style="display: none;">
+      <ion-back-button defaultHref="/" id="backButton"></ion-back-button>
+    </ion-buttons>
 
+    <ion-fab vertical="top" horizontal="start" style="margin-top:25px" slot="fixed">
+      <ion-fab-button color="warning" size="small" (click)="backToPreviousPage()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
     <div class="ion-text-center">
-      <img src="../../../../assets/img/wz/logo_bl.svg" alt="Logo WarZone" style="width: 20vh; margin-top: 100px">
+      <img src="../../../../assets/icon/logo.png" alt="Logo Confidens" style="width: 20vh; margin-top: 100px">
     </div>
 
     <form class="shadows">
@@ -21,16 +22,16 @@
             </div>
             <div>
               <ion-item>
-                <ion-input type="number" placeholder="{{'phone_number'|translate}}" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" required></ion-input>
+                <ion-input type="email" placeholder="{{'email'|translate}}" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" required></ion-input>
               </ion-item>
               <ion-item>
                 <ion-input type="password" placeholder="{{'password'|translate}}"
-                           (keyup.enter)="login()"[(ngModel)]="password" [ngModelOptions]="{standalone: true}" required></ion-input>
+                           (keyup.enter)="login()" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" required></ion-input>
               </ion-item>
             </div>
             <div>
               <ion-button
-                color="primary"
+                color="warning"
                 (click)="login()"
                 expand="block">{{'login'|translate}}</ion-button>
             </div>
@@ -38,7 +39,7 @@
         </ion-row>
         <ion-row>
           <ion-col class="ion-text-center">
-            <a href="https://api.whatsapp.com/send?phone=237673996540&text=Bonjour+je+souhaite+réinitialiser+mon+mot+de+passe+svp.+WarZone">
+            <a style="text-decoration: underline;" (click)="goToResetPassword()">
               <small class="black">{{'forgot_password'|translate}}</small>
             </a>
           </ion-col>

@@ -54,10 +54,10 @@ export class AppComponent {
       translate.setDefaultLang('fr');
     }
 
-    this.init();
+    //this.init();
     //this.util.getCoords();
 
-    Network.getStatus().then(f=>{
+    /*Network.getStatus().then(f=>{
       if(!f.connected){
         this.is_loading=true;
 
@@ -83,7 +83,7 @@ export class AppComponent {
       }
     },q=>{
 
-    });
+    });*/
 
 
   }
@@ -115,23 +115,26 @@ export class AppComponent {
           version = JSON.parse(d[0].config)[0].ios.version;
         }
 
-        localStorage.setItem('wz_settings',JSON.stringify(JSON.parse(d[0].config)[0]));
-        if(environment.code != version){
-          // mise à jour disponible
-          if(this.platform.is('ios')){
-            // redirection vers app store
-            this.presentAlertPrompt(JSON.parse(d[0].config)[0].ios.link);
-          } else {
-            // redirection vers play store
-            this.presentAlertPrompt(JSON.parse(d[0].config)[0].android.link);
+        localStorage.setItem('lv_settings',JSON.stringify(JSON.parse(d[0].config)[0]));
+        if(version){
+          if(environment.code != version){
+            // mise à jour disponible
+            if(this.platform.is('ios')){
+              // redirection vers app store
+              this.presentAlertPrompt(JSON.parse(d[0].config)[0].ios.link);
+            } else {
+              // redirection vers play store
+              this.presentAlertPrompt(JSON.parse(d[0].config)[0].android.link);
+            }
           }
         }
+
         // recuperation de la ville de l'utilisateur
         // verification si l'utilisateur a déjà un compte
         if(this.api.checkCredential()){
           //this.util.showLoading('login');
           // connexion
-          const cre = this.util.decryptAESData(JSON.parse(localStorage.getItem('auth_wz')));
+          const cre = this.util.decryptAESData(JSON.parse(localStorage.getItem('auth_lv')));
           this.auth.login(cre).then((e:any)=>{
             localStorage.setItem('is_user','true');
             //this.navCtrl.navigateRoot(['/tabs']);

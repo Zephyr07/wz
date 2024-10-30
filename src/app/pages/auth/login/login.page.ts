@@ -36,8 +36,8 @@ export class LoginPage implements OnInit {
 
   ionViewWillEnter() {
     // recupération des settings
-    if(localStorage.getItem('wz_settings')!='undefined'){
-      this.settings = JSON.parse(localStorage.getItem('wz_settings'));
+    if(localStorage.getItem('lv_settings')!='undefined'){
+      this.settings = JSON.parse(localStorage.getItem('lv_settings'));
     } else {
 
     }
@@ -64,13 +64,12 @@ export class LoginPage implements OnInit {
         if(d.user.status=='pending_activation'){
           this.navCtrl.navigateRoot(['/activated-account']);
         } else if(d.user.status=='enable') {
-          this.navCtrl.navigateRoot(['/tabs/home']);
+          this.navCtrl.navigateRoot(['/home']);
         } else {
           this.util.doToast('Votre compte est désactivé. Contacter le support au +237 673996540',5000, 'warning');
         }
 
       }, q=>{
-        alert(JSON.stringify(q));
         this.util.hideLoading();
         this.util.handleError(q);
       })
@@ -79,18 +78,16 @@ export class LoginPage implements OnInit {
 
   }
 
-  backToPreviousPage(){
-    document.getElementById('backButton').click();
+  goToRegister(){
+    this.router.navigateByUrl('create-account');
   }
 
-  goToRegister(){
-    if(this.settings.register_out==false){
-      window.location.href="https://wzs.warzone237.com/inscription/#/register"
-    } else {
-      this.router.navigateByUrl('create-account');
-    }
+  goToResetPassword(){
+    this.router.navigateByUrl('reset-password');
+  }
 
-
+  backToPreviousPage(){
+    document.getElementById('backButton').click();
   }
 
 }

@@ -11,7 +11,7 @@
     </ion-fab>
 
     <div class="ion-text-center">
-      <img src="../../../../assets/img/wz/logo_bl.svg" alt="Logo WarZone" style="width: 20vh; margin-top: 100px">
+      <img src="../../../../assets/icon/logo.png" alt="Logo Confidens" style="width: 20vh; margin-top: 100px">
     </div>
 
     <form class="shadows">
@@ -20,9 +20,9 @@
           <ion-col>
             <div class="ion-text-center">
               <h3>{{'activation_account'|translate}}</h3>
-              <p>Entrer le code reçu par mail à l'adresse <br><b>{{email}}</b>
+              <p>{{'enter_mail_code'|translate}} <br><b>{{email}}</b>
                 <br>
-                <small>Verifier vos spams et courriers indésirables</small>
+                <small>{{'check_spam'|translate}}</small>
               </p>
             </div>
             <div>
@@ -36,7 +36,21 @@
               <ion-button
                 color="primary"
                 (click)="active()"
+                shape="round"
                 expand="block">{{'active'|translate}}</ion-button>
+              <br>
+              <ion-button
+                color="light"
+                size="small"
+                (click)="sendOTPCode()"
+                shape="round"
+                expand="block">{{'resend_code'|translate}}</ion-button>
+              <ion-button
+                color="warning"
+                size="small"
+                (click)="contactUs()"
+                shape="round"
+                expand="block">{{'contact_us'|translate}}</ion-button>
             </div>
           </ion-col>
         </ion-row>

@@ -1,0 +1,42 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'ask_my_problem'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-card class="radius">
+    <ion-card-header>
+      <ion-card-title class="primary">{{'what_to_talk'|translate}}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content class="black">
+      {{'ask_problem_text'|translate}}
+
+      <ion-textarea type="text"
+                    style="margin-top: 5px; min-height: 40px"
+                    [(ngModel)]="title" labelPlacement="stacked"
+                    placeholder="{{'title'|translate}}"
+                    [autoGrow]="true"
+                    [counter]="true"
+                    maxlength="180"
+                    [counterFormatter]="customCounterFormatter"
+      ></ion-textarea>
+
+        <ion-textarea type="text"
+                    style="min-height: 150px"
+                    [(ngModel)]="description" labelPlacement="stacked"
+                    placeholder="{{'my_problem'|translate}}"
+                    [autoGrow]="true"
+                    [counter]="true"
+                    maxlength="4000"
+                    [counterFormatter]="customCounterFormatter"
+      ></ion-textarea>
+      <ion-button expand="block" color="warning" (click)="save()" >{{'save'|translate}}</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

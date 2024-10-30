@@ -1,5 +1,5 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar color="warning">
     <ion-title>{{'policy'|translate}}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="dismiss()">
@@ -9,38 +9,70 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <p dir="ltr"><strong> Conditions générales de vente WarZone</strong></p>
-  <p dir="ltr"><strong>Article 1 : Champ d’application</strong></p>
-  <p dir="ltr">Les présentes conditions générales de vente s’appliquent à toutes les transactions conclues par le biais des sites Internet du réseau de la société <strong>WarZone</strong>. Est considérée comme « client » toute personne physique ou morale réalisant auprès de la société <strong>WarZone </strong>une commande validée via notre plateforme de paiement sécurisée, ou par chèque ou en numéraire.</p>
-  <p dir="ltr"><br></p>
-  <p dir="ltr"><strong>Article 1 bis : Limitation d’âge</strong></p>
-  <p dir="ltr">Des limitations d’âge s’appliquent : La société <strong>WarZone</strong> n’accepte que des clients de plus de 16 ans (pour les produits physiques et électroniques) et de plus de 18 ans (pour les services : coaching, ateliers, séminaires). Nous faisons de notre mieux pour restreindre l’accès à nos sites, produits et services aux mineurs. Même si le contenu de nos produits et services n’est pas de nature choquante, nous préférons nous adresser à un public mature et capable d’appréhender les implications et les responsabilités du monde de l’entreprise. Tout inscrit à la newsletter ne remplissant pas ces critères (âge supérieur à 16 ans) sera immédiatement supprimé de notre base de données dès que ce fait est porté à notre connaissance. De même, tout client ne répondant pas à ces critères sera immédiatement remboursé et un retour du ou des produits concernés sera exigé.</p>
-  <p dir="ltr"><br></p>
-  <p dir="ltr"><strong>Article 2 : Commande</strong></p>
-  <p dir="ltr">Toute commande passée sur un site appartenant à la société <strong>WarZone</strong> implique l’acceptation intégrale et sans réserve des présentes conditions générales de vente.</p>
-  <p dir="ltr"><br></p>
-  <p dir="ltr"><strong>Article 3 : Prix</strong></p>
-  <p dir="ltr">Les prix sont indiqués en euros toutes taxes comprises (au taux de TVA Camerounais 19.25 %), hors frais de port et de traitement de votre commande. Le prix des articles peut être modifié à tout moment. Toutefois, le tarif appliqué à une commande sera celui annoncé au moment de la commande.</p>
-  <p dir="ltr"><br></p>
-  <p dir="ltr"><strong>Article 4 : Paiement</strong></p>
-  <p dir="ltr">Le paiement est exigible immédiatement à la date de la commande, y compris pour les produits en précommande. Vous pouvez effectuer le règlement par carte de paiement. Les cartes émises par des banques domiciliées hors de France doivent obligatoirement être des cartes bancaires internationales (Mastercard ou Visa). Nous n’acceptons pas l’American Express. Le paiement sécurisé en ligne par carte bancaire est réalisé par l’intermédiaire de la société Stripe. Les informations transmises sont chiffrées par un logiciel dans les règles de l’art et ne peuvent être lues au cours du transport sur le réseau. Toute garantie quant à la sécurité de ce système est entièrement de la responsabilité de la société Stripe et ne saurait nous être imputée.</p>
-  <p dir="ltr"><br></p>
-  <p dir="ltr"><strong>Article 5 : Livraison</strong></p>
-  <p dir="ltr">La livraison est faite à l’adresse que vous avez indiquée lors de votre commande (par conséquent, soyez particulièrement attentif à l’orthographe de l’adresse que vous saisissez et spécialement au code postal). Les risques seront à votre charge à compter de la date à laquelle les produits commandés auront quitté nos locaux. Cependant, en cas de colis perdu, nous ferons le nécessaire pour que vous receviez tout de même votre produit ou que vous soyez remboursé selon votre garantie.</p>
-  <p dir="ltr"><br></p>
-  <p dir="ltr"><strong>Article 6 : Protection des données personnelles</strong></p>
-  <p dir="ltr">Conformément à la Loi Informatique et Libertés du 6 janvier 1978, vous disposez d’un droit d’accès et de rectification aux données personnelles vous concernant. Nous déclarons l’ensemble de nos fichiers à la Commission Nationale de l’Informatique et des Libertés. En adhérant à ces conditions générales de vente, vous reconnaissez avoir pris connaissance de notre politique de protection des données personnelles et consentez à ce que nous collections et utilisions ces données. En saisissant votre adresse email sur l’un des sites de notre réseau, vous recevrez des emails contenant des informations et/ou des offres promotionnelles concernant des produits édités par la société <strong>WarZone</strong> ou par d’autres partenaires. Vous pouvez vous désinscrire à tout instant. Il vous suffit pour cela de cliquer sur le lien présent à la fin de nos emails. Ce lien est précédé de la mention “To unsubscribe or change subscriber options visit:” (comprendre : pour vous désinscrire ou changer vos options d’inscriptions, cliquez ci-dessous).</p>
-  <p dir="ltr">Notre newsletter est déclarée à la CNIL sous le n°11213348 et respecte la loi Informatique et Libertés. </p>
-  <p dir="ltr"><br></p>
-  <p dir="ltr"><strong>Article 7 : Droit applicable </strong></p>
-  <p>Toutes les clauses figurant dans les présentes conditions générales de vente, ainsi que toutes les opérations d’achat et de vente qui y sont visées, seront soumises au droit français.</p>
-  <p dir="ltr"><br></p>
-  <p dir="ltr"><strong>Article 8 : Informations sur la société WarZone</strong></p>
-  <p dir="ltr">La Société <strong>WarZone </strong>est société de droit Camerounais dont l’adresse est :</p>
-  <p dir="ltr"><strong>Akwa Nord, face pharmacie de l'harmonie</strong></p>
-  <p dir="ltr">E-mail: contact@warzone237.com</p>
-  <p dir="ltr">Téléphone: +237 673 996 540</p>
+<ion-content [fullscreen]="true">
+  <div style="margin: 10px; padding: 10px; background: white;" class="radius">
+    <p><strong>Dernière mise à jour : 19 octobre 2024</strong></p>
+    <p>Bienvenue sur <strong>confidens</strong>. Nous attachons une grande importance à la confidentialité de nos utilisateurs et nous nous engageons à protéger vos données personnelles. Cette politique de confidentialité explique comment nous collectons, utilisons, partageons et protégeons vos informations lorsque vous utilisez notre plateforme.</p>
+
+    <h2>1. Collecte des données personnelles</h2>
+    <p><strong>confidens</strong> permet aux utilisateurs de partager leurs problèmes de manière anonyme. À cette fin, nous collectons un minimum de données personnelles, telles que :</p>
+    <ul>
+      <li><strong>Adresse e-mail</strong> (si vous choisissez de créer un compte pour recevoir des notifications ou des réponses)</li>
+      <li><strong>Informations partagées volontairement</strong> : Les contenus que vous choisissez de partager sur la plateforme, tels que les messages ou commentaires, peuvent être visibles par la communauté.</li>
+    </ul>
+    <p>Nous ne collectons <strong>aucune information personnelle sensible</strong> sans votre consentement explicite.</p>
+
+    <h2>2. Utilisation des données</h2>
+    <p>Les informations que nous collectons sont utilisées pour :</p>
+    <ul>
+      <li>Vous fournir un accès à notre plateforme.</li>
+      <li>Vous permettre de participer à des discussions anonymes.</li>
+      <li>Améliorer nos services et votre expérience utilisateur.</li>
+      <li>Envoyer des notifications ou des communications importantes concernant l'utilisation de la plateforme (si vous avez fourni une adresse e-mail).</li>
+    </ul>
+    <p><strong>Aucune information personnelle ne sera partagée avec des tiers</strong> à des fins commerciales ou marketing sans votre accord.</p>
+
+    <h2>3. Protection de l'anonymat</h2>
+    <p>Nous respectons votre choix de rester anonyme sur <strong>confidens</strong>. Vos publications et interactions ne seront pas liées à des informations personnelles identifiables (sauf si vous choisissez de les divulguer volontairement). Nous utilisons des pseudonymes et des identifiants anonymes pour protéger votre identité.</p>
+
+    <h2>4. Stockage des données</h2>
+    <p>Vos données sont stockées en toute sécurité sur nos serveurs. Nous appliquons des mesures de sécurité techniques et organisationnelles appropriées pour protéger vos informations contre tout accès non autorisé, la modification, la divulgation ou la destruction.</p>
+
+    <h2>5. Partage des données</h2>
+    <p>Nous ne partageons vos données personnelles avec des tiers que dans les circonstances suivantes :</p>
+    <ul>
+      <li><strong>Respect de la loi</strong> : Si la loi nous y oblige, nous pouvons être amenés à divulguer certaines informations.</li>
+      <li><strong>Sécurité</strong> : Pour protéger les droits, la propriété ou la sécurité de <strong>confidens</strong>, de nos utilisateurs ou du public.</li>
+    </ul>
+    <p>Dans tous les autres cas, nous nous engageons à ne jamais partager vos informations sans votre consentement explicite.</p>
+
+    <h2>6. Cookies et technologies de suivi</h2>
+    <p>Nous utilisons des cookies et d'autres technologies de suivi pour améliorer votre expérience sur <strong>confidens</strong>. Ces technologies permettent de :</p>
+    <ul>
+      <li>Mémoriser vos préférences.</li>
+      <li>Analyser l'utilisation de la plateforme pour en améliorer les fonctionnalités.</li>
+    </ul>
+    <p>Vous pouvez désactiver les cookies via les paramètres de votre navigateur, mais cela pourrait affecter certaines fonctionnalités de la plateforme.</p>
+
+    <h2>7. Vos droits</h2>
+    <p>En tant qu'utilisateur de <strong>confidens</strong>, vous disposez des droits suivants :</p>
+    <ul>
+      <li><strong>Accéder à vos données</strong> : Vous pouvez demander une copie des données que nous détenons à votre sujet.</li>
+      <li><strong>Modifier ou supprimer vos données</strong> : Vous pouvez demander la rectification ou la suppression de vos données personnelles à tout moment.</li>
+      <li><strong>Retirer votre consentement</strong> : Si vous avez fourni des informations personnelles, vous pouvez retirer votre consentement à tout moment.</li>
+    </ul>
+    <p>Pour exercer ces droits, veuillez nous contacter à <a href="mailto:myconfidens@gmail.com">myconfidens@gmail.com</a>.</p>
+
+    <h2>8. Modifications de cette politique</h2>
+    <p>Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment. Toute modification sera publiée sur cette page avec la date de la dernière mise à jour. Nous vous encourageons à consulter régulièrement cette politique pour rester informé des changements.</p>
+
+    <h2>9. Contact</h2>
+    <p>Si vous avez des questions ou des préoccupations concernant cette politique de confidentialité, vous pouvez nous contacter à <a href="mailto:myconfidens@gmail.com">myconfidens@gmail.com</a>.</p>
+
+    <footer>
+      <p>&copy; 2024 confidens. Tous droits réservés.</p>
+    </footer>
+  </div>
 </ion-content>
 
 

@@ -13,16 +13,27 @@ export class PriceFormatPipe implements PipeTransform{
       return "";
     }
     else{
-      value += "";
-      let tab = value.split('');
-      let p = "";
-      for (let i = tab.length; i > 0; i--) {
-        if (i % 3 == 0) {
-          p += " ";
+      if(args[0] && args[0]=='short'){
+        if (value >= 1000000) {
+          return (value / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+        } else if (value >= 1000) {
+          return (value / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+        } else {
+          return value;
         }
-        p += tab[tab.length - i];
+      } else {
+        value += "";
+        let tab = value.split('');
+        let p = "";
+        for (let i = tab.length; i > 0; i--) {
+          if (i % 3 == 0) {
+            p += " ";
+          }
+          p += tab[tab.length - i];
+        }
+        return p;
       }
-      return p;
+
     }
   }
 }

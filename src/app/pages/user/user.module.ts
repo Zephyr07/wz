@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { UserPageRoutingModule } from './user-routing.module';
 
 import { UserPage } from './user.page';
-import {ModalEditUserModule} from "../../components/modal-edit-user/modal-edit-user.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {PipeModule} from "../../pipe/pipe.module";
 
@@ -16,10 +15,9 @@ import {PipeModule} from "../../pipe/pipe.module";
     CommonModule,
     FormsModule,
     IonicModule,
-    TranslateModule,
-    ModalEditUserModule,
     UserPageRoutingModule,
-    PipeModule
+    PipeModule,
+    TranslateModule,
   ],
   declarations: [UserPage]
 })

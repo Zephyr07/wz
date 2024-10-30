@@ -1,138 +1,82 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar color="warning">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{'my_account'|translate}}</ion-title>
+    <ion-title>Mon compte</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content
-      pullingIcon="chevron-down-circle-outline"
-      pullingText="{{'pull_to_refresh'|translate}}"
-      refreshingSpinner="circles"
-      refreshingText="{{'loading'|translate}}...">
-    </ion-refresher-content>
-  </ion-refresher>
-  <div class="video" style="height: 200px">
-    <img class="blur" src="{{user.person.image}}">
-    <div class="info">
-      <ion-item class="infos shadow" color="primary" lines="none">
-        <ion-avatar slot="start">
-          <img src="{{user.person.image}}">
+<ion-content [fullscreen]="true">
+
+  <ion-list class="ion-margin">
+
+    <ion-item-group style="padding-bottom: 0">
+
+      <ion-item lines="none" *ngIf="is_user" (click)="showAccount()">
+        <ion-avatar aria-hidden="true" slot="start">
+          <img alt="" src="../../../assets/icon/setting/person.svg" />
         </ion-avatar>
         <ion-label>
-          <h3 class="bold ion-text-capitalize">{{user.person.full_name}}</h3>
-
-          <p> {{user.sponsor_code}}
-            <span *ngIf="is_subscription"> | {{user.subscription.pack.name}} </span></p>
-
-          <p *ngIf="user.unit>0"> {{user.unit|priceFormat}} <ion-icon name="aperture-outline"></ion-icon>
-            <span *ngIf="user.hour>0"> - {{user.hour}} <ion-icon name="time-outline"></ion-icon></span></p>
+          <h2>{{'personal_info'|translate}}</h2>
+          <p>{{user.uid}}</p>
         </ion-label>
-        <ion-icon (click)="editUser()" name="pencil" slot="end"></ion-icon>
       </ion-item>
-    </div>
-  </div>
+
+      <ion-item lines="none" *ngIf="is_user" (click)="problems()">
+        <ion-avatar aria-hidden="true" slot="start">
+          <img alt="" src="../../../assets/icon/setting/reader.svg" />
+        </ion-avatar>
+        <ion-label>
+          <h2>{{'my_problems'|translate}}</h2>
+          <p>{{count_q|priceFormat}}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item lines="none" *ngIf="is_user" (click)="answers()">
+        <ion-avatar aria-hidden="true" slot="start">
+          <img alt="" src="../../../assets/icon/setting/reader.svg" />
+        </ion-avatar>
+        <ion-label>
+          <h2>{{'my_answers'|translate}}</h2>
+          <p>{{count_a|priceFormat}}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item lines="none" *ngIf="is_user" (click)="askLanguage()">
+        <ion-avatar aria-hidden="true" slot="start">
+          <img alt="" src="../../../assets/icon/setting/language.svg" />
+        </ion-avatar>
+        <ion-label>
+          <h2>{{'language'|translate}}</h2>
+        </ion-label>
+      </ion-item>
+
+    </ion-item-group>
+
+    <ion-item-group style="padding-bottom: 0">
+
+      <ion-item lines="none" *ngIf="is_user" (click)="logout()">
+        <ion-avatar aria-hidden="true" slot="start">
+          <img alt="" src="../../../assets/icon/setting/log-out.svg" />
+        </ion-avatar>
+        <ion-label>
+          <h2>{{'logout'|translate}}</h2>
+          <p>{{'quit_app'|translate}}</p>
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none" *ngIf="is_user" (click)="deleteUser()">
+        <ion-avatar aria-hidden="true" slot="start">
+          <img alt="" src="../../../assets/icon/setting/trash.svg" />
+        </ion-avatar>
+        <ion-label class="ion-text-wrap">
+          <h2 style="color:var(--ion-color-medium)">{{'delete_account'|translate}}</h2>
+          <p>{{'delete_account_text'|translate}}</p>
+        </ion-label>
+      </ion-item>
+
+    </ion-item-group>
 
 
-  <ion-grid class="info-tournament">
-    <ion-row>
-      <ion-col size="4" (click)="goToRecharge()">
-        <div class="radius">
-          <span>
-          <ion-icon class="big" name="aperture-outline"></ion-icon>
-          </span>
-          <br>
-          <span class="info-title">{{'my_points'|translate}}</span>
-        </div>
-      </ion-col>
-      <ion-col size="4" (click)="goToMyTournament()">
-        <div class="radius">
-          <span>
-          <ion-icon class="big" name="trophy-outline"></ion-icon>
-          </span>
-          <br>
-          <span class="info-title">{{'my_tournaments'|translate}}</span>
-        </div>
-      </ion-col>
-      <ion-col size="4" (click)="goToMyTombola()">
-        <div class="radius">
-          <span>
-          <ion-icon class="big" name="dice-outline"></ion-icon>
-          </span>
-          <br>
-          <span class="info-title">{{'my_tombolas'|translate}}</span>
-        </div>
-      </ion-col>
-      <ion-col *ngIf="settings.fidelity=='enable'" size="4" (click)="goToFidelity()">
-        <div class="radius">
-          <span>
-          <ion-icon class="big" name="ticket-outline"></ion-icon>
-          </span>
-          <br>
-          <span class="info-title">{{'my_fidelity'|translate}}</span>
-        </div>
-      </ion-col>
-      <ion-col size="4" (click)="goToMyOrder()">
-        <div class="radius">
-          <span>
-          <ion-icon class="big" name="cart-outline"></ion-icon>
-          </span>
-          <br>
-          <span class="info-title">{{'my_orders'|translate}}</span>
-        </div>
-      </ion-col>
-      <ion-col size="4" (click)="goToMySchedule()">
-        <div class="radius">
-          <span>
-          <ion-icon class="big" name="calendar-outline"></ion-icon>
-          </span>
-          <br>
-          <span class="info-title">{{'my_reservations'|translate}}</span>
-        </div>
-      </ion-col>
-      <ion-col *ngIf="settings.ios.subscription=='enable'" size="4" (click)="goToSubscription()">
-        <div class="radius">
-          <span>
-          <ion-icon class="big" name="diamond-outline"></ion-icon>
-          </span>
-          <br>
-          <span class="info-title">{{'my_subscription'|translate}}</span>
-        </div>
-      </ion-col>
-      <ion-col size="4" (click)="presentAlert()">
-        <div class="radius">
-          <span>
-          <ion-icon class="big" name="key-outline"></ion-icon>
-          </span>
-          <br>
-          <span class="info-title">{{'change_password'|translate}}</span>
-        </div>
-      </ion-col>
-      <ion-col size="4" (click)="deleteUser()">
-        <div class="radius bg-red">
-          <span>
-          <ion-icon class="big" name="trash-outline"></ion-icon>
-          </span>
-          <br>
-          <span class="info-title">{{'delete_account'|translate}}</span>
-        </div>
-      </ion-col>
-      <ion-col size="4" (click)="logout()">
-        <div class="radius bg-dark">
-          <span>
-          <ion-icon class="big" name="log-out-outline"></ion-icon>
-          </span>
-          <br>
-          <span class="info-title">{{'logout'|translate}}</span>
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <a id="contact" style="display: none" href="mailto:thewarzone237@gmail.com"></a>
-
+  </ion-list>
 </ion-content>

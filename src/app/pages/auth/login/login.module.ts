@@ -8,7 +8,6 @@ import { LoginPageRoutingModule } from './login-routing.module';
 
 import { LoginPage } from './login.page';
 import {TranslateModule} from "@ngx-translate/core";
-import {LoadDataModule} from "../../../components/load-data/load-data.module";
 
 @NgModule({
   imports: [
@@ -16,8 +15,7 @@ import {LoadDataModule} from "../../../components/load-data/load-data.module";
     FormsModule,
     IonicModule,
     TranslateModule,
-    LoginPageRoutingModule,
-    LoadDataModule
+    LoginPageRoutingModule
   ],
   declarations: [LoginPage]
 })

@@ -28,7 +28,7 @@ export class AdmobProvider {
     private api : ApiProvider
   ) {
 
-    this.initialize();
+    //this.initialize();
 
   }
 
@@ -227,11 +227,11 @@ export class AdmobProvider {
         } else {
           this.is_testing=false;
           if(this.platform.is('ios')){
-            this.interstitialId="ca-app-pub-2538027924721849/4428501767";
+            this.interstitialId="ca-app-pub-2538027924721849/8977444181";
             this.rewardId="ca-app-pub-2538027924721849/6195426301";
             this.bannerId="ca-app-pub-2538027924721849/3306991788";
           } else {
-            this.interstitialId="ca-app-pub-2538027924721849/1489894535";
+            this.interstitialId="ca-app-pub-2538027924721849/7931321367";
             this.rewardId="ca-app-pub-2538027924721849/2895928242";
             this.bannerId="ca-app-pub-2538027924721849/4209009916";
           }

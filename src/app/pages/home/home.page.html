@@ -1,43 +1,27 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar *ngIf="is_user!='true'">
-    <ion-item lines="none"  slot="start">
-      <ion-thumbnail>
-        <img alt="WarZone" src="../../../assets/img/wz/wz_noir.svg" />
-      </ion-thumbnail>
-      <ion-label class="label" style="text-transform: capitalize">WarZone
-        <br>
-        <span style="color:var(--ion-color-medium); font-size: 15px;">Salle de Jeux</span>
-      </ion-label>
-    </ion-item>
+  <ion-toolbar color="primary">
+    <div class="ion-text-center" style="color:#FDB614; font-size: 12px">
+      {{uid}}
+    </div>
   </ion-toolbar>
-
-  <ion-row *ngIf="is_user=='true'">
-    <ion-col size="9" class="ion-text-left">
-      <div (click)="goTo('user')">
-        <ion-item lines="none"  slot="start">
-          <ion-thumbnail style="width: 50px; height: 50px">
-            <img alt="{{full_name}}" src="{{image}}" />
-          </ion-thumbnail>
-          <ion-label class="label" style="text-transform: capitalize; font-size: 15px">{{sponsor_code}}
-            <br *ngIf="is_subscription">
-            <span *ngIf="is_subscription" style="color:var(--ion-color-medium); font-size: 13px;">{{'member'|translate}} {{pack.name}}</span>
-          </ion-label>
-        </ion-item>
-      </div>
-    </ion-col>
-    <ion-col size="3" class="ion-text-right" style="margin-top: 13px;" (click)="goToMyPoints()">
-      <div style="font-weight: bold; font-size: 15px">
-        {{unit|priceFormat}} <ion-icon  name="cash-outline"></ion-icon>
-      </div>
-      <div *ngIf="hour>0" style="color: var(--ion-color-primary); font-weight: bold; font-size: 13px">
-        {{hour|priceFormat}} <ion-icon name="time-outline"></ion-icon>
-      </div>
-    </ion-col>
-  </ion-row>
-
 </ion-header>
-
-<ion-content>
+<ion-content [fullscreen]="true">
+  <ion-fab slot="fixed" vertical="bottom" horizontal="center">
+    <ion-fab-button color="warning">
+      <ion-icon name="menu"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button color="warning" (click)="goToUrl('user')">
+        <ion-icon name="person"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="warning" (click)="goToUrl('support')">
+        <ion-icon name="chatbubbles"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="medium" (click)="logout()">
+        <ion-icon name="exit"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
 
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content
@@ -49,226 +33,54 @@
   </ion-refresher>
 
   <ion-grid>
+    <ion-card class="radius">
+      <ion-card-header class="ion-text-center">
+        <div class="ion-text-center">
+          <img src="../../../assets/icon/confidens_white.png" style="width: 100px">
+        </div>
+        <ion-card-title class="primary">{{'welcome_on'|translate}} <strong style="color:var(--ion-color-warning)" (click)="goToTest()">confidens</strong> !!! </ion-card-title>
+      </ion-card-header>
 
-    <ion-row class="offer-tab">
-      <ion-col size="4">
-        <div class="bounce-top" (click)="goToSchedule()">
-          Offres &nbsp;<ion-badge *ngIf="offer_count>0">{{offer_count}}</ion-badge>
-        </div>
-      </ion-col>
-      <ion-col size="4">
-        <div class="bounce-top" (click)="goTo('tournament')">
-          Tournois &nbsp;<ion-badge *ngIf="tournament_count>0">{{tournament_count}}</ion-badge>
-        </div>
-      </ion-col>
-      <ion-col size="4">
-        <div class="bounce-top" (click)="goTo('tombola')">
-          Tombolas &nbsp;<ion-badge *ngIf="tombola_count>0">{{tombola_count}}</ion-badge>
-        </div>
-      </ion-col>
-    </ion-row>
+      <ion-card-content class="black" style="text-align: center; font-weight: bold">
+        {{'welcome_text'|translate}}
+      </ion-card-content>
+    </ion-card>
   </ion-grid>
 
-  <ion-grid *ngIf="tombola=='enable'" class="card-background-page">
+  <ion-grid class="ion-text-center">
+    <ion-button shape="round" color="warning" (click)="newProblem()">{{'ask_my_problem'|translate}}</ion-button>
+  </ion-grid>
 
-    <ion-row>
-      <ion-col size="6" (click)="goTo('tombolas')">
-        <img src="../../../assets/img/wz/tombola.png" style="height: 170px; width: 100%; border-radius: 10px; border-top:3px solid #eee"/>
+  <ion-grid style="margin-bottom: 60px;">
+    <ion-card class="radius middle" *ngIf="is_loading">
+      <div style="margin: 20px;">
+        <ion-spinner name="dots"></ion-spinner>
+      </div>
+    </ion-card>
 
-        <ion-item class="item" lines="none">
+    <ion-card class="radius" *ngIf="!is_loading">
+      <ion-list *ngIf="problems.length>0">
+        <ion-list-header>
+          <ion-label class="sous-titre">{{'recent_problem'|translate}}</ion-label>
+          <ion-button (click)="goToProblem()">{{'see_all'|translate}}</ion-button>
+        </ion-list-header>
+        <ion-item *ngFor="let p of problems" lines="none" (click)="goToDetailProblem(p)">
           <ion-label>
-            <p class="bold primary tracking-in-expand" style="font-size: 15px; text-align: center">
-              MEGA TOMBOLA
-            </p>
-            <p style="white-space: normal; color:#000; text-align: center">{{'1 mois de jeu gratuit'|translate}}</p>
-
+            <ion-text color="dark" class="ion-text-wrap">
+              {{p.title|limitTo:100}}
+            </ion-text>
+            <br>
+            <ion-note>{{p.reponses|priceFormat}} {{'answer'|translate}}<span *ngIf="p.reponses>1">s</span> </ion-note>
           </ion-label>
         </ion-item>
-      </ion-col>
-      <ion-col size="6"(click)="goToSchedule()">
-        <img src="../../../assets/img/wz/mardi_duo.png" style="height: 170px; width: 100%; border-radius: 10px; border-top:3px solid #eee"/>
-
-        <ion-item class="item" lines="none">
-          <ion-label>
-            <p class="bold primary tracking-in-expand" style="font-size: 15px; text-align: center">
-              MARDI DUO
-            </p>
-            <p style="white-space: normal; color:#000; text-align: center">{{'1h achetée, 1h offerte'|translate}}</p>
-
-          </ion-label>
-        </ion-item>
-      </ion-col>
-    </ion-row>
+      </ion-list>
+      <div class="middle" style="padding: 20px;" *ngIf="problems.length==0">
+        {{'no_problem'|translate}}
+      </div>
+    </ion-card>
   </ion-grid>
 
-
-  <ion-grid *ngIf="schedule=='enable'">
-    <ion-toolbar class="ion-no-border">
-      <ion-title slot="start">{{'schedule'|translate}}</ion-title>
-    </ion-toolbar>
-
-    <ion-row style="margin-bottom: 15px">
-      <ion-col size="12" (click)="goToSchedule()">
-        <img src="../../../assets/img/wz/booking.png" style="height: 130px; width: 100%; border-radius: 20px 20px 0 0; border-top:3px solid #eee"/>
-
-        <ion-item class="item-cu" lines="none">
-          <ion-label>
-            <p class="bold primary" style="font-size: 18px">
-              {{'schedule_game'|translate}}
-            </p>
-            <p style="white-space: normal">{{'schedule_game_text'|translate}}</p>
-
-          </ion-label>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <ion-grid *ngIf="is_loading_tournament">
-    <ion-skeleton-text *ngIf="is_loading_tournament" animated style="width: 100%; height: 130px; margin-top:0"></ion-skeleton-text>
-  </ion-grid>
-
-  <ion-grid *ngIf="tournaments.length>0">
-
-    <ion-toolbar class="ion-no-border" (click)="goTo('tournament')">
-      <ion-title slot="start">{{'tournament_event'|translate}}</ion-title>
-
-      <ion-buttons slot="end">
-        <ion-button (click)="goTo('tournament')"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
-      </ion-buttons>
-    </ion-toolbar>
-
-    <ion-row>
-      <ion-col>
-
-        <swiper-container
-                          [spaceBetween]="10"
-                          [slidesPerView]="1"
-                          [speed]="1000"
-                          [autoplay]="{enable:true,delay:7000}" #swiperComponent class="one-slide">
-          <swiper-slide *ngFor="let t of tournaments" (click)="goToTournament(t)" style="height: 40vh !important;">
-            <img src="{{t.image}}" alt="{{t.name}}" style="height: 40vh !important;">
-          </swiper-slide>
-
-        </swiper-container>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <ion-grid *ngIf="is_loading_games">
-    <ion-toolbar>
-      <ion-title>
-        <ion-skeleton-text animated style="width: 80%; margin-top:0"></ion-skeleton-text>
-      </ion-title>
-    </ion-toolbar>
-    <ion-row>
-      <ion-col>
-        <ion-skeleton-text animated style="width: 100%; height: 150px; margin-top:0"></ion-skeleton-text>
-      </ion-col>
-      <ion-col>
-        <ion-skeleton-text animated style="width: 100%; height: 150px; margin-top:0"></ion-skeleton-text>
-      </ion-col>
-      <ion-col>
-        <ion-skeleton-text animated style="width: 100%; height: 150px; margin-top:0"></ion-skeleton-text>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <ion-grid *ngIf="!is_loading_games && games.length>0">
-    <ion-toolbar class="ion-no-border" (click)="goTo('game')">
-      <ion-title slot="start">{{'games'|translate}}</ion-title>
-
-      <ion-buttons slot="end">
-        <ion-button (click)="goTo('game')"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
-      </ion-buttons>
-    </ion-toolbar>
-
-    <ion-row class="games">
-      <ion-col size="4"  *ngFor="let s of games" (click)="goToGame(s)">
-        <img alt="{{s.name}}" src="{{s.image}}" />
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <ion-grid class="card-background-pages" *ngIf="otaku=='enable'">
-    <ion-toolbar class="ion-no-border">
-      <ion-title (click)="goTo('product')" slot="start">{{'La boutique OTAKUGET+'|translate}}</ion-title>
-      <ion-buttons slot="end">
-        <ion-button (click)="goTo('product')"><ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
-      </ion-buttons>
-    </ion-toolbar>
-
-    <ion-row>
-      <ion-col class="ion-text-center" (click)="goTo('product')">
-        <img src="../../../assets/img/otakuget/services.PNG" style="max-height: 250px;" alt="" (click)="goTo('product')">
-      </ion-col>
-
-    </ion-row>
-  </ion-grid>
-
-  <!--ion-grid>
-    <ion-toolbar class="ion-no-border">
-      <ion-title slot="start">{{'prices'|translate}}</ion-title>
-    </ion-toolbar>
-
-    <ion-row class="games">
-      <ion-col>
-
-        <swiper-container
-          [speed]="1000"
-          [spaceBetween]="10"
-          [loop]="true"
-          [autoplay]="{enable:true,delay:5000}" #swiperComponent>
-          <swiper-slide>
-            <img alt="Tarif" src="https://wzs.warzone237.com/public/img/Tarifaire%20WZ%20App.png" style="height: 200px"/>
-          </swiper-slide>
-          <swiper-slide>
-            <img alt="Tarif membre" src="https://wzs.warzone237.com/public/img/tarif_2.png" style="height: 200px"/>
-          </swiper-slide>
-
-        </swiper-container>
-      </ion-col>
-    </ion-row>
-  </ion-grid-->
-
-  <ion-grid>
-    <ion-toolbar class="ion-no-border">
-      <ion-title slot="start">WarZone</ion-title>
-    </ion-toolbar>
-    <ion-row>
-      <ion-col size="12">
-        <ion-icon color="primary" name="call"></ion-icon> 673 996 540 <br>
-        <ion-icon color="primary" name="location"></ion-icon> En face de la pharmacie de l'Harmonie <br>
-        <ion-icon color="primary" name="map"></ion-icon> Akwa-Nord, Douala
-      </ion-col>
-      <ion-col size="12">
-        <ion-icon color="primary" name="calendar"></ion-icon> Mardi à Dimanche <br>
-        <ion-icon color="primary" name="time"></ion-icon> 10h à 21h
-      </ion-col>
-      <ion-col size="12">
-        <ion-icon color="primary" name="logo-facebook"></ion-icon> <ion-icon color="primary" name="logo-instagram"></ion-icon> <ion-icon color="primary" name="logo-tiktok"></ion-icon> <ion-icon color="primary" name="logo-youtube"></ion-icon> @thewarzone237 <br>
-        <ion-icon color="primary" name="globe"></ion-icon> www.warzone237.com
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <ion-grid>
-    <ion-row>
-      <ion-col style="margin-bottom: 20px">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9465.412708228892!2d9.726062757710482!3d4.078223192125652!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x106113e541bdcea7%3A0x182a67ef53fa9d6f!2sWarZone%20(WZ)%20-%20Salle%20de%20jeux%20vid%C3%A9os%20WZ!5e0!3m2!1sfr!2scm!4v1707403834155!5m2!1sfr!2scm"
-                style="border:2px solid var(--ion-color-primary); border-radius: 20px; width: 100%; max-height: 300px"
-                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end" style="margin-bottom: 20px">
-    <ion-fab-button (click)="goToSchedule()">
-      <ion-icon class="pulsate-bck" name="calendar"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
 
 </ion-content>
-<a id="contact" style="display: none" href="tel:673996540"></a>
+
 

@@ -1,11 +1,10 @@
 import * as CryptoJS from 'crypto-js';
 
-//export const API_ENDPOINT = 'http://wz.local/api/';
-export const API_ENDPOINT = 'https://wzs.warzone237.com/public/api/';
+export const API_ENDPOINT = 'http://love.local/api/';
+//export const API_ENDPOINT = 'https://confidens.warzone237.com/public/api/';
 export const ONE_SIGNAL_CONF = {
-  "sender_id": '472124460397',
-  "app_id": 'b036b1eb-0b10-432e-9e9e-e4166babee18',
-  "app_id_old": 'c8aba0f5-7ef5-40f1-9047-ef15f7ab4b1b'
+  "sender_id": '284311961200',
+  "app_id": '2419c92c-ae99-4125-9fc7-616688ae552c',
 };
 
 export const MOIS = [

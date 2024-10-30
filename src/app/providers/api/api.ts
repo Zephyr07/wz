@@ -78,13 +78,19 @@ export class ApiProvider {
   public getList(target:string,data?:any){
     return new Promise((resolve, reject) => {
       if(data){
-        http.get(target,{params:data}).then(d=>{
+        http.get(target,{params:data}).then((d:any)=>{
+          d = this.util.decryptAESData(JSON.stringify(d));
+          if(target!='auth/me'){
+            d = this.intercept(d);
+          }
           resolve(d);
         }, q=>{
           reject(q);
         });
       } else {
-        http.get(target).then(d=>{
+        http.get(target).then((d:any)=>{
+          d = this.util.decryptAESData(JSON.stringify(d));
+          d = this.intercept(d);
           resolve(d);
         }, q=>{
           reject(q);
@@ -96,13 +102,17 @@ export class ApiProvider {
   public get(target:string,id:number,data?:any){
     return new Promise((resolve, reject) => {
       if(data){
-        http.get(target+'/'+id,{params:data}).then(d=>{
+        http.get(target+'/'+id,{params:data}).then((d:any)=>{
+          d = this.util.decryptAESData(JSON.stringify(d));
+          d = this.intercept(d);
           resolve(d);
         }, q=>{
           reject(q);
         });
       } else {
-        http.get(target+'/'+id).then(d=>{
+        http.get(target+'/'+id).then((d:any)=>{
+          d = this.util.decryptAESData(JSON.stringify(d));
+          d = this.intercept(d);
           resolve(d);
         }, q=>{
           reject(q);
@@ -111,10 +121,19 @@ export class ApiProvider {
     })
   }
 
-  public post(target:string,data:any){
+  public post(target:string,data:any,is_crypt?:boolean){
     return new Promise((resolve, reject) => {
-      http.post(target,data).then(d=>{
-        resolve(d);
+      let crypt = this.util.encryptAESData(data);
+      if(is_crypt && is_crypt==true){
+        crypt = data;
+      }
+      //let crypt = this.util.encryptAESData(data);
+      http.post(target,{value:crypt}).then(d=>{
+        let data = this.util.decryptAESData(JSON.stringify(d));
+        if(is_crypt && is_crypt==true){
+          data = d;
+        }
+        resolve(data);
       }, q=>{
         reject(q);
       });
@@ -123,8 +142,9 @@ export class ApiProvider {
 
   public put(target:string,id:number,data:any){
     return new Promise((resolve, reject) => {
+      let crypt = this.util.encryptAESData(data);
       http.put(target+'/'+id,data).then(d=>{
-        resolve(d);
+        resolve(this.util.decryptAESData(JSON.stringify(d)));
       }, q=>{
         reject(q);
       });
@@ -134,6 +154,7 @@ export class ApiProvider {
   public remove(target:string,id:number){
     return new Promise((resolve, reject) => {
       http.delete(target+'/'+id).then(d=>{
+        d = this.util.decryptAESData(JSON.stringify(d));
         resolve(d);
       }, q=>{
         reject(q);
@@ -159,8 +180,8 @@ export class ApiProvider {
   }
 
   checkUser() {
-    if(localStorage.getItem('user_wz')!='undefined' || localStorage.getItem('user_wz')!='null' || localStorage.getItem('user_wz')!=undefined){
-      if (JSON.parse(localStorage.getItem('user_wz')) == null) {
+    if(localStorage.getItem('user_lv')!='undefined' || localStorage.getItem('user_lv')!='null' || localStorage.getItem('user_lv')!=undefined){
+      if (JSON.parse(localStorage.getItem('user_lv')) == null) {
         //Metro.notify.create('Vous n\'êtes pas connecté', 'Erreur de connexion', {cls: 'alert'});
         //this.router.navigate(['/login']);
         return false;
@@ -174,8 +195,8 @@ export class ApiProvider {
   }
 
   checkCredential() {
-    if(localStorage.getItem('auth_wz')!='undefined' || localStorage.getItem('auth_wz')!='null' || localStorage.getItem('auth_wz')!=undefined){
-      if (JSON.parse(localStorage.getItem('auth_wz')) == null) {
+    if(localStorage.getItem('auth_lv')!='undefined' || localStorage.getItem('auth_lv')!='null' || localStorage.getItem('auth_lv')!=undefined){
+      if (JSON.parse(localStorage.getItem('auth_lv')) == null) {
         return false;
       } else {
         return true;
@@ -352,8 +373,8 @@ export class ApiProvider {
 
   getSettings(){
     return new Promise((resolve, reject) => {
-      this.getList('settings').then(d=>{
-        localStorage.setItem('wz_settings',JSON.stringify(JSON.parse(d[0].config)[0]));
+      this.getList('settings').then((d:any)=>{
+        localStorage.setItem('lv_settings',JSON.stringify(JSON.parse(d[0].config)[0]));
         resolve(JSON.parse(d[0].config)[0]);
       }, q=>{
         reject(q);
@@ -363,10 +384,8 @@ export class ApiProvider {
 
   async askLanguage() {
     let is_log=false;
-    let user:any={};
     if(this.checkCredential()){
       is_log=true;
-      user=JSON.parse(localStorage.getItem('user_wz'));
     }
     const actionSheet = await this.actionSheetController.create({
       header: 'Langue/Language',
@@ -386,7 +405,7 @@ export class ApiProvider {
         text: 'English',
         handler: () => {
           this.translate.use('en');
-          this.translate.setDefaultLang('fr');
+          this.translate.setDefaultLang('en');
           moment.locale('en');
           if(is_log){
             // update setting
@@ -424,4 +443,21 @@ export class ApiProvider {
 
   }
 
+  intercept(res:any){
+    let newResponse = undefined;
+    if(res.data){
+      if (Array.isArray(res.data)) {
+        return res.data;
+      }
+      if (res.data.per_page !== undefined) {
+        newResponse = res.data.data;
+        newResponse.metadata = _.omit(res.data, 'data');
+        return newResponse;
+      }
+      return res.data;
+    } else {
+      return res
+    }
+
+  }
 }

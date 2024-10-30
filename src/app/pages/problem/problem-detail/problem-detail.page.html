@@ -1,0 +1,99 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'the_problem'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card class="radius middle" *ngIf="is_loading">
+    <div style="margin: 20px;">
+      <ion-spinner name="dots"></ion-spinner>
+    </div>
+  </ion-card>
+  <ion-card class="radius" *ngIf="!is_loading">
+    <ion-card-header>
+      <ion-card-title class="primary">
+        {{problem.title}}
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content class="black">
+      <div>{{problem.description}}</div>
+
+      <ion-note>{{'the'|translate}} {{problem.created_at|dateFormat}} {{'by_a'|translate}} <span *ngIf="problem.gender=='female'">e</span> {{problem.gender|translate}}</ion-note>
+
+    </ion-card-content>
+  </ion-card>
+
+
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" style="margin-bottom: 60px;" >
+    <ion-fab-button size="small" color="warning" id="open-comment">
+      <ion-icon name="chatbubble-ellipses"></ion-icon>
+    </ion-fab-button>
+    <div class="fab-label" *ngIf="!is_loading">{{problem.reponses|priceFormat}}</div>
+  </ion-fab>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" style="margin-bottom: 130px;">
+    <ion-fab-button size="small" color="warning" *ngIf="!problem.isRank" (click)="saveRank('question',problem)">
+      <ion-icon name="heart"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button size="small" color="medium" *ngIf="problem.isRank" (click)="saveRank('question',problem)">
+      <ion-icon name="heart" ></ion-icon>
+    </ion-fab-button>
+    <div class="fab-label" *ngIf="!is_loading">{{problem.ratings.total|priceFormat:'short'}}</div>
+  </ion-fab>
+
+
+  <ion-modal #modalDetail trigger="open-comment" [initialBreakpoint]="0.75" [breakpoints]="[0,0.75]">
+    <ng-template>
+      <ion-header class="ion-no-border">
+        <ion-toolbar color="danger">
+          <div class="ion-text-center bold"> {{problem.reponses|priceFormat}} {{'comment'|translate}}<span *ngIf="problem.reponses>1">s</span></div>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-grid style="background: white; border-radius: 15px">
+          <div style="margin: 0 10px">
+            <ion-textarea type="text"
+                          style="min-height: 40px !important;"
+                          [(ngModel)]="description" labelPlacement="stacked"
+                          placeholder="{{'share_your_experience'|translate}}"
+                          [autoGrow]="true"
+                          maxlength="4000"
+                          (keyup.enter)="saveComment()"
+
+            >
+
+            </ion-textarea>
+          </div>
+          <ion-list class="liste" style="height: {{hauteur}}">
+            <ion-item lines="none" *ngFor="let a of problem.answers">
+              <ion-label class="ion-text-wrap">
+                <ion-note></ion-note>
+                <br>
+                {{a.content}}
+
+                <div>
+                  <ion-note>{{'the'|translate}} {{a.created_at|dateFormat}} {{'by_a'|translate}} <span *ngIf="problem.gender=='female'">e</span> {{problem.gender|translate}}</ion-note>
+                  <div class="ion-float-right middle">
+                    <small>{{a.ratings.total|priceFormat:'short'}}</small>
+                    <ion-icon name="heart" *ngIf="a.isRank" color="medium" (click)="saveRank('answer',a)" ></ion-icon>
+                    <ion-icon name="heart-outline" *ngIf="!a.isRank" (click)="saveRank('answer',a)" ></ion-icon>
+                  </div>
+                </div>
+              </ion-label>
+
+            </ion-item>
+          </ion-list>
+
+        </ion-grid>
+
+      </ion-content>
+
+    </ng-template>
+  </ion-modal>
+</ion-content>

@@ -1,0 +1,36 @@
+
+
+<ion-content [fullscreen]="true" class="home-content">
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-text-center" size="12">
+        <img src="../../../assets/icon/logo.png" alt="" class="radius">
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+  <ion-card class="radius middle" *ngIf="!isUpgrade && !isMaintenance">
+    <div style="margin: 20px;">
+      <ion-spinner name="dots"></ion-spinner>
+    </div>
+  </ion-card>
+
+  <ion-grid class="middle">
+    <div class="modal-message" *ngIf="isUpgrade">
+      <h3>{{'update_available'|translate}}</h3>
+
+      <p innerHtml="'update_text'|translate"></p>
+      <div class="ion-text-center">
+        <ion-button (click)="update()">{{'update_app'|translate}}</ion-button>
+      </div>
+    </div>
+
+    <div class="modal-message" *ngIf="isMaintenance">
+      <h3>{{'maintenance'|translate}}</h3>
+
+      <p>{{'maintenance_text'|translate}}</p>
+    </div>
+  </ion-grid>
+
+</ion-content>
