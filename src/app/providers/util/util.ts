@@ -153,7 +153,7 @@ export class UtilProvider {
     if(q.response){
       q=q.response;
     }
-    if(q.data.ct){
+    if(q.data && q.data.ct){
       // crypté
       q.data = this.decryptAESData(JSON.stringify(q.data));
     }
@@ -201,7 +201,7 @@ export class UtilProvider {
         }
       }
     } else {
-      this.doToast(JSON.stringify(q),3000,'warning');
+      this.doToast(JSON.stringify(q),3000,'tertiary');
     }
 
   }

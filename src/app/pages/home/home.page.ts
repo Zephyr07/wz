@@ -74,16 +74,17 @@ export class HomePage implements OnInit {
     if (this.api.checkUser()) {
       let user = JSON.parse(localStorage.getItem('user_lv'));
       this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
-        console.log(a);
         if(a.data.user.status=='pending_activation'){
           this.logout();
         }
         this.user = a.data.user;
         this.uid=this.user.uid;
-        const l = JSON.parse(this.user.settings)[0].language;
-        this.translate.use(l);
-        this.translate.setDefaultLang(l);
-        moment.locale(l);
+        if(this.user.settings){
+          const l = JSON.parse(this.user.settings)[0].language;
+          this.translate.use(l);
+          this.translate.setDefaultLang(l);
+          moment.locale(l);
+        }
         localStorage.setItem('user_lv',JSON.stringify(this.user));
       },q=>{
         this.logout();
@@ -149,7 +150,7 @@ export class HomePage implements OnInit {
     if(this.api.checkUser()){
       this.router.navigateByUrl('problem/problem-add');
     } else {
-      this.util.doToast('Vous devez être connecté pour poser votre probème',3000,'warning');
+      this.util.doToast('Vous devez être connecté pour poser votre probème',3000,'tertiary');
       this.router.navigateByUrl('login');
     }
   }

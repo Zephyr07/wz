@@ -44,6 +44,17 @@ export class AppComponent {
     this.admob.initialize();
     //this.is_loading=!this.api.checkCredential();
     this.splash();
+
+    if(isCordovaAvailable()){
+      this.OneSignalInit();
+      this.notif.init();
+      this.notif.navigationEvent.subscribe(
+        data => {
+          console.log(data);
+        }
+      );
+    }
+
     // this language will be used as a fallback when a translation isn't found in the current language
     if(!this.api.checkCredential()){
       Device.getLanguageCode().then(d=>{

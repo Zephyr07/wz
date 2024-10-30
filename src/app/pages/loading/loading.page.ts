@@ -41,7 +41,7 @@ export class LoadingPage implements OnInit {
         this.version=d.android.version;
       }
       //console.log(this.version,environment.code);
-      if(d.maintenance==true){
+      if(d.maintenance=='true'){
         this.isMaintenance=true;
       } else if(environment.code < this.version){
         // mise à jour disponible
@@ -64,10 +64,13 @@ export class LoadingPage implements OnInit {
       // connexion
       const cre = this.util.decryptAESData(JSON.parse(localStorage.getItem('auth_lv')));
       this.auth.login(cre).then((e:any)=>{
-        const l = JSON.parse(e.user.settings)[0].language;
-        this.translate.use(l);
-        this.translate.setDefaultLang(l);
-        moment.locale(l);
+        if(e.user.settings){
+          const l = JSON.parse(e.user.settings)[0].language;
+          this.translate.use(l);
+          this.translate.setDefaultLang(l);
+          moment.locale(l);
+        }
+
       },q=>{
         //this.util.hideLoading();
         this.auth.logout();
