@@ -484,4 +484,10 @@ export class UtilProvider {
     this.doToast("Cette application a été developpée par Edward NANDA - contact@edwardnanda.com",
       5000,'warning','middle');
   }
+
+  validateTextInput(text: string): boolean {
+    const phoneRegex1 = /(?:\d{2,4}[-.\s]?)?\d{2,4}[-.\s]?\d{2,4}[-.\s]?\d{2,4}/g;
+    const phoneRegex = /(?:\b\d{2,3}(?:[-.\s\w]*?\d){2,}\b)/g;
+    return !phoneRegex.test(text);
+  }
 }

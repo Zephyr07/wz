@@ -19,7 +19,7 @@ export class HomePage implements OnInit {
   };
   problems:any=[];
   uid="";
-
+  admin=false;
   dev_count=0;
   is_user="";
 
@@ -86,6 +86,11 @@ export class HomePage implements OnInit {
           moment.locale(l);
         }
         localStorage.setItem('user_lv',JSON.stringify(this.user));
+        this.api.getSettings().then((d:any)=>{
+          if(d.admin==a.data.user.email){
+            this.admin=true;
+          }
+        })
       },q=>{
         this.logout();
         this.util.handleError(q);

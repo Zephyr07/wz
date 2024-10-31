@@ -26,6 +26,7 @@
                     [(ngModel)]="title" labelPlacement="stacked"
                     placeholder="{{'title'|translate}}"
                     [autoGrow]="true"
+                    inputmode="text"
                     [counter]="true"
                     maxlength="180"
                     [counterFormatter]="customCounterFormatter"
@@ -41,6 +42,7 @@
                     [(ngModel)]="description" labelPlacement="stacked"
                     placeholder="{{'my_problem'|translate}}"
                     [autoGrow]="true"
+                    inputmode="text"
                     [counter]="true"
                     maxlength="4000"
                     [counterFormatter]="customCounterFormatter"
@@ -49,6 +51,12 @@
       <ion-button expand="block" color="secondary" shape="round" (click)="save()"
         style="margin-top: 5px;"
       >{{'save'|translate}}</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content *ngIf="isSave">
+      Votre problème a été soumis pour validation. Vous recevrez une notification lorsque celui-ci sera approuvé
     </ion-card-content>
   </ion-card>
 </ion-content>

@@ -17,6 +17,9 @@
       <ion-fab-button color="secondary" (click)="goToUrl('support')">
         <ion-icon name="chatbubbles"></ion-icon>
       </ion-fab-button>
+      <ion-fab-button color="warning" (click)="goToUrl('admin')" *ngIf="admin">
+        <ion-icon name="cog"></ion-icon>
+      </ion-fab-button>
       <ion-fab-button color="medium" (click)="logout()">
         <ion-icon name="exit"></ion-icon>
       </ion-fab-button>

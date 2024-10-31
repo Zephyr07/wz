@@ -13,6 +13,7 @@ export class ProblemAddPage implements OnInit {
 
   description="";
   title="";
+  isSave=false;
   private user:any={};
   customCounterFormatter(inputLength: number, maxLength: number) {
     return `${maxLength - inputLength}`;
@@ -49,27 +50,34 @@ export class ProblemAddPage implements OnInit {
   }
 
   save(){
-    if(this.description!="" && this.title!=""){
-      this.util.showLoading('Enregistrement');
-      const opt = {
-        gender:this.user.gender,
-        title:this.title,
-        description:this.description,
-        user_id:this.user.id
-      };
+    if(!this.util.validateTextInput(this.title)){
+      this.util.doToast('Numéro non autorisé',2000, 'warning')
+    } else if (!this.util.validateTextInput(this.description)){
+      this.util.doToast('Numéro non autorisé',2000, 'warning')
+    } else {
+      if(this.description!="" && this.title!=""){
+        this.util.showLoading('Enregistrement');
+        const opt = {
+          gender:this.user.gender,
+          title:this.title,
+          description:this.description,
+          user_id:this.user.id
+        };
 
-      this.api.post('questions',opt).then(d=>{
-        this.util.hideLoading();
-        this.util.doToast('Votre problème a été soumis pour validation',3000,'tertiary');
-        this.description="";
-        this.title="";
-        this.admob.showInterstitial();
-      }, q=>{
-        this.util.hideLoading();
-        this.util.handleError(q);
-        }
-      )
+        this.api.post('questions',opt).then(d=>{
+          this.util.hideLoading();
+          this.isSave=true;
+          this.description="";
+          this.title="";
+          this.admob.showInterstitial();
+        }, q=>{
+          this.util.hideLoading();
+          this.util.handleError(q);
+          }
+        )
+      }
     }
+
   }
 
 }

@@ -48,6 +48,7 @@
                           [(ngModel)]="description" labelPlacement="stacked"
                           placeholder="{{'share_your_experience'|translate}}"
                           [autoGrow]="true"
+                          inputmode="text"
                           maxlength="4000"
                           (keyup.enter)="saveComment()"
 
@@ -96,6 +97,7 @@
                         [(ngModel)]="description" labelPlacement="stacked"
                         placeholder="{{'share_your_experience'|translate}}"
                         [autoGrow]="true"
+                        inputmode="text"
                         [counter]="true"
                         maxlength="4000"
                         (keyup.enter)="saveComment()"

@@ -1,0 +1,39 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Administration</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-list class="ion-margin">
+
+    <ion-item-group style="padding-bottom: 0">
+
+      <ion-item lines="none" (click)="problems()">
+        <ion-avatar aria-hidden="true" slot="start">
+          <img alt="" src="../../../assets/icon/setting/reader.svg" />
+        </ion-avatar>
+        <ion-label>
+          <h2>{{'problem'|translate}}</h2>
+          <p>{{count_q|priceFormat}}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item lines="none"  (click)="answers()">
+        <ion-avatar aria-hidden="true" slot="start">
+          <img alt="" src="../../../assets/icon/setting/reader.svg" />
+        </ion-avatar>
+        <ion-label>
+          <h2>{{'answer'|translate}}</h2>
+          <p>{{count_a|priceFormat}}</p>
+        </ion-label>
+      </ion-item>
+
+    </ion-item-group>
+
+  </ion-list>
+</ion-content>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ApiProvider} from "../../../providers/api/api";
 import {UtilProvider} from "../../../providers/util/util";
 import {NavigationExtras, Router} from "@angular/router";
+import {AlertController} from "@ionic/angular";
 
 @Component({
   selector: 'app-answer',
@@ -28,24 +29,16 @@ export class AnswerPage implements OnInit {
     private api: ApiProvider,
     private router : Router,
     private util:UtilProvider,
+    private alertController : AlertController
   ) {
-    if(this.router.getCurrentNavigation().extras.state){
-      // @ts-ignore
-      this.id= this.router.getCurrentNavigation().extras.state.id;
-      this.isOwner=true;
-      // @ts-ignore
-      this.getProblems(this.id);
-    } else {
-      //console.log("pas d'id");
-      this.getProblems();
-    }
+
   }
 
   ngOnInit() {
   }
 
   ionViewWillEnter(){
-
+    this.getProblems();
   }
 
   getProblems(id?){
@@ -93,6 +86,36 @@ export class AnswerPage implements OnInit {
     } else {
       this.answers = this.old_answers_R
     }
+  }
+
+  async showModal(a){
+    const alert = await this.alertController.create({
+      header: 'Approuver la réponse ?',
+      message : a.content.substring(0,50),
+      buttons: [
+        {
+          text: 'Approuver',
+          handler: () => {
+            this.updateAnswer(a,'enable');
+          },
+        },
+        {
+          text: 'Rejeter',
+          handler: () => {
+            this.updateAnswer(a,'rejected');
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  updateAnswer(a,status){
+    this.api.put('answers',a.id,{status}).then(d=>{
+      this.util.doToast('Status mis à jour',1000,'tertiary');
+      a.status=status;
+    })
   }
 
   getItems(ev: any) {

@@ -4,20 +4,20 @@ import {UtilProvider} from "../../../providers/util/util";
 import {NavigationExtras, Router} from "@angular/router";
 
 @Component({
-  selector: 'app-answer',
-  templateUrl: './answer.page.html',
-  styleUrls: ['./answer.page.scss'],
+  selector: 'app-problem',
+  templateUrl: './problem.page.html',
+  styleUrls: ['./problem.page.scss'],
 })
-export class AnswerPage implements OnInit {
+export class ProblemPage implements OnInit {
 
-  answers:any=[];
-  answers_A:any=[];
-  answers_R:any=[];
-  answers_P:any=[];
-  old_answers:any=[];
-  old_answers_A:any=[];
-  old_answers_P:any=[];
-  old_answers_R:any=[];
+  questions:any=[];
+  questions_A:any=[];
+  questions_R:any=[];
+  questions_P:any=[];
+  old_questions:any=[];
+  old_questions_A:any=[];
+  old_questions_P:any=[];
+  old_questions_R:any=[];
   search="";
   id=0;
   filter='tout';
@@ -49,9 +49,9 @@ export class AnswerPage implements OnInit {
   }
 
   getProblems(id?){
-    this.answers_A=[];
-    this.answers_R=[];
-    this.answers_P=[];
+    this.questions_A=[];
+    this.questions_R=[];
+    this.questions_P=[];
     const opt ={
       should_paginate:false,
       _sort:"created_at",
@@ -60,21 +60,21 @@ export class AnswerPage implements OnInit {
     if(id){
       opt['user_id'] = id;
     }
-    this.api.getList('answersA',opt).then((d:any)=>{
+    this.api.getList('questions',opt).then((d:any)=>{
       d.forEach(v=>{
         if(v.status=='enable'){
-          this.answers_A.push(v);
+          this.questions_A.push(v);
         } else if(v.status=='pending'){
-          this.answers_P.push(v);
+          this.questions_P.push(v);
         } else {
-          this.answers_R.push(v);
+          this.questions_R.push(v);
         }
       });
-      this.answers = d;
-      this.old_answers = d;
-      this.old_answers_A = this.answers_A;
-      this.old_answers_P = this.answers_P;
-      this.old_answers_R = this.answers_R;
+      this.questions = d;
+      this.old_questions = d;
+      this.old_questions_A = this.questions_A;
+      this.old_questions_P = this.questions_P;
+      this.old_questions_R = this.questions_R;
       this.is_loading=false;
     },q=>{
       this.is_loading=false;
@@ -85,26 +85,40 @@ export class AnswerPage implements OnInit {
   switchGender(t){
     this.filter=t;
     if(t=='tout'){
-      this.answers = this.old_answers;
+      this.questions = this.old_questions;
     } else if(t=='pending'){
-      this.answers = this.old_answers_P;
+      this.questions = this.old_questions_P;
     } else if(t=='enable'){
-      this.answers = this.old_answers_A
+      this.questions = this.old_questions_A
     } else {
-      this.answers = this.old_answers_R
+      this.questions = this.old_questions_R
+    }
+  }
+
+  goToDetailProblem(p){
+    const navigationExtra : NavigationExtras = {state: {name:"", id:p.id}};
+    this.router.navigateByUrl('admin/problem/problem-detail',navigationExtra);
+  }
+
+  newProblem(){
+    if(this.api.checkUser()){
+      this.router.navigateByUrl('problem/problem-add');
+    } else {
+      this.util.doToast('Vous devez être connecté pour poser votre probème',3000,'warning');
+      this.router.navigateByUrl('login');
     }
   }
 
   getItems(ev: any) {
     // Reset items back to all of the items
-    this.answers = this.old_answers;
+    this.questions = this.old_questions;
 
     // set val to the value of the searchbar
     const val = ev.target.value;
 
     if (val && val.trim() !== '') {
-      this.answers = this.answers.filter((item) => {
-        return (item.content.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      this.questions = this.questions.filter((item) => {
+        return (item.title.toLowerCase().indexOf(val.toLowerCase()) > -1);
       });
     }
 
@@ -113,7 +127,7 @@ export class AnswerPage implements OnInit {
   }
 
   doRefresh(event) {
-
+    
     setTimeout(() => {
       console.log('Async operation has ended');
       event.target.complete();

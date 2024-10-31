@@ -1,0 +1,61 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" style="color: #fff;"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'the_problem'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card class="radius middle" *ngIf="is_loading">
+    <div style="margin: 20px;">
+      <ion-spinner name="dots"></ion-spinner>
+    </div>
+  </ion-card>
+  <ion-card class="radius" *ngIf="!is_loading">
+    <ion-card-header>
+      <ion-card-title class="primary">
+        {{problem.title}}
+        <br>
+        <span style="color: #000; font-size:12px; font-weight: normal">
+          <strong style="color: var(--ion-color-secondary)">{{problem.ratings.total|priceFormat:'short'}}</strong> {{'like'|translate}} &nbsp;
+          <strong style="color: var(--ion-color-secondary)">{{problem.reponses|priceFormat:'short'}}</strong> {{'comment'|translate}}<span *ngIf="problem.reponses.length>1">s</span></span>
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content class="black">
+      <div>{{problem.description}}</div>
+
+      <ion-note>{{'the'|translate}} {{problem.created_at|dateFormat}} {{'by_a'|translate}}<span *ngIf="problem.gender=='female'">e</span> {{problem.gender|translate}}</ion-note>
+      <br>
+      <ion-note><strong class="success">{{problem.status|status|translate}}</strong></ion-note>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer style=" width: 100%; background: transparent !important;">
+  <ion-grid>
+
+    <ion-row style="margin-bottom: 0">
+      <ion-col class="ion-col-35">
+
+      </ion-col>
+      <ion-col size="5">
+
+        <ion-row class="encoche shadow">
+          <ion-col class="middle" id="open-comment" (click)="updateProblem('enable')">
+            <ion-icon name="checkmark" color="primary"></ion-icon>
+          </ion-col>
+
+          <ion-col class="middle" id="new-comment" (click)="updateProblem('rejected')">
+            <ion-icon name="close" color="primary"></ion-icon>
+          </ion-col>
+
+        </ion-row>
+
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-footer>

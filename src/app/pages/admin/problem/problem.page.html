@@ -1,0 +1,86 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" style="color: #fff;"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'problem'|translate}}s</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="{{'pull_down'|translate}}"
+      refreshingSpinner="circles"
+      refreshingText="{{'loading'|translate}}...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid>
+
+    <div style="margin: 0 10px">
+      <ion-searchbar animated="true" class="ion-no-padding" placeholder="{{'search'|translate}}" [(ngModel)]="search" type="text" (ionInput)="getItems($event)"></ion-searchbar>
+    </div>
+
+    <ion-row class="filtre" *ngIf="old_questions.length>0">
+      <ion-col size="3">
+        <div class="radius" (click)="switchGender('tout')" [ngClass]="{'active':filter=='tout'}">
+          {{'all'|translate}}
+          <br>
+          {{old_questions.length|priceFormat}}
+        </div>
+      </ion-col>
+      <ion-col size="3">
+        <div class="radius" (click)="switchGender('enable')" [ngClass]="{'active':filter=='enable'}">
+          {{'approved'|translate}}<br>
+          {{old_questions_A.length|priceFormat}}
+        </div>
+      </ion-col>
+      <ion-col size="3">
+        <div class="radius" (click)="switchGender('pending')" [ngClass]="{'active':filter=='pending'}">
+          {{'pending'|translate}}<br>
+          {{old_questions_P.length|priceFormat}}
+        </div>
+      </ion-col>
+      <ion-col size="3">
+        <div class="radius" (click)="switchGender('rejected')" [ngClass]="{'active':filter=='rejected'}">
+          {{'rejected'|translate}}<br>
+          {{old_questions_R.length}}
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-card class="radius middle" *ngIf="is_loading">
+      <div style="margin: 20px;">
+        <ion-spinner name="dots"></ion-spinner>
+      </div>
+    </ion-card>
+
+    <ion-card class="radius" *ngIf="!is_loading">
+      <ion-list *ngIf="questions.length>0">
+        <ion-item *ngFor="let p of questions" lines="none" (click)="goToDetailProblem(p)">
+          <ion-label>
+            <ion-text color="dark" class="ion-text-wrap">
+              {{p.title|limitTo:100}}
+            </ion-text>
+            <br>
+            <ion-note><strong class="success">{{p.status|status|translate}}</strong></ion-note>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <div class="middle" style="padding: 20px;" *ngIf="(old_questions.length==0 && filter=='tout') || (old_questions_A.length==0  && filter=='enable')
+       || (old_questions_R.length==0 && filter=='rejected') || (old_questions_P.length==0 && filter=='pending')">
+        {{'no_problem'|translate}}
+      </div>
+    </ion-card>
+  </ion-grid>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button color="secondary" (click)="newProblem()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
