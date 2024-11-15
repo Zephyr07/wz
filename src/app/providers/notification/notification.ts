@@ -24,9 +24,9 @@ export class NotificationProvider {
   }
 
   handle(data){
-    if(data.target=='tournament'){
-      const navigationExtra : NavigationExtras = {state: {name:data.name, id:data.id}};
-      this.router.navigateByUrl('tournament/tournament-detail',navigationExtra);
+    if(data.target=='problem'){
+      const navigationExtra : NavigationExtras = {state: {id:data.id}};
+      this.router.navigateByUrl('problem/problem-detail',navigationExtra);
     } else if(data.target=='tombola'){
       const navigationExtra : NavigationExtras = {state: {name:data.name, id:data.id}};
       this.router.navigateByUrl('tombola/tombola-detail',navigationExtra);
