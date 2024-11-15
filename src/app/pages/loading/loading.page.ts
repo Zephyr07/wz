@@ -62,19 +62,22 @@ export class LoadingPage implements OnInit {
 
     if(this.api.checkCredential()){
       // connexion
-      const cre = this.util.decryptAESData(JSON.parse(localStorage.getItem('auth_lv')));
-      this.auth.login(cre).then((e:any)=>{
-        if(e.user.settings){
-          const l = JSON.parse(e.user.settings)[0].language;
-          this.translate.use(l);
-          this.translate.setDefaultLang(l);
-          moment.locale(l);
-        }
+      const cred = JSON.parse(localStorage.getItem('auth_lv'));
+      if(cred!=''){
+        const cre = this.util.decryptAESData(JSON.parse(localStorage.getItem('auth_lv')));
+        this.auth.login(cre).then((e:any)=>{
+          if(e.user.settings){
+            const l = e.user.settings[0].language;
+            this.translate.use(l);
+            this.translate.setDefaultLang(l);
+            moment.locale(l);
+          }
 
-      },q=>{
-        //this.util.hideLoading();
-        this.auth.logout();
-      })
+        },q=>{
+          //this.util.hideLoading();
+          this.auth.logout();
+        })
+      }
 
     } else {
       localStorage.setItem('is_user','false');

@@ -624,5 +624,12 @@
   "delete_account_text":"Supprimer définitivement votre compte",
   "resend_code":"Renvoyer le code",
   "like":"j'aime",
-  "new_comment":"Nouveau commentaire"
+  "number_like":"Nombre de j'aime",
+  "Like":"J'aime",
+  "new_comment":"Nouveau commentaire",
+  "contributor":"Contributeur",
+  "super_contributor":"Super contributeur",
+  "expert":"Expert",
+  "badge":"Badge",
+  "between":"Entre"
 }

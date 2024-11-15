@@ -30,7 +30,6 @@ export class ProblemDetailPage implements OnInit {
     private api: ApiProvider,
     private router : Router,
     private util:UtilProvider,
-    private admob:AdmobProvider
   ) {
     this.hauteur = (this.screenHeight*0.6)+'px';
     if(this.router.getCurrentNavigation().extras.state){
@@ -48,7 +47,6 @@ export class ProblemDetailPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.admob.showBanner('bottom',0);
 
     if (this.api.checkUser()) {
       let user = JSON.parse(localStorage.getItem('user_lv'));
@@ -66,9 +64,6 @@ export class ProblemDetailPage implements OnInit {
 
   }
 
-  ionViewWillLeave(){
-    this.admob.hideBanner();
-  }
 
   customCounterFormatter(inputLength: number, maxLength: number) {
     return `${maxLength - inputLength}`;
@@ -95,9 +90,12 @@ export class ProblemDetailPage implements OnInit {
   }
 
   updateProblem(status){
-    this.api.put('questions',this.problem.id,{status}).then(d=>{
+    this.problem.status=status;
+    this.api.put('questions',this.problem.id,this.problem).then(d=>{
       this.util.doToast('Status mis à jour',1000,'tertiary');
-      this.problem.status=status;
+      //this.problem.status=status;
+    },q=>{
+      this.util.handleError(q);
     })
   }
 

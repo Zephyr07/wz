@@ -35,6 +35,7 @@ export class UserPage implements OnInit {
   is_user=false;
   username="";
   showLoading=true;
+  uid="";
 
   count_a=0;
   count_q=0;
@@ -95,6 +96,7 @@ export class UserPage implements OnInit {
       let user = JSON.parse(localStorage.getItem('user_lv'));
       this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
         this.user = a.data.user;
+        this.uid=this.user.uid.split('-')[4];
         this.username=this.user.user_name;
         this.user_point=this.user.point;
         this.getCountQuestion(this.user.id);

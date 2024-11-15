@@ -143,7 +143,7 @@ export class ApiProvider {
   public put(target:string,id:number,data:any){
     return new Promise((resolve, reject) => {
       let crypt = this.util.encryptAESData(data);
-      http.put(target+'/'+id,data).then(d=>{
+      http.put(target+'/'+id,{value:crypt}).then(d=>{
         resolve(this.util.decryptAESData(JSON.stringify(d)));
       }, q=>{
         reject(q);
@@ -374,8 +374,10 @@ export class ApiProvider {
   getSettings(){
     return new Promise((resolve, reject) => {
       this.getList('settings').then((d:any)=>{
-        localStorage.setItem('lv_settings',JSON.stringify(JSON.parse(d[0].config)[0]));
-        resolve(JSON.parse(d[0].config)[0]);
+        //console.log(this.util.decryptAESData(JSON.stringify(d)));
+        const f = JSON.parse(d[0].config);
+        localStorage.setItem('lv_settings',JSON.stringify(f[0]));
+        resolve(f[0]);
       }, q=>{
         reject(q);
       });

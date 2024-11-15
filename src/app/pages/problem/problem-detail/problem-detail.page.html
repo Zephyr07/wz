@@ -27,7 +27,7 @@
     <ion-card-content class="black">
       <div>{{problem.description}}</div>
 
-      <ion-note>{{'the'|translate}} {{problem.created_at|dateFormat}} {{'by_a'|translate}}<span *ngIf="problem.gender=='female'">e</span> {{problem.gender|translate}}</ion-note>
+      <ion-note>{{'the'|translate}} {{problem.created_at|dateFormat}} {{'by_a'|translate}}<span *ngIf="problem.gender=='female' && lang=='fr'">e</span> {{problem.gender|translate}}</ion-note>
 
     </ion-card-content>
   </ion-card>
@@ -56,7 +56,7 @@
 
             </ion-textarea>
           </div>
-          <ion-list class="liste" style="height: {{hauteur}}">
+          <ion-list class="liste" style="height: {{hauteur}}; padding-bottom: 40px">
             <ion-item lines="none" *ngFor="let a of problem.answers">
               <ion-label class="ion-text-wrap">
                 <ion-note></ion-note>
@@ -64,7 +64,14 @@
                 {{a.content}}
 
                 <div>
-                  <ion-note>{{'the'|translate}} {{a.created_at|dateFormat}} {{'by_a'|translate}} <span *ngIf="problem.gender=='female'">e</span> {{problem.gender|translate}}</ion-note>
+                  <ion-note>{{'the'|translate}} {{a.created_at|dateFormat}} {{'by'|translate}} {{a.uid}}
+                    <!--span *ngIf="problem.gender=='female'">e</span> {{problem.gender|translate}}-->
+
+                    <img class="badge" *ngIf="a.user.likes>= BADGE[0].min && a.user.likes<BADGE[0].max" alt="badge" src="../../../../assets/img/badge/cont.svg" />
+                    <img class="badge" *ngIf="a.user.likes>= BADGE[1].min && a.user.likes<BADGE[1].max" alt="badge" src="../../../../assets/img/badge/sp.svg" />
+                    <img class="badge" *ngIf="a.user.likes>= BADGE[2].min && a.user.likes<BADGE[2].max" alt="badge" src="../../../../assets/img/badge/expert.svg" />
+
+                  </ion-note>
                   <div class="ion-float-right middle">
                     <small>{{a.ratings.total|priceFormat:'short'}}</small>
                     <ion-icon name="heart" *ngIf="a.isRank" color="medium" (click)="saveRank('answer',a)" ></ion-icon>
@@ -113,8 +120,9 @@
 
     </ng-template>
   </ion-modal>
-</ion-content>
 
+
+</ion-content>
 <ion-footer style=" width: 100%; background: transparent !important;">
   <ion-grid>
 

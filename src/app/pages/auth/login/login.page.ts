@@ -58,7 +58,7 @@ export class LoginPage implements OnInit {
           OneSignal.User.getOnesignalId().then((id:any)=>{
             // enregistrement
             this.auth.saveOneSignalId({user_id:d.user.id,onesignal_id:id}).then((da:any)=>{
-              console.log(da);
+              //console.log(da);
             }, q=>{
               this.util.handleError(q);
             })

@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiProvider} from "../../../providers/api/api";
 import {UtilProvider} from "../../../providers/util/util";
 import {NavigationExtras, Router} from "@angular/router";
-import {AdmobProvider} from "../../../providers/admob/AdmobProvider";
+import * as moment from 'moment';
 import {IonModal} from "@ionic/angular";
 
 @Component({
@@ -18,6 +18,7 @@ export class ProblemDetailPage implements OnInit {
   user:any={};
   hauteur="";
   id=0;
+  lang="";
   problem:any={
     answers:[],
     ratings:{
@@ -26,11 +27,23 @@ export class ProblemDetailPage implements OnInit {
   };
   is_loading=true;
 
+  BADGE:any=[
+    {
+      min:1000,
+      max:10000
+    },{
+      min:10000,
+      max:100000
+    },{
+      min:100000,
+      max:1000000
+    }
+  ];
+
   constructor(
     private api: ApiProvider,
     private router : Router,
     private util:UtilProvider,
-    private admob:AdmobProvider
   ) {
     this.hauteur = (this.screenHeight*0.6)+'px';
     if(this.router.getCurrentNavigation().extras.state){
@@ -48,7 +61,7 @@ export class ProblemDetailPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.admob.showBanner('bottom',0);
+    this.lang = moment.locales()[0];
 
     if (this.api.checkUser()) {
       let user = JSON.parse(localStorage.getItem('user_lv'));
@@ -64,10 +77,12 @@ export class ProblemDetailPage implements OnInit {
       //this.router.navigate(['/login']);
     }
 
-  }
+    this.api.getSettings().then((d:any)=>{
+      this.BADGE = d.badge;
+    },q=>{
+      this.util.handleError(q);
+    })
 
-  ionViewWillLeave(){
-    this.admob.hideBanner();
   }
 
   customCounterFormatter(inputLength: number, maxLength: number) {
@@ -97,7 +112,8 @@ export class ProblemDetailPage implements OnInit {
   getRatingOfUser(user_id){
     const opt = {
       user_id,
-      ratingable_id:this.id
+      ratingable_id:this.id,
+      ratingable_type:'App\\Models\\Question'
     };
 
     this.api.getList('ratings',opt).then((d:any)=>{

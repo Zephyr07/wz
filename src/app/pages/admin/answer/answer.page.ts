@@ -112,10 +112,12 @@ export class AnswerPage implements OnInit {
   }
 
   updateAnswer(a,status){
-    this.api.put('answers',a.id,{status}).then(d=>{
+    a.status=status;
+    this.api.put('answers',a.id,a).then(d=>{
       this.util.doToast('Status mis à jour',1000,'tertiary');
-      a.status=status;
-    })
+    },q=>{
+      this.util.handleError(q);
+    });
   }
 
   getItems(ev: any) {

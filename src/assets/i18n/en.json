@@ -624,5 +624,12 @@
   "delete_account_text":"Permanently delete your account",
   "resend_code":"Resend code",
   "like":"like",
-  "new_comment":"New comment"
+  "number_like":"Number of like",
+  "Like":"Like",
+  "new_comment":"New comment",
+  "contributor":"Contributor",
+  "super_contributor":"Super contributor",
+  "expert":"Expert",
+  "badge":"Badge",
+  "between":"Between"
 }

@@ -29,23 +29,13 @@ export class ProblemPage implements OnInit {
     private router : Router,
     private util:UtilProvider,
   ) {
-    if(this.router.getCurrentNavigation().extras.state){
-      // @ts-ignore
-      this.id= this.router.getCurrentNavigation().extras.state.id;
-      this.isOwner=true;
-      // @ts-ignore
-      this.getProblems(this.id);
-    } else {
-      //console.log("pas d'id");
-      this.getProblems();
-    }
   }
 
   ngOnInit() {
   }
 
   ionViewWillEnter(){
-
+    this.getProblems();
   }
 
   getProblems(id?){

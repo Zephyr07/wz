@@ -15,6 +15,7 @@ import {ModalEditUserComponent} from "../../../components/modal-edit-user/modal-
 export class AccountPage implements OnInit {
 
   @ViewChild(IonModal) modal: IonModal;
+  @ViewChild(IonModal) modalBadge: IonModal;
   user:any={};
   CANCEL="";
   UPDATE="";
@@ -30,6 +31,10 @@ export class AccountPage implements OnInit {
   point=1;
   phone:number;
   password="";
+  uid="";
+  BADGE:any=[
+    {},{},{}
+  ];
 
   promo_code:any={};
 
@@ -82,6 +87,7 @@ export class AccountPage implements OnInit {
       let user = JSON.parse(localStorage.getItem('user_lv'));
       this.api.getList('auth/me',{id:user.id}).then((a:any)=>{
         this.user = a.data.user;
+        this.uid = this.user.uid.split('-')[4];
       },q=>{
         this.util.handleError(q);
         this.showLoading=false;
@@ -90,6 +96,16 @@ export class AccountPage implements OnInit {
       this.util.doToast('Vous n\'êtes pas connecté',2000,'light');
       this.router.navigate(['/login']);
     }
+
+    this.api.getSettings().then((d:any)=>{
+      this.BADGE = d.badge;
+    },q=>{
+      this.util.handleError(q);
+    })
+  }
+
+  openBadge(){
+    document.getElementById('badge').click();
   }
 
   async editUser(o?:any){

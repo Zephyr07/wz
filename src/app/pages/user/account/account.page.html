@@ -10,7 +10,49 @@
 <ion-content [fullscreen]="true">
   <ion-grid class="custom">
     <ion-list class="custom-list">
-
+      <div class="ion-text-center bold" style="font-size: 25px; margin-bottom: 10px;">
+        <img src="../../../../assets/icon/setting/person.svg" class="radius" style="height: 100px" alt="{{user.uid}}">
+        <br>
+        {{uid}}
+        <span class="verified" *ngIf="user.is_verified">
+          <img src="../../../../assets/img/badge/verified.svg" style="width: 20px" alt="">
+        </span>
+        <br>
+        <div>
+          <ion-chip color="light" *ngIf="user.likes<BADGE[0].min" (click)="openBadge()">
+            <ion-avatar>
+              <img alt="badge" src="../../../../assets/icon/setting/person.svg" />
+            </ion-avatar>
+            <ion-label>{{'member'|translate}}</ion-label>
+          </ion-chip>
+          <ion-chip color="light" *ngIf="user.likes>= BADGE[0].min && user.likes<BADGE[0].max" (click)="openBadge()">
+            <ion-avatar>
+              <img alt="badge" src="../../../../assets/img/badge/cont.svg" />
+            </ion-avatar>
+            <ion-label>{{BADGE[0].name|translate}}</ion-label>
+          </ion-chip>
+          <ion-chip color="light" *ngIf="user.likes>= BADGE[1].min && user.likes<BADGE[1].max" (click)="openBadge()">
+            <ion-avatar>
+              <img alt="badge" src="../../../../assets/img/badge/sp.svg" />
+            </ion-avatar>
+            <ion-label>{{BADGE[1].name|translate}}</ion-label>
+          </ion-chip>
+          <ion-chip color="light" *ngIf="user.likes>= BADGE[2].min && user.likes<BADGE[2].max" (click)="openBadge()">
+            <ion-avatar>
+              <img alt="badge" src="../../../../assets/img/badge/expert.svg" />
+            </ion-avatar>
+            <ion-label>{{BADGE[2].name|translate}}</ion-label>
+          </ion-chip>
+        </div>
+      </div>
+      <ion-item lines="none">
+        <ion-label slot="start">
+          {{'number_like'|translate}}
+        </ion-label>
+        <ion-label class="ion-text-right bold">
+          {{user.likes |priceFormat}}
+        </ion-label>
+      </ion-item>
       <ion-item lines="none">
         <ion-label slot="start">
           Email
@@ -29,7 +71,7 @@
         </ion-label>
       </ion-item>
     </ion-list>
-
+    <br>
     <ion-row>
       <ion-col class="ion-no-padding">
         <ion-button expand="block" color="secondary" shape="round" (click)="editUser()" >{{'edit_my_info'|translate}}</ion-button>
@@ -42,7 +84,49 @@
     </ion-row>
   </ion-grid>
 
+  <button id="badge" style="display: none"></button>
+  <ion-modal #modalBadge trigger="badge" [initialBreakpoint]="0.5" [breakpoints]="[0,0.5]">
+    <ng-template>
+      <ion-header class="ion-no-border">
+        <ion-toolbar color="primary">
+          <div class="ion-text-center bold"> Badge</div>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
 
+        <ion-grid style="font-size: 14px; color:white">
+          <ion-row>
+            <ion-col size="6">
+              <ion-chip color="light">
+                <ion-avatar>
+                  <img alt="badge" src="../../../../assets/icon/setting/person.svg" />
+                </ion-avatar>
+                <ion-label>{{'member'|translate}}</ion-label>
+              </ion-chip>
+            </ion-col>
+            <ion-col size="6" class="ion-text-center">{{'between'|translate}} <strong>0</strong> {{'and'|translate}} <strong>{{BADGE[0].min|priceFormat}}</strong> {{'like'|translate}}</ion-col>
+          </ion-row>
+
+          <ion-row *ngFor="let b of BADGE">
+            <ion-col size="6">
+              <ion-chip color="light">
+                <ion-avatar>
+                  <img alt="badge" *ngIf="b.name=='contributor'" src="../../../../assets/img/badge/cont.svg" />
+                  <img alt="badge" *ngIf="b.name=='super_contributor'" src="../../../../assets/img/badge/sp.svg" />
+                  <img alt="badge" *ngIf="b.name=='expert'" src="../../../../assets/img/badge/expert.svg" />
+                </ion-avatar>
+                <ion-label>{{b.name|translate}}</ion-label>
+              </ion-chip>
+            </ion-col>
+
+            <ion-col size="6" class="ion-text-center">{{'between'|translate}} <strong>{{b.min|priceFormat:'short'}}</strong> {{'and'|translate}} <strong>{{b.max|priceFormat:'short'}}</strong> {{'like'|translate}}</ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </ion-content>
+
+    </ng-template>
+  </ion-modal>
 
 
 </ion-content>
