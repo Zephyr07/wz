@@ -60,7 +60,7 @@
               {{p.title|limitTo:100}}
             </ion-text>
             <br>
-            <ion-note color="tertiary">{{p.reponses|priceFormat}}  {{'answer'|translate}}<span *ngIf="p.reponses>1">s</span> <strong class="success" *ngIf="isOwner">| {{p.status|status|translate}}</strong></ion-note>
+            <ion-note color="tertiary">{{p.reponses|priceFormat}}  {{'answer'|translate}}<span *ngIf="p.reponses>1">s</span> <strong class="success" *ngIf="isOwner"> | {{p.status|status|translate}}</strong></ion-note>
           </ion-label>
         </ion-item>
       </ion-list>

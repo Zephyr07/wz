@@ -23,8 +23,14 @@ export class AdminPage implements OnInit {
   }
 
   ionViewWillEnter(){
-    this.getCountAnswer();
-    this.getCountQuestion();
+    if (this.api.checkUser()) {
+      this.getCountAnswer();
+      this.getCountQuestion();
+    } else {
+      this.util.doToast('Vous n\'êtes pas connecté',2000,'light');
+      this.router.navigate(['/login']);
+    }
+
   }
 
   answers(){

@@ -55,14 +55,7 @@ export class LoginPage implements OnInit {
       this.util.showLoading('identification');
       this.auth.login({email:this.email,password:this.password}).then((d:any)=>{
         if(isCordovaAvailable()){
-          OneSignal.User.getOnesignalId().then((id:any)=>{
-            // enregistrement
-            this.auth.saveOneSignalId({user_id:d.user.id,onesignal_id:id}).then((da:any)=>{
-              //console.log(da);
-            }, q=>{
-              this.util.handleError(q);
-            })
-          });
+          OneSignal.login(d.user.uid);
         }
         this.is_loading = true;
         this.util.hideLoading();

@@ -71,12 +71,13 @@ export class ProblemDetailPage implements OnInit {
 
   getProblem(id){
     const opt = {
-
+      _includes:'user'
     };
     this.api.get('questions',id,opt).then((d:any)=>{
       /*d.answers.forEach(a=>{
         a.isRank=false;
       });*/
+      d.user.uid = d.user.uid.split('-')[4];
       this.problem = d;
       if(this.api.checkUser()){
         let user = JSON.parse(localStorage.getItem('user_lv'));

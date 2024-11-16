@@ -45,7 +45,7 @@ export class ProblemDetailPage implements OnInit {
     private router : Router,
     private util:UtilProvider,
   ) {
-    this.hauteur = (this.screenHeight*0.6)+'px';
+    this.hauteur = (this.screenHeight*0.7)+'px';
     if(this.router.getCurrentNavigation().extras.state){
       // @ts-ignore
       this.id= this.router.getCurrentNavigation().extras.state.id;

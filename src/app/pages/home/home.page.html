@@ -1,7 +1,10 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary">
-    <div class="ion-text-center" style="color:#fff; font-size: 12px">
+    <div class="ion-text-center bold" style="color:#fff; font-size: 14px">
       {{uid}}
+      <img alt="badge" *ngIf="likes>= BADGE[0].min && likes<BADGE[0].max" style="width: 15px" src="../../../assets/img/badge/cont.svg" />
+      <img alt="badge" *ngIf="likes>= BADGE[1].min && likes<BADGE[1].max" style="width: 15px" src="../../../assets/img/badge/sp.svg" />
+      <img alt="badge" *ngIf="likes>= BADGE[2].min && likes<BADGE[2].max" style="width: 15px" src="../../../assets/img/badge/expert.svg" />
     </div>
   </ion-toolbar>
 </ion-header>

@@ -19,6 +19,7 @@
         {{problem.title}}
         <br>
         <span style="color: #000; font-size:12px; font-weight: normal">
+          <strong style="color: var(--ion-color-secondary)">#{{problem.id}}</strong> &nbsp;
           <strong style="color: var(--ion-color-secondary)">{{problem.ratings.total|priceFormat:'short'}}</strong> {{'like'|translate}} &nbsp;
           <strong style="color: var(--ion-color-secondary)">{{problem.reponses|priceFormat:'short'}}</strong> {{'comment'|translate}}<span *ngIf="problem.reponses.length>1">s</span></span>
       </ion-card-title>
@@ -27,7 +28,7 @@
     <ion-card-content class="black">
       <div>{{problem.description}}</div>
 
-      <ion-note>{{'the'|translate}} {{problem.created_at|dateFormat}} {{'by_a'|translate}}<span *ngIf="problem.gender=='female'">e</span> {{problem.gender|translate}}</ion-note>
+      <ion-note>{{'the'|translate}} {{problem.created_at|dateFormat}} {{'by'|translate}} {{problem.user.uid}}</ion-note>
       <br>
       <ion-note><strong class="success">{{problem.status|status|translate}}</strong></ion-note>
     </ion-card-content>

@@ -21,6 +21,7 @@ export class HomePage implements OnInit {
   uid="";
   admin=false;
   dev_count=0;
+  likes=0;
   is_user="";
 
   is_loading=true;
@@ -32,6 +33,7 @@ export class HomePage implements OnInit {
   NO_SUBSCRIPTION_TITLE="";
   NO_SUBSCRIPTION_CONTENT="";
   SUBSCRIPTION="";
+  BADGE:any=[{},{},{}];
 
   constructor(
     private api: ApiProvider,
@@ -78,7 +80,8 @@ export class HomePage implements OnInit {
           this.logout();
         }
         this.user = a.data.user;
-        this.uid=this.user.uid;
+        this.likes = a.data.user.likes;
+        this.uid=this.user.uid.split('-')[4];
         if(this.user.settings){
           const l = JSON.parse(this.user.settings)[0].language;
           this.translate.use(l);
@@ -87,6 +90,7 @@ export class HomePage implements OnInit {
         }
         localStorage.setItem('user_lv',JSON.stringify(this.user));
         this.api.getSettings().then((d:any)=>{
+          this.BADGE = d.badge;
           if(d.admin==a.data.user.email){
             this.admin=true;
           }

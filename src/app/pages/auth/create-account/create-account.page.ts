@@ -7,6 +7,7 @@ import {MenuController, NavController} from "@ionic/angular";
 import {NUMBER_RANGE} from "../../../services/contants";
 import {isCordovaAvailable} from "../../../services/utils";
 import {Device} from "@capacitor/device";
+import OneSignal from "onesignal-cordova-plugin";
 
 @Component({
   selector: 'app-create-account',
@@ -53,7 +54,7 @@ export class CreateAccountPage implements OnInit {
       };
       this.auth.register(opt).then((d:any)=>{
         if(isCordovaAvailable()){
-          //OneSignal.sendTags({'country_id':d.user.country_id});
+          OneSignal.login(d.user.uid);
         }
         this.util.hideLoading();
         localStorage.setItem('user_lv',JSON.stringify(d.user));

@@ -70,6 +70,10 @@ export class ProblemAddPage implements OnInit {
           this.description="";
           this.title="";
           this.admob.showInterstitial();
+          this.admob.loadInterstitial();
+          setTimeout(()=>{
+            this.isSave=false;
+          },3000);
         }, q=>{
           this.util.hideLoading();
           this.util.handleError(q);

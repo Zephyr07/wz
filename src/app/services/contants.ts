@@ -1,7 +1,7 @@
 import * as CryptoJS from 'crypto-js';
 
-export const API_ENDPOINT = 'http://love.local/api/';
-//export const API_ENDPOINT = 'https://confidens.warzone237.com/public/api/';
+//export const API_ENDPOINT = 'http://love.local/api/';
+export const API_ENDPOINT = 'https://confidens.warzone237.com/public/api/';
 export const ONE_SIGNAL_CONF = {
   "sender_id": '284311961200',
   "app_id": '2419c92c-ae99-4125-9fc7-616688ae552c',
